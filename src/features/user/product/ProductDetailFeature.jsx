@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import {
   fetchProductDetail,
   fetchRecommendedProducts,
-  fetchProductReviews,
+  // fetchProductReviews,
 } from '../../../api/user/product/productApi';
 import ProductImageGallery from '../../../component/user/product/ProductImageGallery';
 import RecommendedProducts from '../../../component/user/product/RecommendedProducts';

@@ -1,5 +1,5 @@
 import MainPage from "../pages/MainPage";
-import LoginPage from "../pages/common/Login/LoginPages"
+import LoginPage from "../pages/common/Login/LoginPage"
 import { createBrowserRouter } from "react-router-dom";
 
 const root = createBrowserRouter([

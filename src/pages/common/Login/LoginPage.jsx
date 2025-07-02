@@ -1,6 +1,6 @@
 import kakaoLoginImg from "../../../assets/Kakao/ko/kakao_login_medium_narrow.png"
 
-const LoginPages = () => {
+const LoginPage = () => {
 
     return(
         <div>
@@ -12,4 +12,4 @@ const LoginPages = () => {
     )
 }
 
-export default LoginPages
+export default LoginPage

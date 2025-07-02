@@ -39,6 +39,7 @@ const ProductRoutes = () => {
 
         {/* 잘못된 경로 */}
         <Route path="*" element={<NotFoundPage />} />
+
       </Routes>
   );
 };

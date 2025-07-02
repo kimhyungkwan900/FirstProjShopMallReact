@@ -8,8 +8,8 @@ const ProductDetail = ({ product }) => {
     <div className="product-detail">
       <h2>{product.name}</h2>
       <img
-        src={product.images.find(img => img.repImg)?.imgUrl || '/images/default.jpg'}
-        alt={product.name}
+      src={product.images?.find(img => img.repImg)?.imgUrl || '/images/default.jpg'}
+      alt={product.name}
       />
       <p>{product.description}</p>
       <p>{formatPrice(product.price)}</p>

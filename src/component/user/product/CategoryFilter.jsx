@@ -1,31 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { fetchAllCategories } from '../../../api/user/product/categoryApi';
+import React, { useState, useEffect } from 'react';
 
-const CategoryFilter = ({ setFilters }) => {
-  const [categories, setCategories] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+const CategoryFilter = ({ categories, selectedCategory, onSelect }) => {
+  const [selectedCategoryId, setSelectedCategoryId] = useState(selectedCategory || '');
 
   useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        const data = await fetchAllCategories();
-        console.log('Fetched categories:', data);
-        setCategories(Array.isArray(data) ? data : []);
-      } catch (error) {
-        console.error('카테고리 목록을 불러오는 중 오류 발생:', error);
-        setCategories([]);
-      }
-    };
-
-    loadCategories();
-  }, []);
+    setSelectedCategoryId(selectedCategory || '');
+  }, [selectedCategory]);
 
   const handleCategorySelect = (categoryId) => {
     setSelectedCategoryId(categoryId);
-    setFilters(prev => ({
-      ...prev,
-      categoryId: categoryId || null
-    }));
+    onSelect(categoryId); // 필터 업데이트 함수 호출
   };
 
   return (

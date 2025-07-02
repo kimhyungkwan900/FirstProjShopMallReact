@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import { findReviewList, reactReview} from "../../../api/user/review/reviewApi";
 
 const ReviewContent = ({ productId, memberId }) => {
+
+   const BASE_URL = "http://localhost:8080";
+
   const [reviews, setReviews] = useState([]);
   const [averageScore, setAverageScore] = useState(null);
+
 
  const handleReaction = async (reviewId, reactionType) => {
   if(memberId === null){
@@ -20,21 +24,22 @@ const ReviewContent = ({ productId, memberId }) => {
 };
 
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const data = await findReviewList(productId);
-        setReviews(data.reviewList || []);
-        setAverageScore(data.averageScore);
-      } catch (error) {
-        console.error("리뷰 불러오기 실패:", error);
-      }
-    };
-
-    if (productId) {
-      fetchReviews();
+ useEffect(() => {
+  const fetchReviews = async () => {
+    try {
+      const data = await findReviewList(productId);
+      setReviews(data.reviewList || []);
+      setAverageScore(data.averageScore);
+      // setImagePreviews 삭제!
+    } catch (error) {
+      console.error("리뷰 불러오기 실패:", error);
     }
-  }, [productId]);
+  };
+
+  if (productId) {
+    fetchReviews();
+  }
+}, [productId]);
 
   return (
     <div className="space-y-6">
@@ -54,6 +59,21 @@ const ReviewContent = ({ productId, memberId }) => {
             key={review.id}
             className="bg-white p-6 rounded-2xl shadow-md space-y-4"
           >
+              <div className="flex flex-wrap gap-2">
+      {review.reviewImgDTOList && review.reviewImgDTOList.length > 0 ? (
+        review.reviewImgDTOList.map((img) => (
+          <img
+            key={img.id}
+            src={`${BASE_URL}${img.filePath}`}
+            alt="리뷰 이미지"
+            className="w-24 h-24 object-cover rounded-md"
+          />
+        ))
+      ) : (
+        <div>이미지가 없습니다.</div>
+      )}
+    </div>
+
             {/* 요약 & 날짜 */}
             <div className="flex justify-between items-center border-b pb-2">
               <span className="text-lg font-semibold text-gray-800">
@@ -70,7 +90,7 @@ const ReviewContent = ({ productId, memberId }) => {
             {/* 점수 표시 */}
             <div className="text-gray-700">
               <strong className="text-gray-900">평점 :</strong>{" "}
-              {review.score} / 5
+              {review.score} 
             </div>
 
             {/* 좋아요/싫어요 버튼 */}

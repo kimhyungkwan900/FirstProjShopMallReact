@@ -20,11 +20,14 @@ const MyReviewContent = ({ memberId }) => {
     }, [memberId]);
 
     const handleDelete = async (reviewId) => {
+        const option = confirm("리뷰를 정말 삭제하시겠습니까? (삭제 후 복구 불가능)");
+
     try {
-        await reviewDelete(reviewId);
-        alert("리뷰가 삭제되었습니다.");
-        // 삭제 후 목록에서 제거
-        setReviews((prev) => prev.filter((r) => r.id !== reviewId));
+        if(option){
+            await reviewDelete(reviewId);
+            alert("리뷰가 삭제되었습니다.");
+            setReviews((prev) => prev.filter((r) => r.id !== reviewId));
+        }
     } catch (error) {
         console.error("삭제 실패", error);
         alert("삭제에 실패했습니다.");

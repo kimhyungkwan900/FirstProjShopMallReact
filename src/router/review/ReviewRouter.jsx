@@ -1,18 +1,15 @@
-import { Suspense, lazy } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { Router, Routes, Route } from 'react-router-dom';
 
-const MyReviewPage = lazy(() => import('../../pages/user/review/MyReviewPage'));
-const MyPage = lazy(() => import('../../pages/user/review/MyPage'))
+import MyReviewPage from '../../pages/user/review/MyReviewPage';
 
-const ReviewRouter = createBrowserRouter([
-  {
-    path: '/',
-    element : <Suspense fallback ={<div>Loading...</div>}><MyPage/></Suspense>
-  },
-  {
-    path: '/myPage/review',
-    element: <Suspense fallback={<div>Loading...</div>}><MyReviewPage /></Suspense>
-  },
-]);
+
+const ReviewRouter = () => {
+  return(
+   <Router>
+    {/* 마이페이지 리뷰 */}
+    <Route path="/mypage/review" element = {<MyReviewPage/>}/>
+   </Router>   
+  )
+}
 
 export default ReviewRouter;

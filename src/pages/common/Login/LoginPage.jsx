@@ -1,15 +1,25 @@
-import kakaoLoginImg from "../../../assets/Kakao/ko/kakao_login_medium_narrow.png"
-
+import kakaoLoginImg from "../../../assets/Kakao/ko/kakao_login_large_narrow.png";
+import naverLoginImg from "../../../assets/Naver/2021_Login_with_naver_guidelines_Kr/btnD_아이콘원형.png";
+import googleLoginImg from "../../../assets/Google/signin-assets/Web (mobile + desktop)/png@1x/dark/web_dark_rd_na@1x.png";
+import LoginForm from "./LoginForm";
 const LoginPage = () => {
 
     return(
-        <div>
-            <h1>로그인페이지</h1>
-            <a href="http://localhost:8080/login/oauth2/code/kakao">
-                <img src={kakaoLoginImg} alt="" />
-            </a>
+        <div className="max-w-sm mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
+            <LoginForm />
+            <div className="flex justify-center gap-6 mt-3 items-center">
+                <a href="http://localhost:8080/login/oauth2/code/kakao">
+                    <img src={kakaoLoginImg} alt="카카오 로그인" className="w-12 h-12 object-cover rounded-full shadow-md"/>
+                </a>
+                <a href="http://localhost:8080/login/oauth2/code/google">
+                    <img src={googleLoginImg} alt="구글 로그인" className="w-12 h-12 object-cover rounded-full shadow-md"/>
+                </a>
+                <a href="http://localhost:8080/login/oauth2/code/naver">
+                    <img src={naverLoginImg} alt="네이버 로그인" className="w-12 h-12 object-cover rounded-full shadow-md"/>
+                </a>
+            </div>
         </div>
-    )
-}
+    );
+};
 
 export default LoginPage

@@ -10,7 +10,7 @@ import ProductImageGallery from '../../../component/user/product/ProductImageGal
 import RecommendedProducts from '../../../component/user/product/RecommendedProducts';
 import ProductBadge from '../../../component/user/product/ProductBadge';
 import AddToCartButton from '../../../component/user/product/AddToCartButton';
-// 💡 기존에 있던 fetchProductReviews, ProductReviewList는 제거됨
+import { saveRecentlyViewedProduct } from '../../../utils/user/product/localStorageUtil';
 
 const ProductDetailFeature = () => {
   const { id } = useParams();
@@ -24,6 +24,9 @@ const ProductDetailFeature = () => {
       try {
         const detail = await fetchProductDetail(id);
         setProduct(detail);
+
+        // ✅ 최근 본 상품으로 저장
+      saveRecentlyViewedProduct(detail);
 
         const rec = await fetchRecommendedProducts(id);
         setRecommended(rec.content || []);

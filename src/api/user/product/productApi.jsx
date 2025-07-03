@@ -67,9 +67,16 @@ export const fetchProductsByCategory = async (categoryId, page = 0, size = 10, s
   return response.data;
 };
 
-export const fetchProductsByBrand = async (brandId, page = 0, size = 10) => {
-  const response = await axios.get('/api/products/brand', {
-    params: { brandId, page, size }
+// 수정된 방식: /api/products/brand/{brandId}?page=0&size=10
+export const fetchProductsByBrand = async (
+  brandId,
+  page = 0,
+  size = 10,
+  sort = 'id',
+  direction = 'desc'
+) => {
+  const response = await axios.get(`/api/products/brand/${brandId}`, {
+    params: { page, size, sort, direction }
   });
   return response.data;
 };

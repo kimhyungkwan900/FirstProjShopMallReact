@@ -11,7 +11,7 @@ const ProductListFeature = () => {
 
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(0);
-  const [size] = useState(10);
+  const [size] = useState(6);
   const [sort, setSort] = useState('id');
   const [direction, setDirection] = useState('desc');
   const [filters, setFilters] = useState({});
@@ -48,7 +48,7 @@ const ProductListFeature = () => {
       </div>
         {/* 상품 목록 */}
         <div className="md:col-span-3">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-3 gap-6">
             {products.content?.map(product => (
               <ProductCard key={product.id} product={product} />
             ))}

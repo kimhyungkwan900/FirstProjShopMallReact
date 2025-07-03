@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const BASE_URL = "http://localhost:8080";
+const API_BASE_URL = "http://localhost:8080/api";
 
 export const findReviewList = async (productId) => {
-  const response = await axios.get(`${BASE_URL}/products`,{
+  const response = await axios.get(`${API_BASE_URL}/product/review`,{
     params : {productId}
   });
 
@@ -11,7 +11,7 @@ export const findReviewList = async (productId) => {
 };
 
 export const reactReview = async({memberId, reviewId, reaction}) => {
-  const response = await axios.post(`${BASE_URL}/review-reactions`, null, {
+  const response = await axios.post(`${API_BASE_URL}/review-reactions`, null, {
     params: {
       memberId,
       reviewId,
@@ -22,7 +22,7 @@ export const reactReview = async({memberId, reviewId, reaction}) => {
 }
 
 export const myReviewList = async (memberId) => {
-  const response = await axios.get(`${BASE_URL}/mypage/reviews`, {
+  const response = await axios.get(`${API_BASE_URL}/mypage/reviews`, {
     params: { memberId }
   });
   return response.data; 
@@ -30,7 +30,7 @@ export const myReviewList = async (memberId) => {
 
 // 서버에 리뷰 받아오기 요청 
 export const reviewUpdate = async (reviewId) => {
-  const response = await axios.get(`${BASE_URL}/mypage/review/update`,{
+  const response = await axios.get(`${API_BASE_URL}/mypage/review/update`,{
     params : {reviewId}
   });
   return response.data;
@@ -63,7 +63,7 @@ export const reviewUpdateAction = async (reviewData, imageFiles) => {
   }
 
   const response = await axios.put(
-    "http://localhost:8080/mypage/review/update",
+    `${API_BASE_URL}/mypage/review/update`,
     formData,
     {
       headers: {
@@ -76,7 +76,7 @@ export const reviewUpdateAction = async (reviewData, imageFiles) => {
 };
 // 서버에 리뷰 삭제 요청 
 export const reviewDelete = async(reviewId) => {
-  const response = await axios.delete(`${BASE_URL}/mypage/review/delete`,{
+  const response = await axios.delete(`${API_BASE_URL}/mypage/review/delete`,{
     params : {reviewId}
   });
   return response.data;

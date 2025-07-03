@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { findReviewList, reactReview} from "../../../api/user/review/reviewApi";
+import ReviewImgModal from "./ReviewImgModal";
+import ReviewReportModal from "./ReviewReportModal";
 
 const ReviewContent = ({ productId, memberId }) => {
 
@@ -8,7 +10,11 @@ const ReviewContent = ({ productId, memberId }) => {
   const [reviews, setReviews] = useState([]);
   const [averageScore, setAverageScore] = useState(null);
 
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [reportReviewId, setReportReviewId] = useState(null);
  const handleReaction = async (reviewId, reactionType) => {
   if(memberId === null){
     alert("로그인이 필요합니다.")
@@ -42,81 +48,116 @@ const ReviewContent = ({ productId, memberId }) => {
 }, [productId]);
 
   return (
+    
     <div className="space-y-6">
         {reviews.length !== 0 && (
             <h2 className="text-2xl font-bold text-gray-800">
                 평균 평점: {averageScore ?? "N/A"}
             </h2>
         )}
-     
+{reviews.length === 0 ? (
+  <div className="text-gray-500 text-center text-3xl">등록된 리뷰가 없습니다.</div>
+) : (
+  reviews.map((review) =>
+    review.reviewStatus === "blinded" ? (
+      <div
+        key={review.id}
+        className="bg-gray-100 text-center p-6 rounded-2xl shadow-md text-gray-500 italic"
+      >
+        블라인드 처리된 리뷰입니다.
+      </div>
+    ) : (
+      
+      <div
+        key={review.id}
+        className="bg-white p-6 rounded-2xl shadow-md space-y-4">
 
-      {reviews.length === 0 ? (
-        <div className="text-gray-500 text-center text-3xl">등록된 리뷰가 없습니다.</div>
-      ) : (
-        reviews.map((review) => (
-            
-          <div
-            key={review.id}
-            className="bg-white p-6 rounded-2xl shadow-md space-y-4"
-          >
-              <div className="flex flex-wrap gap-2">
-      {review.reviewImgDTOList && review.reviewImgDTOList.length > 0 ? (
-        review.reviewImgDTOList.map((img) => (
-          <img
-            key={img.id}
-            src={`${BASE_URL}${img.filePath}`}
-            alt="리뷰 이미지"
-            className="w-24 h-24 object-cover rounded-md"
-          />
-        ))
-      ) : (
-        <div>이미지가 없습니다.</div>
-      )}
+        <div className="flex justify-between items-center border-b pb-2">
+          <span className="text-lg font-semibold text-gray-800">
+            한줄 리뷰 : {review.summation || "없음"}
+          </span>
+        </div>
+        <div className="text-gray-700">
+          <strong className="text-gray-900">내용 :</strong>{" "}
+          {review.reviewContent || "내용 없음"}
+        </div>
+
+        <div className="text-gray-700">
+          <strong className="text-gray-900">평점 :</strong> {review.score}
+        </div>
+
+       <div className="flex justify-between items-center pt-2">
+  {/* 버튼 그룹 - 왼쪽 */}
+  <div className="space-x-4">
+    <button
+      className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
+      onClick={() => handleReaction(review.id, "like")}
+    >
+      <span>{review.likeCount}</span> 👍
+    </button>
+    <button
+      className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+      onClick={() => handleReaction(review.id, "dislike")}
+    >
+      <span>{review.dislikeCount}</span> 👎
+    </button>
+  </div>
+
+  {/* 이미지 - 오른쪽 */}
+  <div>
+    {review.reviewImgDTOList && review.reviewImgDTOList.length > 0 ? (
+      <img
+        src={`${BASE_URL}${review.reviewImgDTOList[0].filePath}`}
+        alt="리뷰 이미지"
+        className="w-24 h-24 object-cover rounded-md cursor-pointer"
+        onClick={() => {
+          setSelectedImages(review.reviewImgDTOList);
+          setIsModalOpen(true);
+        }}
+      />
+    ) : null}
+  </div>
+</div>
+      <div>
+        <div className="text-sm text-gray-600 mt-2">
+          {review.updatedAt
+            ? `수정한 날짜 : ${new Date(review.updatedAt).toLocaleString()}`
+            : `작성한 날짜 : ${new Date(review.createdAt).toLocaleString()}`}
+        </div>
+
+        <button
+        className="text-sm text-red-500 underline"
+        onClick={() => {
+          if(memberId !== null){
+
+            setIsReportOpen(true);
+            setReportReviewId(review.id);
+          }else{
+            alert("로그인 후 이용해 주세요")
+          }
+        }}>
+        신고하기
+        </button>
+      </div>
     </div>
-
-            {/* 요약 & 날짜 */}
-            <div className="flex justify-between items-center border-b pb-2">
-              <span className="text-lg font-semibold text-gray-800">
-                한줄 리뷰 : {review.summation || "없음"}
-              </span>
-            </div>
-
-            {/* 본문 내용 */}
-            <div className="text-gray-700">
-              <strong className="text-gray-900">내용 :</strong>{" "}
-              {review.reviewContent || "내용 없음"}
-            </div>
-
-            {/* 점수 표시 */}
-            <div className="text-gray-700">
-              <strong className="text-gray-900">평점 :</strong>{" "}
-              {review.score} 
-            </div>
-
-            {/* 좋아요/싫어요 버튼 */}
-            <div className="flex space-x-4 pt-2">
-              <button className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
-                onClick={() => handleReaction(review.id, "like")}
-              >
-                <span>{review.likeCount}</span>
-                👍
-              </button>
-              <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-                onClick={() => handleReaction(review.id, "dislike")}
-              >
-                <span>{review.dislikeCount}</span>
-                👎
-              </button>
-              
-            </div>
-           <div className="text-sm text-gray-600 mt-2">
-                {review.updatedAt
-                ? `수정한 날짜 : ${new Date(review.updatedAt).toLocaleString()}`
-                : `작성한 날짜 : ${new Date(review.createdAt).toLocaleString()}`}
-            </div>
-          </div>
-        ))
-      )}
+    )
+  )
+)}
+{/* 이미지 모달창 열고 닫기 */}
+{isModalOpen && (
+  <ReviewImgModal
+    isOpen={isModalOpen}
+    onClose={() => setIsModalOpen(false)}
+    images={selectedImages}
+  />
+)}
+{/* 신고 모달창 열고 닫기 */}
+{isReportOpen &&(
+  <ReviewReportModal
+        isOpen={isReportOpen}
+        onClose={() => setIsReportOpen(false)}
+        reviewId={reportReviewId} />
+        )}
     </div>
   );
 };

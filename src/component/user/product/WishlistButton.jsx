@@ -6,7 +6,7 @@ const WishlistButton = ({ productId, userId }) => {
 
   const toggleWishlist = async () => {
     try {
-      await toggleWishlistItem(productId, userId);  // 💡 userId 함께 전달 필요
+      await toggleWishlistItem(productId, userId);
       setLiked(prev => !prev);
     } catch (err) {
       console.error('위시리스트 토글 실패', err);

@@ -68,8 +68,8 @@ export const fetchProductsByCategory = async (categoryId, page = 0, size = 10, s
 };
 
 export const fetchProductsByBrand = async (brandId, page = 0, size = 10) => {
-  const response = await axios.get('/api/products/brand', {
-    params: { brandId, page, size }
+  const response = await axios.get(`/api/products/brand/${brandId}`, {
+    params: { page, size }
   });
   return response.data;
 };

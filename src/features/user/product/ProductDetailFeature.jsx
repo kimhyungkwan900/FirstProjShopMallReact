@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // 💡 useNavigate 추가
+import { useParams } from 'react-router-dom'; 
 
 import {
   fetchProductDetail,
@@ -10,8 +10,6 @@ import ReviewButton from '../../../component/user/review/ReviewButton';
 import ProductImageGallery from '../../../component/user/product/ProductImageGallery';
 import RecommendedProducts from '../../../component/user/product/RecommendedProducts';
 import ProductBadge from '../../../component/user/product/ProductBadge';
-import AddToCartButton from '../../../component/user/product/AddToCartButton';
-// 💡 기존에 있던 fetchProductReviews, ProductReviewList는 제거됨
 
 const ProductDetailFeature = () => {
   const { id } = useParams();
@@ -50,7 +48,7 @@ const ProductDetailFeature = () => {
 
       {/* 💡 장바구니 추가 버튼(안지우) */}
       <div className="my-4">
-        <AddToCartButton productId={product.id} />
+        {/* <{장바구니 추가기능메서드명} productId={product.id} /> */}
       </div>
 
       {/* 💡 리뷰 페이지 이동 버튼(김건호) */}

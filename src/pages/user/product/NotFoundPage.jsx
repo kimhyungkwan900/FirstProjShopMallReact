@@ -10,7 +10,7 @@ const NotFoundPage = () => {
         to="/products"
         className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-2 rounded"
       >
-        메인으로 돌아가기
+        상품 페이지로 돌아가기
       </Link>
     </div>
   );

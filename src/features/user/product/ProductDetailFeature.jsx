@@ -62,7 +62,7 @@ const ProductDetailFeature = () => {
         onClick={goToReviewPage}
         className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
       >
-        리뷰 보기
+        상품 리뷰
       </button>
 
       <div className="mt-8">

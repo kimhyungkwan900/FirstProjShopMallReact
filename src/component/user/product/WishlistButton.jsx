@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import { toggleWishlistItem } from '../../../api/user/product/wishlistApi';
+import { useState } from 'react';
 
-const WishlistButton = ({ productId }) => {
+const WishlistButton = ({ productId, userId }) => {
   const [liked, setLiked] = useState(false);
-  const toggleWishlist = () => {
-    setLiked(prev => !prev);
-    // API 요청 또는 상태 업데이트 추가 가능
+
+  const toggleWishlist = async () => {
+    try {
+      await toggleWishlistItem(productId, userId);  // 💡 userId 함께 전달 필요
+      setLiked(prev => !prev);
+    } catch (err) {
+      console.error('위시리스트 토글 실패', err);
+    }
   };
 
   return (
-    <button className={`wishlist-button ${liked ? 'liked' : ''}`} onClick={toggleWishlist}>
+    <button onClick={toggleWishlist}>
       {liked ? '💖' : '🤍'}
     </button>
   );
 };
-
-export default WishlistButton;

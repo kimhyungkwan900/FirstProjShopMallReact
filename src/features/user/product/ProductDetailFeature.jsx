@@ -27,7 +27,6 @@ const ProductDetailFeature = () => {
 
         // ✅ 최근 본 상품으로 저장
       saveRecentlyViewedProduct(detail);
-
         const rec = await fetchRecommendedProducts(id);
         setRecommended(rec.content || []);
       } catch (error) {

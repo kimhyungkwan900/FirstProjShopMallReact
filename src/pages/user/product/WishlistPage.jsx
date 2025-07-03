@@ -7,7 +7,8 @@ const WishlistPage = () => {
 
   useEffect(() => {
     const loadWishlist = async () => {
-      const data = await fetchWishlist();
+      // const userId = ; 형관님한테 받아와야 함
+      const data = await fetchWishlist(userId);
       setWishlist(data);
     };
     loadWishlist();

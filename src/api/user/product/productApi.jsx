@@ -19,6 +19,7 @@ export const fetchSearchResults = async (keyword, page = 0) => {
   return response.data;
 };
 
+// import { mockProductList } from '../../../mock/products';
 export const fetchFilteredProducts = async ({
   page = 0,
   size = 10,
@@ -37,6 +38,12 @@ export const fetchFilteredProducts = async ({
 
   const response = await axios.get('/api/products/filter', { params });
   return response.data;
+
+  // return new Promise((resolve) => {
+  //   setTimeout(() => {
+  //     resolve(mockProductList); // 가짜 응답 반환
+  //   }, 300); // 실제 API처럼 지연
+  // });
 };
 
 export const fetchRecommendedProducts = async (productId) => {
@@ -68,8 +75,8 @@ export const fetchProductsByCategory = async (categoryId, page = 0, size = 10, s
 };
 
 export const fetchProductsByBrand = async (brandId, page = 0, size = 10) => {
-  const response = await axios.get('/api/products/brand', {
-    params: { brandId, page, size }
+  const response = await axios.get(`/api/products/brand/${brandId}`, {
+    params: { page, size }
   });
   return response.data;
 };

@@ -1,20 +1,21 @@
 import React from 'react';
 
-const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination = ({ page, totalPages, onPageChange }) => {
   const pages = Array.from({ length: totalPages }, (_, i) => i);
   return (
-    <div className="pagination">
-      {pages.map(page => (
+    <div className="pagination flex gap-2 justify-center mt-4">
+      {pages.map(p => (
         <button
-          key={page}
-          className={page === currentPage ? 'active' : ''}
-          onClick={() => onPageChange(page)}
+          key={p}
+          className={`px-3 py-1 border rounded ${p === page ? 'bg-blue-500 text-white' : 'bg-white text-black'}`}
+          onClick={() => onPageChange(p)}
         >
-          {page + 1}
+          {p + 1}
         </button>
       ))}
     </div>
   );
 };
+
 
 export default Pagination;

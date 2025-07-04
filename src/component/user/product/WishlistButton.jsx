@@ -14,9 +14,9 @@ const WishlistButton = ({ productId, userId }) => {
   };
 
   return (
-    <button onClick={toggleWishlist}>
-      {liked ? '💖' : '🤍'}
-    </button>
+    <button onClick={toggleWishlist} className="text-xl hover:scale-110 transition-transform duration-150" title={liked ? '위시리스트에서 제거' : '위시리스트에 추가'}>
+  {liked ? '💖' : '🤍'}
+</button>
   );
 };
 

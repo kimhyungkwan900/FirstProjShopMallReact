@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; 
+import { useParams } from 'react-router-dom';
 
 import {
   fetchProductDetail,
@@ -32,32 +32,55 @@ const ProductDetailFeature = () => {
 
     loadProduct();
   }, [id]);
-  
-  if (!product) return <p>상품 정보를 불러오는 중입니다...</p>;
+
+  if (!product) {
+    return (
+      <div className="flex justify-center items-center min-h-[300px] text-gray-500 text-lg">
+        상품 정보를 불러오는 중입니다...
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-screen-md mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-2">{product.name}</h2>
-      <ProductBadge status={product.sellStatus} />
-      <ProductImageGallery images={product.images || []} />
+    <div className="max-w-screen-lg mx-auto px-4 py-10">
+      <div className="bg-white rounded-2xl shadow-md p-6">
+        <div className="flex flex-col md:flex-row gap-8">
+          {/* 상품 이미지 갤러리 */}
+          <div className="md:w-1/2">
+            <ProductImageGallery images={product.images || []} />
+          </div>
 
-      <p className="my-2 text-gray-700">{product.description}</p>
-      <p className="text-lg font-semibold">가격: {product.price.toLocaleString()}원</p>
-      <p>브랜드: {product.brandName || '브랜드 없음'}</p>
-      <p>카테고리: {product.categoryName || '카테고리 없음'}</p>
+          {/* 상품 정보 */}
+          <div className="md:w-1/2 flex flex-col gap-3">
+            <h2 className="text-3xl font-bold text-gray-800">{product.name}</h2>
+            <ProductBadge status={product.sellStatus} />
+            <p className="text-2xl font-semibold text-blue-600">
+              {product.price.toLocaleString()}원
+            </p>
+            <p className="text-gray-600">브랜드: {product.brandName || '브랜드 없음'}</p>
+            <p className="text-gray-600">카테고리: {product.categoryName || '카테고리 없음'}</p>
 
-      {/* 💡 장바구니 추가 버튼(안지우) */}
-      <div className="my-4">
-        {/* <{장바구니 추가기능메서드명} productId={product.id} /> */}
+            {/* 장바구니 버튼 자리 */}
+            <div className="my-4">
+              {/* <AddToCartButton productId={product.id} /> */}
+            </div>
+
+            {/* 리뷰 버튼 */}
+            <div className="my-2">
+              <ReviewButton productId={product.id} />
+            </div>
+          </div>
+        </div>
+
+        {/* 상품 설명 */}
+        <div className="mt-8 border-t pt-6 text-gray-700 leading-relaxed text-[1rem]">
+          {product.description}
+        </div>
       </div>
 
-      {/* 💡 리뷰 페이지 이동 버튼(김건호) */}
-      <div className="my-4">
-        <ReviewButton productId={product.id}/>
-      </div>
-
-      <div className="mt-8">
-        <h3 className="text-xl font-semibold mb-2">추천 상품</h3>
+      {/* 추천 상품 */}
+      <div className="mt-12">
+        <h3 className="text-2xl font-semibold mb-4 text-gray-800">✨ 함께 보면 좋은 상품</h3>
         <RecommendedProducts products={recommended} />
       </div>
     </div>

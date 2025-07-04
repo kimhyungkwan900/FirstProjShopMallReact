@@ -13,12 +13,12 @@ const CategoryListPage = () => {
         console.log('🔍 카테고리 응답:', data);
 
         if (Array.isArray(data)) {
-          setCategories(data); // 응답이 배열이면 그대로
+          setCategories(data);
         } else if (Array.isArray(data.categories)) {
-          setCategories(data.categories); // 객체 안에 categories 배열이 있는 경우
+          setCategories(data.categories);
         } else {
           console.error('⛔️ 알 수 없는 카테고리 데이터 형식:', data);
-          setCategories([]); // fallback
+          setCategories([]);
         }
       } catch (error) {
         console.error('❌ 카테고리 불러오기 실패:', error);
@@ -34,19 +34,26 @@ const CategoryListPage = () => {
   };
 
   return (
-    <div className="p-4 max-w-screen-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4">카테고리 목록</h2>
-      <ul className="space-y-2">
-        {categories.map((category) => (
-          <li
-            key={category.id}
-            onClick={() => handleClick(category.id)}
-            className="cursor-pointer text-blue-600 hover:underline"
-          >
-            {category.name}
-          </li>
-        ))}
-      </ul>
+    <div className="max-w-screen-lg mx-auto px-4 py-10">
+      <h2 className="text-3xl font-extrabold text-gray-800 text-center mb-8">
+        📂 카테고리 둘러보기
+      </h2>
+
+      {categories.length === 0 ? (
+        <p className="text-center text-gray-500">카테고리 정보가 없습니다.</p>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+          {categories.map((category) => (
+            <div
+              key={category.id}
+              onClick={() => handleClick(category.id)}
+              className="bg-white shadow-md rounded-xl p-4 flex items-center justify-center text-center cursor-pointer hover:scale-105 hover:shadow-xl transition-transform duration-300 ease-in-out"
+            >
+              <span className="text-gray-800 font-medium">{category.name}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

@@ -9,7 +9,7 @@ const AdminReviewSearch = ({ onSearch }) => {
   };
 
   return (
-    <div className="m-auto w-[20%] flex justify-center">
+    <div className="m-auto min-w-[350px] w-[20%] flex justify-center">
       <select
         value={searchType}
         onChange={(e) => setSearchType(e.target.value)}

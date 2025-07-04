@@ -15,30 +15,51 @@ const FilteredProductListFeature = ({ filterType }) => {
   const [direction, setDirection] = useState('desc');
   const [filters, setFilters] = useState({});
 
+  // ✅ 카테고리 또는 브랜드가 변경될 때 필터 초기화
   useEffect(() => {
-    const baseFilter = filterType === 'category'
-      ? { categoryId }
-      : filterType === 'brand'
-        ? { brandId }
-        : {};
+    setFilters((prev) => {
+      const updated = { ...prev };
+      if (filterType === 'category' && categoryId) {
+        updated.categoryId = Number(categoryId);
+        updated.includeChildren = true; // ✅ 하위 카테고리 포함 옵션 추가
+        delete updated.brandId;
+      } else if (filterType === 'brand' && brandId) {
+        updated.brandId = brandId;
+        delete updated.categoryId;
+        delete updated.includeChildren;
+      } else {
+        return prev;
+      }
+      return updated;
+    });
+    setPage(0); // 페이지 초기화
+  }, [filterType, categoryId, brandId]);
 
-    const mergedFilters = { ...baseFilter, ...filters };
-
+  // ✅ 필터, 정렬, 페이지 변경 시 상품 로드
+  useEffect(() => {
     const loadProducts = async () => {
-      const data = await fetchFilteredProducts({ page, size, sort, direction, ...mergedFilters });
-      setProducts(data);
+      if (Object.keys(filters).length > 0) {
+        const data = await fetchFilteredProducts({
+          page,
+          size,
+          sort,
+          direction,
+          ...filters,
+        });
+        setProducts(data);
+      }
     };
     loadProducts();
-  }, [page, size, sort, direction, filters, categoryId, brandId, filterType]);
+  }, [page, size, sort, direction, filters]);
 
   return (
     <div className="max-w-screen-xl mx-auto p-4">
       <h2 className="text-2xl font-bold mb-4">
-        {filterType === 'category' ? '카테고리 상품 목록' : '브랜드 상품 목록'}
+        {filterType === 'category' ? '' : ''}
       </h2>
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-        <SearchBar setFilters={setFilters} />
+        <SearchBar setFilters={setFilters} setPage={setPage} />
         <SortOptions
           sort={sort}
           direction={direction}
@@ -48,15 +69,19 @@ const FilteredProductListFeature = ({ filterType }) => {
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.content?.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        {products.content?.length > 0 ? (
+          products.content.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        ) : (
+          <p className="col-span-full text-center text-gray-500">상품이 없습니다.</p>
+        )}
       </div>
 
       <div className="mt-6">
         <Pagination
-          page={products.number}
-          totalPages={products.totalPages}
+          page={products.number || 0}
+          totalPages={products.totalPages || 0}
           onPageChange={setPage}
         />
       </div>

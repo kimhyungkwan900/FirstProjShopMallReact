@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatPrice, truncateText, getMainImageUrl } from '../../../utils/user/product/formatters';
 import ProductBadge from './ProductBadge';
+import WishlistButton from './WishlistButton';
 
 const ProductCard = ({ product }) => {
   const userId=1;//userId 받아오기

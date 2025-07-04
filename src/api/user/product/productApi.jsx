@@ -1,8 +1,13 @@
 import axios from 'axios';
 
-export const fetchProducts = async (page = 0, size = 10) => {
+export const fetchProducts = async (page = 0, size = 10, sort = 'id', direction = 'desc') => {
   const response = await axios.get('/api/products', {
-    params: { page, size }
+    params: {
+      page,
+      size,
+      sort,
+      direction
+    }
   });
   return response.data;
 };
@@ -28,13 +33,15 @@ export const fetchFilteredProducts = async ({
   categoryId,
   brandId,
   minPrice,
-  maxPrice
+  maxPrice,
+  keyword
 }) => {
   const params = { page, size, sort, direction };
   if (categoryId) params.categoryId = categoryId;
   if (brandId) params.brandId = brandId;
   if (minPrice) params.minPrice = minPrice;
   if (maxPrice) params.maxPrice = maxPrice;
+  if (keyword) params.keyword = keyword;
 
   const response = await axios.get('/api/products/filter', { params });
   return response.data;

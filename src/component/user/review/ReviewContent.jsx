@@ -15,58 +15,89 @@ const ReviewContent = ({ productId, memberId }) => {
 
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [reportReviewId, setReportReviewId] = useState(null);
+
+  const [sortOrder, setSortOrder] = useState("like");
+
  const handleReaction = async (reviewId, reactionType) => {
-  if(memberId === null){
-    alert("로그인이 필요합니다.")
-    return; 
-  }
-  try {
-    // 서버에 반응 업데이트 요청
-    await reactReview({ memberId, reviewId, reaction: reactionType });
-  } catch (error) {
-    console.error("반응 처리 실패", error);
-    // 실패 시 롤백 로직 필요할 수 있음
-  }
-};
-
-
- useEffect(() => {
-  const fetchReviews = async () => {
+    if (memberId === null) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
     try {
-      const data = await findReviewList(productId);
+      await reactReview({ memberId, reviewId, reaction: reactionType });
+      fetchReviews(sortOrder);
+    } catch (error) {
+      console.error("반응 처리 실패", error);
+    }
+  };
+
+  const fetchReviews = async (sort) => {
+    try {
+      const data = await findReviewList(productId, sort);
       setReviews(data.reviewList || []);
       setAverageScore(data.averageScore);
-      // setImagePreviews 삭제!
+    } catch (error) {
+      console.error("리뷰 불러오기 실패:", error);
+    }
+  };
+
+ useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const data = await findReviewList(productId, sortOrder);
+      setReviews(data.reviewList || []);
+      setAverageScore(data.averageScore);
+
     } catch (error) {
       console.error("리뷰 불러오기 실패:", error);
     }
   };
 
   if (productId) {
-    fetchReviews();
+    fetchData();
   }
-}, [productId]);
+}, [productId, sortOrder]);
 
   return (
-    
+
     <div className="space-y-6">
         {reviews.length !== 0 && (
-            <h2 className="text-2xl font-bold text-gray-800">
+          <div className="flex justify-between">
+          <h2 className="text-2xl font-bold text-gray-800">
                 평균 평점: {averageScore ?? "N/A"}
-            </h2>
-        )}
-{reviews.length === 0 ? (
-  <div className="text-gray-500 text-center text-3xl">등록된 리뷰가 없습니다.</div>
-) : (
-  reviews.map((review) =>
-    review.reviewStatus === "blinded" ? (
-      <div
-        key={review.id}
-        className="bg-gray-100 text-center p-6 rounded-2xl shadow-md text-gray-500 italic"
-      >
-        블라인드 처리된 리뷰입니다.
+          </h2>
+          <div className="flex space-x-4 mb-4">
+
+          <button
+          className={`px-4 py-2 rounded ${
+            sortOrder === "like" ? "bg-blue-500 text-white" : "bg-gray-200"
+            }`}
+            onClick={() => setSortOrder("like")}>
+          좋아요순
+          </button>
+          
+          <button
+          className={` px-4 py-2 rounded ${
+            sortOrder === "latest" ? "bg-blue-500 text-white" : "bg-gray-200"
+            }`}
+            onClick={() => setSortOrder("latest")}>
+          최신순
+          </button>
       </div>
-    ) : (
+      </div>
+          )}
+        {reviews.length === 0 ? (
+          <div className="text-gray-500 text-center text-3xl">등록된 리뷰가 없습니다.</div>
+        ) : (
+          reviews.map((review) =>
+            review.reviewStatus === "blinded" ? (
+              <div
+                key={review.id}
+                className="bg-gray-100 text-center p-6 rounded-2xl shadow-md text-gray-500 italic"
+              >
+                블라인드 처리된 리뷰입니다.
+              </div>
+            ) : (
       
       <div
         key={review.id}
@@ -103,13 +134,12 @@ const ReviewContent = ({ productId, memberId }) => {
     </button>
   </div>
 
-  {/* 이미지 - 오른쪽 */}
   <div>
     {review.reviewImgDTOList && review.reviewImgDTOList.length > 0 ? (
       <img
         src={`${BASE_URL}${review.reviewImgDTOList[0].filePath}`}
         alt="리뷰 이미지"
-        className="w-24 h-24 object-cover rounded-md cursor-pointer"
+        className="w-24 h-24 object-cover rounded-md cursor-pointer border"
         onClick={() => {
           setSelectedImages(review.reviewImgDTOList);
           setIsModalOpen(true);
@@ -118,7 +148,7 @@ const ReviewContent = ({ productId, memberId }) => {
     ) : null}
   </div>
 </div>
-      <div>
+      <div className="flex justify-between">
         <div className="text-sm text-gray-600 mt-2">
           {review.updatedAt
             ? `수정한 날짜 : ${new Date(review.updatedAt).toLocaleString()}`

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { fetchAdminReviewList } from "../../../api/admin/review/AdminReviewApi";
+import { adminReviewUnBlindAction } from "../../../api/admin/review/AdminReviewBlindAPi";
 import ReviewImgModal from "../../user/review/ReviewImgModal";
+import AdminReviewBlindModal from "./AdminReviewBlindModal";
 
 const BASE_URL =  "http://localhost:8080";
 
@@ -11,16 +13,36 @@ const AdminReviewContent = ({ filterType, page, setPage , searchParams }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [isBlindOpen, setIsBlindOpen] = useState(false);
+  const [blindReviewId, setBlindReviewId] = useState(null);
+
+
   useEffect(() => {
     const fetchData = async () => {
       const { type, keyword } = searchParams;
       const data = await fetchAdminReviewList(filterType, page, type, keyword);
       setReviews(data.content);
       setTotalPages(data.totalPages);
+
     };
 
     fetchData();
   }, [filterType, page, searchParams]);
+
+  const handleUnblind = async (reviewId) => {
+  try {
+    await adminReviewUnBlindAction(reviewId);
+    setReviews((prev) =>
+      prev.map((review) =>
+        review.id === reviewId ? { ...review, reviewStatus: "normal" } : review
+      )
+    );
+    alert("블라인드가 해제되었습니다.");
+  } catch (error) {
+    console.error("블라인드 해제 실패", error);
+    alert("블라인드 해제 실패");
+  }
+}
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -33,8 +55,32 @@ const AdminReviewContent = ({ filterType, page, setPage , searchParams }) => {
                 <div>작성 자 : <strong>{review.memberId}</strong></div> 
                 <div>작성 날짜 : {review.createdAt}</div>
             </div>
+            <div className="flex justify-between">
             <div className={`font-bold ${review.reviewStatus === 'normal' ? 'text-green-500' : 'text-red-500'}`}>상태: {review.reviewStatus}</div>
-            <div className="w-[80%]">한줄 요약 : {review.summation}</div>
+            <div>신고 건수 : {review.reportCount} 건</div>
+            </div>
+            <div className="flex justify-between mb-2">
+            <div className="w-[80%] font-bold">한줄 요약 : {review.summation}</div>
+            {review.reviewStatus === "normal" ? (
+  <button
+    className="border text-white rounded p-1 bg-red-500 font-bold"
+    onClick={() => {
+      setBlindReviewId(review.id);
+      setIsBlindOpen(true);
+    }}
+  >
+    블라인드
+  </button>
+) : (
+  <button
+  onClick={() => handleUnblind(review.id)}
+  className="border text-white rounded p-1 bg-green-500 font-bold"
+>
+  블라인드 해제
+</button>
+)}
+
+            </div>
             <div className="flex justify-between">
             <div className="w-[80%]">내용: {review.reviewContent}</div>
              <div>
@@ -82,6 +128,13 @@ const AdminReviewContent = ({ filterType, page, setPage , searchParams }) => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         images={selectedImages}/>
+        )}
+
+{isBlindOpen &&(
+  <AdminReviewBlindModal
+        isOpen={isBlindOpen}
+        onClose={() => setIsBlindOpen(false)}
+        reviewId={blindReviewId} />
         )}
     </div>
   );

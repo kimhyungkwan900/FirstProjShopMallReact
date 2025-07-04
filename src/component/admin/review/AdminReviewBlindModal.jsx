@@ -1,36 +1,32 @@
 import { Dialog } from "@headlessui/react";
 import { useState } from "react";
-import { reviewReportAction } from "../../../api/user/review/reviewReportApi";
-
+import { adminReviewBlindAction } from "../../../api/admin/review/AdminReviewBlindAPi";
 const AdminReviewBlindModal = ({ isOpen, onClose, reviewId }) => {
-    const [reportReason, setReportReason] = useState("");
-    const [detail, setDetail] = useState("");
+    const [blindReason, setBlindReason] = useState("");
 
-    const AdminId = 1;
+    const adminId = 1;
 
     const handleSubmit = async (e) => {
 
         e.preventDefault(); // 기본 동작 방지
-        if (!reportReason) {
-            alert("신고 사유를 선택해주세요.");
+        if (!blindReason) {
+            alert("블라인드 사유 선택");
             return;
         }
         try {
-            await reviewReportAction({
+            await adminReviewBlindAction({
             reviewId,
-            AdminId,
-            reason: reportReason,
-            detail,
+            adminId,
+            reason: blindReason,
             });
-            alert("신고가 접수되었습니다.");
+            alert("블라인드가 처리되었습니다.");
             onClose(); // 모달 닫기
             // 초기화도 선택적으로 가능
-            setReportReason("");
-            setDetail("");
+            setBlindReason("");
         } catch (error) {
-            console.error("신고 중 오류 발생:", error);
-            console.log("신고 데이터", { reviewId, AdminId, reason: reportReason, detail });
-            alert("신고 처리 중 오류가 발생했습니다.");
+            console.error("블라인드 실패", error);
+            console.log("데이터", { reviewId, adminId, reason: blindReason });
+            alert("블라인드 실패");
         }
     };
 
@@ -42,26 +38,18 @@ const AdminReviewBlindModal = ({ isOpen, onClose, reviewId }) => {
       {/* 모달 패널 */}
       <div className="fixed inset-0 flex items-center justify-center p-4">
         <Dialog.Panel className="bg-white w-96 rounded-lg shadow-lg p-6">
-          <Dialog.Title className="text-xl font-semibold mb-4 text-center">리뷰 신고</Dialog.Title>
+          <Dialog.Title className="text-xl font-semibold mb-4 text-center">블라인드처리</Dialog.Title>
           
           <select className="w-full border border-gray-300 rounded-md p-2 mt-2 focus:outline-none focus:ring-2"
-                value={reportReason}
-                onChange={(e) => setReportReason(e.target.value)}
+                value={blindReason}
+                onChange={(e) => setBlindReason(e.target.value)}
                 name="reason">
-            <option value="" disabled hidden>신고 사유 선택</option>
+            <option value="" disabled hidden>블라인드 사유 선택</option>
             <option value="욕설">욕설</option>
             <option value="허위 정보">허위 정보</option>
             <option value="상품과 관련없음">상품과 관련없음</option>
           </select>
           
-          <textarea
-            className="w-full border border-gray-300 rounded-md p-2 h-32 resize-none mt-3"
-            placeholder="신고 사유를 입력하세요"
-            name = "detail"
-            value={detail}
-            onChange={(e) => setDetail(e.target.value)}
-          />
-
           <div className="flex justify-end mt-4 space-x-2">
             <button
               className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"

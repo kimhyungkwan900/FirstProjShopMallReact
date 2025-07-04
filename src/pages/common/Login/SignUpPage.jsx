@@ -1,5 +1,5 @@
 import axios from "axios";
-import SignUpForm from "./SignUpForm";
+import SignUpForm from "../../../features/common/oauth/SignUpForm";
 
 const SignUpPage = () => {
 

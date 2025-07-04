@@ -1,11 +1,10 @@
-// src/pages/user/product/BrandProductPage.jsx
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import FilteredProductListFeature from '../../../features/user/product/FilteredProductListFeature';
 import { fetchAllBrands } from '../../../api/user/product/brandApi';
-import { useParams } from 'react-router-dom';
 
 const BrandProductPage = () => {
-  const { brandId } = useParams(); // URL 파라미터
+  const { brandId } = useParams();
   const [brandName, setBrandName] = useState('');
 
   useEffect(() => {
@@ -28,10 +27,20 @@ const BrandProductPage = () => {
   }, [brandId]);
 
   return (
-    <div className="max-w-screen-xl mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4 text-center">
-        {brandName ? `"${brandName}" 상품 목록` : '브랜드 상품 목록'}
-      </h2>
+    <div className="max-w-screen-xl mx-auto px-4 py-10">
+      <div className="text-center mb-10">
+        <h2 className="text-3xl font-extrabold text-gray-800">
+          🏷️ {brandName ? `"${brandName}" 브랜드 상품` : '브랜드 상품 목록'}
+        </h2>
+        <p className="text-gray-500 mt-2">
+          {brandName === '브랜드 로딩 실패'
+            ? '브랜드 정보를 불러오는 데 실패했습니다.'
+            : brandName === '알 수 없는 브랜드'
+            ? '존재하지 않는 브랜드입니다.'
+            : '해당 브랜드의 다양한 상품을 만나보세요!'}
+        </p>
+      </div>
+
       <FilteredProductListFeature filterType="brand" />
     </div>
   );

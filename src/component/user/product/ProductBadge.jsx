@@ -12,7 +12,7 @@ const ProductBadge = ({ status }) => {
     left: '8px'
   };
 
-  return <span style={style}>{status === 'SELLING' ? '판매중' : '품절'}</span>;
+  return <span style={style}>{status === '판매중' ? '판매중' : '품절'}</span>;
 };
 
 export default ProductBadge;

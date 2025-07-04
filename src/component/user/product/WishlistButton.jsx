@@ -19,3 +19,5 @@ const WishlistButton = ({ productId, userId }) => {
     </button>
   );
 };
+
+export default WishlistButton;

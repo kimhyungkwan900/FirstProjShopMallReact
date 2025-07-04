@@ -1,8 +1,13 @@
 import axios from 'axios';
 
-export const fetchProducts = async (page = 0, size = 10) => {
+export const fetchProducts = async (page = 0, size = 10, sort = 'id', direction = 'desc') => {
   const response = await axios.get('/api/products', {
-    params: { page, size }
+    params: {
+      page,
+      size,
+      sort,
+      direction
+    }
   });
   return response.data;
 };
@@ -19,7 +24,7 @@ export const fetchSearchResults = async (keyword, page = 0) => {
   return response.data;
 };
 
-// import { mockProductList } from '../../../mock/products';
+// ✅ 수정된 부분: includeChildren 파라미터 추가 지원
 export const fetchFilteredProducts = async ({
   page = 0,
   size = 10,
@@ -28,22 +33,21 @@ export const fetchFilteredProducts = async ({
   categoryId,
   brandId,
   minPrice,
-  maxPrice
+  maxPrice,
+  keyword,
+  includeChildren // ✅ 하위 카테고리 포함 여부
 }) => {
   const params = { page, size, sort, direction };
+
   if (categoryId) params.categoryId = categoryId;
   if (brandId) params.brandId = brandId;
   if (minPrice) params.minPrice = minPrice;
   if (maxPrice) params.maxPrice = maxPrice;
+  if (keyword) params.keyword = keyword;
+  if (includeChildren) params.includeChildren = true; // ✅ 추가 파라미터
 
   const response = await axios.get('/api/products/filter', { params });
   return response.data;
-
-  // return new Promise((resolve) => {
-  //   setTimeout(() => {
-  //     resolve(mockProductList); // 가짜 응답 반환
-  //   }, 300); // 실제 API처럼 지연
-  // });
 };
 
 export const fetchRecommendedProducts = async (productId) => {

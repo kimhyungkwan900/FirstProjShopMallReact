@@ -4,7 +4,7 @@ import { formatPrice, truncateText, getMainImageUrl } from '../../../utils/user/
 import ProductBadge from './ProductBadge';
 
 const ProductCard = ({ product }) => {
-  const userId=;//userId 받아오기
+  const userId=1;//userId 받아오기
 
   return (
     <div className="product-card relative border rounded shadow-sm p-2">

@@ -1,18 +1,16 @@
 import React from 'react';
 
 const ProductBadge = ({ status }) => {
-  const style = {
-    padding: '4px 8px',
-    borderRadius: '4px',
-    fontSize: '12px',
-    color: '#fff',
-    backgroundColor: status === 'SELLING' ? 'green' : 'gray',
-    position: 'absolute',
-    top: '8px',
-    left: '8px'
-  };
+  const isSelling = status === '판매중';
 
-  return <span style={style}>{status === '판매중' ? '판매중' : '품절'}</span>;
+  return (
+    <span
+      className={`absolute top-2 left-2 px-1.5 py-0.5 text-[10px] font-semibold rounded text-white shadow-sm
+        ${isSelling ? 'bg-green-500' : 'bg-gray-400'}`}
+    >
+      {isSelling ? '판매중' : '품절'}
+    </span>
+  );
 };
 
 export default ProductBadge;

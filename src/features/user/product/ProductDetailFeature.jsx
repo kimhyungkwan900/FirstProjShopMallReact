@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // 💡 useNavigate 추가
+import { useParams } from 'react-router-dom'; 
 
 import {
   fetchProductDetail,
   fetchRecommendedProducts,
 } from '../../../api/user/product/productApi';
 
+import ReviewButton from '../../../component/user/review/ReviewButton';
 import ProductImageGallery from '../../../component/user/product/ProductImageGallery';
 import RecommendedProducts from '../../../component/user/product/RecommendedProducts';
 import ProductBadge from '../../../component/user/product/ProductBadge';
-import AddToCartButton from '../../../component/user/product/AddToCartButton';
-import { saveRecentlyViewedProduct } from '../../../utils/user/product/localStorageUtil';
 
 const ProductDetailFeature = () => {
   const { id } = useParams();
-  const navigate = useNavigate(); // 💡 상품 리뷰 페이지로 이동하기 위해 useNavigate 사용
 
   const [product, setProduct] = useState(null);
   const [recommended, setRecommended] = useState([]);
@@ -25,8 +23,6 @@ const ProductDetailFeature = () => {
         const detail = await fetchProductDetail(id);
         setProduct(detail);
 
-        // ✅ 최근 본 상품으로 저장
-      saveRecentlyViewedProduct(detail);
         const rec = await fetchRecommendedProducts(id);
         setRecommended(rec.content || []);
       } catch (error) {
@@ -36,12 +32,7 @@ const ProductDetailFeature = () => {
 
     loadProduct();
   }, [id]);
-
-  // 💡 리뷰 페이지 이동 핸들러
-  const goToReviewPage = () => {
-    navigate(`/products/${id}/reviews`);
-  };
-
+  
   if (!product) return <p>상품 정보를 불러오는 중입니다...</p>;
 
   return (
@@ -55,17 +46,15 @@ const ProductDetailFeature = () => {
       <p>브랜드: {product.brandName || '브랜드 없음'}</p>
       <p>카테고리: {product.categoryName || '카테고리 없음'}</p>
 
+      {/* 💡 장바구니 추가 버튼(안지우) */}
       <div className="my-4">
-        <AddToCartButton productId={product.id} />
+        {/* <{장바구니 추가기능메서드명} productId={product.id} /> */}
       </div>
 
-      {/* 💡 리뷰 페이지 이동 버튼 추가 */}
-      <button
-        onClick={goToReviewPage}
-        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-      >
-        리뷰 보기
-      </button>
+      {/* 💡 리뷰 페이지 이동 버튼(김건호) */}
+      <div className="my-4">
+        <ReviewButton productId={product.id}/>
+      </div>
 
       <div className="mt-8">
         <h3 className="text-xl font-semibold mb-2">추천 상품</h3>

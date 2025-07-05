@@ -1,31 +1,30 @@
 import { Dialog } from "@headlessui/react";
 import { useState } from "react";
 import { adminReviewBlindAction } from "../../../api/admin/review/AdminReviewBlindAPi";
-const AdminReviewBlindModal = ({ isOpen, onClose, reviewId }) => {
+const AdminReviewBlindModal = ({ isOpen, onClose, reviewId, onBlindSuccess }) => {
     const [blindReason, setBlindReason] = useState("");
 
     const adminId = 1;
 
     const handleSubmit = async (e) => {
-
-        e.preventDefault(); // 기본 동작 방지
+        e.preventDefault();
         if (!blindReason) {
             alert("블라인드 사유 선택");
             return;
         }
         try {
             await adminReviewBlindAction({
-            reviewId,
-            adminId,
-            reason: blindReason,
+                reviewId,
+                adminId,
+                reason: blindReason,
             });
             alert("블라인드가 처리되었습니다.");
-            onClose(); // 모달 닫기
-            // 초기화도 선택적으로 가능
+            onClose();
             setBlindReason("");
+            // ✅ 블라인드 성공 콜백 호출
+            onBlindSuccess && onBlindSuccess(reviewId, blindReason);
         } catch (error) {
             console.error("블라인드 실패", error);
-            console.log("데이터", { reviewId, adminId, reason: blindReason });
             alert("블라인드 실패");
         }
     };

@@ -3,6 +3,7 @@ import { fetchAdminReviewList } from "../../../api/admin/review/AdminReviewApi";
 import { adminReviewUnBlindAction } from "../../../api/admin/review/AdminReviewBlindAPi";
 import ReviewImgModal from "../../user/review/ReviewImgModal";
 import AdminReviewBlindModal from "./AdminReviewBlindModal";
+import AdminReviewReportModal from "./AdminReviewReportModal";
 
 const BASE_URL =  "http://localhost:8080";
 
@@ -15,6 +16,9 @@ const AdminReviewContent = ({ filterType, page, setPage , searchParams }) => {
 
   const [isBlindOpen, setIsBlindOpen] = useState(false);
   const [blindReviewId, setBlindReviewId] = useState(null);
+
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [reportReviewId, setReportReviewId] = useState(null);
 
 
   useEffect(() => {
@@ -29,20 +33,33 @@ const AdminReviewContent = ({ filterType, page, setPage , searchParams }) => {
     fetchData();
   }, [filterType, page, searchParams]);
 
-  const handleUnblind = async (reviewId) => {
+ const handleUnblind = async (reviewId) => {
+  // 취소 선택시 함수 종료
+  if (!window.confirm("정말 블라인드 해제 하시겠습니까?")) {
+    return;
+  }
   try {
     await adminReviewUnBlindAction(reviewId);
     setReviews((prev) =>
       prev.map((review) =>
-        review.id === reviewId ? { ...review, reviewStatus: "normal" } : review
+        review.id === reviewId ? { ...review, reviewStatus: "normal", blindReason: null } : review
       )
     );
     alert("블라인드가 해제되었습니다.");
   } catch (error) {
     console.error("블라인드 해제 실패", error);
-    alert("블라인드 해제 실패");
   }
-}
+};
+
+const handleAfterBlind = (reviewId, blindReason) => {
+  setReviews((prev) =>
+    prev.map((review) =>
+      review.id === reviewId
+        ? { ...review, reviewStatus: "blinded", blindReason }
+        : review
+    )
+  );
+};
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -56,29 +73,43 @@ const AdminReviewContent = ({ filterType, page, setPage , searchParams }) => {
                 <div>작성 날짜 : {review.createdAt}</div>
             </div>
             <div className="flex justify-between">
-            <div className={`font-bold ${review.reviewStatus === 'normal' ? 'text-green-500' : 'text-red-500'}`}>상태: {review.reviewStatus}</div>
-            <div>신고 건수 : {review.reportCount} 건</div>
+            <div className={`font-bold ${review.reviewStatus === 'normal' ? 'text-green-500' : 'text-red-500'}`}>
+            <span>상태: </span>
+            {review.reviewStatus === 'blinded' ? '블라인드' : '정상'}
+             {review.reviewStatus === 'blinded' && (
+              <span className="ml-10">사유: {review.blindReason}</span>
+            )}
+            </div>
+            
+            <div>신고 건수 : {review.reportCount} 건
+              {/* 신고 건수가 1개 이상이면 버튼 신고 내역 보는 버튼 생성  */}
+              {review.reportCount > 0 && (
+              <button className="border text-white rounded p-1 bg-blue-500 font-bold ml-2"
+              onClick={() => {
+              setReportReviewId(review.id);
+              setIsReportModalOpen(true);}}>
+              보기
+              </button>)}
+            </div>
             </div>
             <div className="flex justify-between mb-2">
             <div className="w-[80%] font-bold">한줄 요약 : {review.summation}</div>
+            {/* 블라인드 처리된 리뷰에 블라인드해제 버튼 블라인드 안된 리뷰에 블라인브 버튼 */}
             {review.reviewStatus === "normal" ? (
-  <button
-    className="border text-white rounded p-1 bg-red-500 font-bold"
-    onClick={() => {
-      setBlindReviewId(review.id);
-      setIsBlindOpen(true);
-    }}
-  >
-    블라인드
-  </button>
-) : (
-  <button
-  onClick={() => handleUnblind(review.id)}
-  className="border text-white rounded p-1 bg-green-500 font-bold"
->
-  블라인드 해제
-</button>
-)}
+              <button className="border text-white rounded p-1 bg-red-500 font-bold"
+              onClick={() => {
+                setBlindReviewId(review.id);
+                setIsBlindOpen(true);
+              }}>
+              블라인드
+              </button>
+            ) : (
+            <button
+            onClick={() => handleUnblind(review.id)}
+            className="border text-white rounded p-1 bg-green-500 font-bold">
+            블라인드 해제
+            </button>
+            )}
 
             </div>
             <div className="flex justify-between">
@@ -129,14 +160,24 @@ const AdminReviewContent = ({ filterType, page, setPage , searchParams }) => {
         onClose={() => setIsModalOpen(false)}
         images={selectedImages}/>
         )}
-
-{isBlindOpen &&(
+{/* 블라인드 모달 */}
+{isBlindOpen && (
   <AdminReviewBlindModal
-        isOpen={isBlindOpen}
-        onClose={() => setIsBlindOpen(false)}
-        reviewId={blindReviewId} />
-        )}
+    isOpen={isBlindOpen}
+    onClose={() => setIsBlindOpen(false)}
+    reviewId={blindReviewId}
+    onBlindSuccess={handleAfterBlind}/>
+)}
+{/* 신고 리스트  */}
+{isReportModalOpen && (
+  <AdminReviewReportModal
+    reviewId={reportReviewId}
+    onClose={() => setIsReportModalOpen(false)}
+  />
+)}
     </div>
+
+  
   );
 };
 

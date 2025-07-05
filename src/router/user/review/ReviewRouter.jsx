@@ -1,12 +1,11 @@
-import { Routes, Route } from 'react-router-dom';
-import MyReviewPage from '../../pages/user/review/MyReviewPage';
+// src/router/user/review/ReviewRouter.jsx
+import MyReviewPage from '../../../pages/user/review/MyReviewPage';
 
-const ReviewRouter = () => {
-  return (
-    <Routes>
-      <Route path="/mypage/review" element={<MyReviewPage />} />
-    </Routes>
-  );
-};
+const reviewRoutes = [
+  {
+    path: 'review',
+    element: <MyReviewPage />
+  }
+];
 
-export default ReviewRouter;
+export default reviewRoutes;

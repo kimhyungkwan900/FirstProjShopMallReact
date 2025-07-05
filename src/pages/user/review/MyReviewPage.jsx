@@ -6,7 +6,7 @@ const MyReviewPage =() => {
     return(
         <div>
             <ReviewButton productId = {1}/>
-            <h1 className="text-3xl text-center mt-3">MyPage 리뷰 목록</h1>
+            <h1 className="text-3xl text-center mt-3 ">MyPage 리뷰 목록</h1>
             <MyReviewContent memberId = {memberId}/>
         </div>
     )

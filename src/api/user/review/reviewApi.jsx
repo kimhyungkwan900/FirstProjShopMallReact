@@ -2,9 +2,9 @@ import axios from 'axios';
 
 const API_BASE_URL = "http://localhost:8080/api";
 
-export const findReviewList = async (productId) => {
+export const findReviewList = async (productId, sort = "like") => {
   const response = await axios.get(`${API_BASE_URL}/product/review`,{
-    params : {productId}
+    params : {productId, sort }
   });
 
   return response.data; 
@@ -21,11 +21,16 @@ export const reactReview = async({memberId, reviewId, reaction}) => {
   return response.data; 
 }
 
-export const myReviewList = async (memberId) => {
+export const myReviewList = async (memberId, page = 0, size, sort = "createdAt,DESC") => {
   const response = await axios.get(`${API_BASE_URL}/mypage/reviews`, {
-    params: { memberId }
+    params: {
+      memberId,
+      page,
+      size : 5,
+      sort,
+    }
   });
-  return response.data; 
+  return response.data;
 };
 
 // 서버에 리뷰 받아오기 요청 

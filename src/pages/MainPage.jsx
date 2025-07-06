@@ -3,9 +3,9 @@ import MainHeader from "../features/common/Header/MainHeader";
 import BannerSlider from "../component/common/Banner/BannerSlider";
 import PopularProducts from "../component/user/product/PopularProducts";
 import MainFooter from "../features/common/Footer/MainFooter";
+import axios from "axios";
 
 const MainPage = () =>{
-    
     const [banner, setBanners] = useState([]);
 
     useEffect(() => {
@@ -13,12 +13,11 @@ const MainPage = () =>{
         .then((res) => res.json())
         .then((data) => setBanners(data))
         .catch((err) => console.error('배너 로딩 실패: ', err));
-    });
-
+    }, []);
     return(
         <div>
             <div>
-                <MainHeader />
+                <MainHeader/>
             </div>
             <div>
                 <BannerSlider images={banner} />

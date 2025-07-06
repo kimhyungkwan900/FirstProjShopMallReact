@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import MainHeader from "../features/common/Header/MainHeader";
 import BannerSlider from "../component/common/Banner/BannerSlider";
+import PopularProducts from "../component/user/product/PopularProducts";
+import MainFooter from "../features/common/Footer/MainFooter";
 
 const MainPage = () =>{
     
@@ -20,6 +22,12 @@ const MainPage = () =>{
             </div>
             <div>
                 <BannerSlider images={banner} />
+            </div>
+            <div>
+                <PopularProducts />
+            </div>
+            <div>
+                <MainFooter />
             </div>
         </div>
     )

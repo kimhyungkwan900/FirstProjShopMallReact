@@ -3,16 +3,29 @@ import naverLoginImg from "../../../assets/Naver/2021_Login_with_naver_guideline
 import googleLoginImg from "../../../assets/Google/signin-assets/Web (mobile + desktop)/png@1x/dark/web_dark_rd_na@1x.png";
 import LoginForm from "../../../features/common/oauth/LoginForm";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
-    
+
+    const navigate = useNavigate();
+
     const onLogin = async (userId, password) => {
-        try{
-            const response = await axios.post("http://localhost:8080/api/login", {userId, password});
-            console.log("쇼핑몰에 오신걸 환영합니다.", response.data);
+        try {
+            const response = await axios.post("http://localhost:8080/api/login", {
+                userId,
+                password,
+            });
+
+            const { accessToken } = response.data; // 백엔드에서 내려준 토큰을 추출
+            localStorage.setItem('accessToken', accessToken);
+
+            alert("쇼핑몰에 오신걸 환영합니다.");
+            navigate("/");
         } catch (e) {
-            console.e("ID 또는 비밀번호를 확인해주세요", e.response?.data || e.message);
+            console.error(e.response?.data || e.message);
+            alert("ID 및 비밀번호를 확인해주세요");
         }
-    }
+    };
+
 
     return(
         <div className="max-w-sm mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">

@@ -9,22 +9,26 @@ const MyReviewContent = ({ memberId }) => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
   const BASE_URL =  "http://localhost:8080";
   // 최초 렌더링 또는 memberId 변경 시 내 리뷰 목록 불러오기
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const data = await myReviewList(memberId); // 서버에서 리뷰 목록 요청
-        setReviews(data || []);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    if (memberId) {
-      fetchReviews();
+useEffect(() => {
+  const fetchReviews = async () => {
+    try {
+      const data = await myReviewList(memberId, page); // ← page 반영
+      setReviews(data.content); // ← Spring Data Page 기준
+      setTotalPages(data.totalPages); // 전체 페이지 수 저장
+    } catch (error) {
+      console.error(error);
     }
-  }, [memberId]);
+  };
+
+  if (memberId !== undefined) {
+    fetchReviews();
+  }
+}, [memberId, page]); // ✅ page 추가
 
   // 리뷰 삭제 함수
   const handleDelete = async (reviewId) => {
@@ -81,7 +85,7 @@ const MyReviewContent = ({ memberId }) => {
               <img
                 src={`${BASE_URL}${review.reviewImgDTOList[0].filePath}`}
                 alt="리뷰 이미지"
-                className="w-24 h-24 object-cover rounded-md cursor-pointer"
+                className="w-24 h-24 object-cover rounded-md cursor-pointer border"
                 onClick = {() => {
                   setSelectedImages(review.reviewImgDTOList);
                   setIsModalOpen(true);
@@ -127,8 +131,29 @@ const MyReviewContent = ({ memberId }) => {
         onClose={() => setIsModalOpen(false)}
         images={selectedImages}/>
         )}
+
+        {/* 페이지네이션 버튼 */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-8 space-x-2">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setPage(index)}
+              className={`px-3 py-1 border rounded-md text-sm ${
+                page === index
+                  ? "bg-blue-500 text-white"
+                  : "bg-white text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
+
+  
   
 };
 

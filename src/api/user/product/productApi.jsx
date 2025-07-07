@@ -24,7 +24,6 @@ export const fetchSearchResults = async (keyword, page = 0) => {
   return response.data;
 };
 
-// ✅ 수정된 부분: includeChildren 파라미터 추가 지원
 export const fetchFilteredProducts = async ({
   page = 0,
   size = 10,
@@ -35,7 +34,7 @@ export const fetchFilteredProducts = async ({
   minPrice,
   maxPrice,
   keyword,
-  includeChildren // ✅ 하위 카테고리 포함 여부
+  includeChildren
 }) => {
   const params = { page, size, sort, direction };
 

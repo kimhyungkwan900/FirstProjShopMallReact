@@ -10,6 +10,7 @@ import ReviewButton from '../../../component/user/review/ReviewButton';
 import ProductImageGallery from '../../../component/user/product/ProductImageGallery';
 import RecommendedProducts from '../../../component/user/product/RecommendedProducts';
 import ProductBadge from '../../../component/user/product/ProductBadge';
+import Footer from '../../../component/common/Footer';
 
 const ProductDetailFeature = () => {
   const { id } = useParams();
@@ -78,11 +79,31 @@ const ProductDetailFeature = () => {
         </div>
       </div>
 
+      {product.images && product.images.filter(img => !img.repImg).length > 0 && (
+        <div className="mt-8">
+          <h4 className="text-lg font-semibold mb-4 text-gray-700">📸 추가 이미지</h4>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {product.images
+              .filter(img => !img.repImg)
+              .map((img, index) => (
+                <img
+                  key={index}
+                  src={img.imgUrl}
+                  alt={`추가 이미지 ${index + 1}`}
+                  className="w-full h-auto rounded-md shadow"
+                />
+              ))}
+          </div>
+        </div>
+      )}
+
       {/* 추천 상품 */}
-      <div className="mt-12">
+      <div className="mt-12 mb-20">
         <h3 className="text-2xl font-semibold mb-4 text-gray-800">✨ 함께 보면 좋은 상품</h3>
         <RecommendedProducts products={recommended} />
       </div>
+
+      <Footer />
     </div>
   );
 };

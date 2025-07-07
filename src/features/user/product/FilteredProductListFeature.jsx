@@ -5,6 +5,7 @@ import ProductCard from '../../../component/user/product/ProductCard';
 import Pagination from '../../../component/user/product/Pagination';
 import SortOptions from '../../../component/user/product/SortOptions';
 import SearchBar from '../../../component/user/product/SearchBar';
+import Footer from '../../../component/common/Footer';
 
 const FilteredProductListFeature = ({ filterType }) => {
   const { categoryId, brandId } = useParams();
@@ -78,13 +79,15 @@ const FilteredProductListFeature = ({ filterType }) => {
         )}
       </div>
 
-      <div className="mt-10">
+      <div className="mt-10 mb-20">
         <Pagination
           page={products.number || 0}
           totalPages={products.totalPages || 0}
           onPageChange={setPage}
         />
       </div>
+
+      <Footer />
     </div>
   );
 };

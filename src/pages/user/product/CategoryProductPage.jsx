@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import FilteredProductListFeature from '../../../features/user/product/FilteredProductListFeature';
 import { fetchAllCategories } from '../../../api/user/product/categoryApi';
 import Footer from '../../../component/common/Footer';
+import MainHeader from '../../../features/common/Header/MainHeader';
 
 
 const CategoryProductPage = () => {
@@ -30,6 +31,7 @@ const CategoryProductPage = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-10">
+      <MainHeader />
       {/* 카테고리 이름 강조 */}
       <div className="text-center mb-10">
         <h2 className="text-3xl font-extrabold text-gray-800">
@@ -46,7 +48,6 @@ const CategoryProductPage = () => {
 
       {/* 상품 필터/리스트 */}
       <FilteredProductListFeature filterType="category" />
-      <Footer />
     </div>
   );
 };

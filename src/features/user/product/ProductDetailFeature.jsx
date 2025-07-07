@@ -11,6 +11,7 @@ import ProductImageGallery from '../../../component/user/product/ProductImageGal
 import RecommendedProducts from '../../../component/user/product/RecommendedProducts';
 import ProductBadge from '../../../component/user/product/ProductBadge';
 import Footer from '../../../component/common/Footer';
+import MainHeader from '../../common/Header/MainHeader';
 
 const ProductDetailFeature = () => {
   const { id } = useParams();
@@ -44,6 +45,7 @@ const ProductDetailFeature = () => {
 
   return (
     <div className="max-w-screen-lg mx-auto px-4 py-10">
+      <MainHeader />
       <div className="bg-white rounded-2xl shadow-md p-6">
         <div className="flex flex-col md:flex-row gap-8">
           {/* 상품 이미지 갤러리 */}

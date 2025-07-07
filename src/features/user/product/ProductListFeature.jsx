@@ -7,6 +7,7 @@ import Pagination from '../../../component/user/product/Pagination';
 import SortOptions from '../../../component/user/product/SortOptions';
 import SearchBar from '../../../component/user/product/SearchBar';
 import Footer from '../../../component/common/Footer';
+import MainHeader from '../../common/Header/MainHeader';
 
 const ProductListFeature = () => {
   const { categoryId, brandId } = useParams();
@@ -58,6 +59,7 @@ const ProductListFeature = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-10">
+      <MainHeader />
       {/* 타이틀 */}
       <h2 className="text-3xl font-extrabold text-gray-800 mb-6 text-center">
         🛍️ 전체 상품 목록

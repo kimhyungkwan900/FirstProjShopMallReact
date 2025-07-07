@@ -1,5 +1,4 @@
 import React from 'react';
-import {createBrowserRouter} from 'react-router-dom';
 
 // 페이지 컴포넌트 임포트
 import ProductListPage from '../../../pages/user/product/ProductListPage';
@@ -12,7 +11,7 @@ import CategoryProductPage from '../../../pages/user/product/CategoryProductPage
 import BrandProductPage from '../../../pages/user/product/BrandProductPage';
 
 // 라우터 정의
-const productRouter = createBrowserRouter([
+const productRouter = [
   {
     path: '/products',
     element: <ProductListPage />,
@@ -45,6 +44,6 @@ const productRouter = createBrowserRouter([
     path: '*',
     element: <NotFoundPage />,
   },
-]);
+];
 
 export default productRouter;

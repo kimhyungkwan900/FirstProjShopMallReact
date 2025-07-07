@@ -6,7 +6,7 @@ const BannerSlider = ({images}) => {
     const isEmpty = images.length === 0;
 
     return(
-        <div className="relative w-full h-[300px]">
+        <div className="w-full aspect-[21/5] bg-gray-200">
             <Swiper modules={[Navigation, Autoplay]} loop  autoplay={{ delay: 3000 }} navigation={true} className="w-full h-full">
                 {isEmpty ? (
                     <SwiperSlide>

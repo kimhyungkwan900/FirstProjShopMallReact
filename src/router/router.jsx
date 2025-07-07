@@ -9,7 +9,7 @@ const router = createBrowserRouter([
   ...loginRoutes,
   {
     path: '/',
-    element: <MainPage />
+    element: <MainPage  />
   },
   {
     path: '*',

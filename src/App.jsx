@@ -5,7 +5,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 function App() {
-  return <RouterProvider router={router} />;
+  return <RouterProvider router={router}  />;
 }
 
 export default App;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import LinkedButton from "../../../component/common/Link/LinkedButton";
-import SearchBar from "../../../component/user/product/SearchBar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import MainSearchBar from "../../../component/user/MainPage/MainSearchBar";
 
 const MainHeader = () => {
 
@@ -31,6 +31,9 @@ const MainHeader = () => {
                         <LinkedButton to="/brands" label="브랜드" />
                         <LinkedButton to="/categories" label="카테고리" />
                     </div>
+                    <div className="flex space-x-4">
+                        <LinkedButton to="/" label="FirstProjShopMall" className="text-4xl font-extrabold tracking-tight"/>
+                    </div>
                     {isLoggedIn ? (
                     <div className="flex space-x-4">
                         <LinkedButton to="/me" label="마이 페이지" />
@@ -46,7 +49,7 @@ const MainHeader = () => {
                 </nav>
                 <div className="flex mt-3">
                     <div className="ml-auto text-black">
-                        <SearchBar />
+                        <MainSearchBar/>
                     </div>
                 </div>
             </header>

@@ -14,10 +14,8 @@ const LoginPage = () => {
                 userId,
                 password,
             });
-
             const { accessToken } = response.data; // 백엔드에서 내려준 토큰을 추출
             localStorage.setItem('accessToken', accessToken);
-
             alert("쇼핑몰에 오신걸 환영합니다.");
             navigate("/");
         } catch (e) {
@@ -31,13 +29,13 @@ const LoginPage = () => {
         <div className="max-w-sm mx-auto mt-10 p-6 bg-white rounded-xl shadow-md">
             <LoginForm onLogin={onLogin}/>
             <div className="flex justify-center gap-6 mt-3 items-center">
-                <a href="http://localhost:8080/login/oauth2/code/kakao">
+                <a href="http://localhost:8080/oauth2/authorization/kakao">
                     <img src={kakaoLoginImg} alt="카카오 로그인" className="w-12 h-12 object-cover rounded-full shadow-md"/>
                 </a>
-                <a href="http://localhost:8080/login/oauth2/code/google">
+                <a href="http://localhost:8080/oauth2/authorization/google">
                     <img src={googleLoginImg} alt="구글 로그인" className="w-12 h-12 object-cover rounded-full shadow-md"/>
                 </a>
-                <a href="http://localhost:8080/login/oauth2/code/naver">
+                <a href="http://localhost:8080/oauth2/authorization/naver">
                     <img src={naverLoginImg} alt="네이버 로그인" className="w-12 h-12 object-cover rounded-full shadow-md"/>
                 </a>
             </div>

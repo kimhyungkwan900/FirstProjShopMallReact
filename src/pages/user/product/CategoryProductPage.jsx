@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import FilteredProductListFeature from '../../../features/user/product/FilteredProductListFeature';
 import { fetchAllCategories } from '../../../api/user/product/categoryApi';
+import Footer from '../../../component/common/Footer';
+
 
 const CategoryProductPage = () => {
   const { categoryId } = useParams();
@@ -44,6 +46,7 @@ const CategoryProductPage = () => {
 
       {/* 상품 필터/리스트 */}
       <FilteredProductListFeature filterType="category" />
+      <Footer />
     </div>
   );
 };

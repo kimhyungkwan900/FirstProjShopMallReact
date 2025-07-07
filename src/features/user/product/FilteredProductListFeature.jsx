@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { fetchFilteredProducts } from '../../../api/user/product/productApi';
 import ProductCard from '../../../component/user/product/ProductCard';
 import Pagination from '../../../component/user/product/Pagination';
@@ -9,6 +9,9 @@ import Footer from '../../../component/common/Footer';
 
 const FilteredProductListFeature = ({ filterType }) => {
   const { categoryId, brandId } = useParams();
+  const [searchParams] = useSearchParams();
+  const keyword = searchParams.get('keyword') || '';
+
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(0);
   const [size] = useState(6);
@@ -16,25 +19,26 @@ const FilteredProductListFeature = ({ filterType }) => {
   const [direction, setDirection] = useState('desc');
   const [filters, setFilters] = useState({});
 
+  // 필터 조건 구성
   useEffect(() => {
-    setFilters((prev) => {
-      const updated = { ...prev };
-      if (filterType === 'category' && categoryId) {
-        updated.categoryId = Number(categoryId);
-        updated.includeChildren = true;
-        delete updated.brandId;
-      } else if (filterType === 'brand' && brandId) {
-        updated.brandId = brandId;
-        delete updated.categoryId;
-        delete updated.includeChildren;
-      } else {
-        return prev;
-      }
-      return updated;
-    });
-    setPage(0);
-  }, [filterType, categoryId, brandId]);
+    const updated = {};
 
+    if (filterType === 'category' && categoryId) {
+      updated.categoryId = Number(categoryId);
+      updated.includeChildren = true;
+    } else if (filterType === 'brand' && brandId) {
+      updated.brandId = brandId;
+    }
+
+    if (keyword) {
+      updated.keyword = keyword;
+    }
+
+    setFilters(updated);
+    setPage(0); // 필터가 바뀔 때 페이지 초기화
+  }, [filterType, categoryId, brandId, keyword]);
+
+  // 상품 로딩
   useEffect(() => {
     const loadProducts = async () => {
       if (Object.keys(filters).length > 0) {
@@ -58,7 +62,7 @@ const FilteredProductListFeature = ({ filterType }) => {
       </h2>
 
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-        <SearchBar setFilters={setFilters} setPage={setPage} />
+        <SearchBar />
         <SortOptions
           sort={sort}
           direction={direction}

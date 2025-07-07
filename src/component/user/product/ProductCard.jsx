@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
   formatPrice,
   truncateText,
@@ -18,7 +17,13 @@ const ProductCard = ({ product }) => {
         <WishlistButton productId={product.id} userId={userId} />
       </div>
 
-      <Link to={`/products/${product.id}`} className="block">
+      {/* ✅ 상세 페이지를 새 탭에서 열도록 <a href>로 변경 */}
+      <a
+        href={`/products/${product.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block"
+      >
         {/* 상품 이미지 */}
         <div className="relative">
           <img
@@ -27,13 +32,13 @@ const ProductCard = ({ product }) => {
             className="w-full h-48 object-cover rounded-t-xl"
           />
 
-          {/* ✅ 판매 상태 뱃지 - 좌측 상단으로 이동 */}
+          {/* 판매 상태 뱃지 */}
           <div className="absolute top-2 left-2">
             <ProductBadge status={product.sellStatus} />
           </div>
         </div>
 
-        {/* 상품 정보 영역 */}
+        {/* 상품 정보 */}
         <div className="p-4 space-y-1">
           <h3 className="text-sm font-semibold text-gray-800 group-hover:text-blue-600 transition">
             {truncateText(product.name)}
@@ -43,7 +48,7 @@ const ProductCard = ({ product }) => {
             {formatPrice(product.price)}
           </p>
         </div>
-      </Link>
+      </a>
     </div>
   );
 };

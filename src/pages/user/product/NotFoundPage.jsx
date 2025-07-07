@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Footer from '../../../component/common/Footer';
 
 const NotFoundPage = () => {
   return (
@@ -12,10 +13,11 @@ const NotFoundPage = () => {
 
       <Link
         to="/products"
-        className="inline-block mt-4 px-6 py-3 bg-blue-500 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-600 transition duration-200"
+        className="inline-block mt-4 px-6 py-3 bg-blue-500 text-white text-sm font-medium rounded-lg shadow hover:bg-blue-600 transition duration-200 mb-20"
       >
         🛍️ 상품 페이지로 돌아가기
       </Link>
+      <Footer />
     </div>
   );
 };

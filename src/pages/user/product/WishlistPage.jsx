@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchWishlist } from '../../../api/user/product/wishlistApi';
 import ProductCard from '../../../component/user/product/ProductCard';
+import Footer from '../../../component/common/Footer';
 
 const WishlistPage = () => {
   const [wishlist, setWishlist] = useState([]);
@@ -22,6 +23,7 @@ const WishlistPage = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+      <Footer />
     </div>
   );
 };

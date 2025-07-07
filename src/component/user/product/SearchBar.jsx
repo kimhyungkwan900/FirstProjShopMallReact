@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-const SearchBar = ({ setFilters, setPage }) => {
+const SearchBar = () => {
   const [keyword, setKeyword] = useState('');
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSearch = () => {
-    const trimmedKeyword = keyword.trim();
-    if (trimmedKeyword) {
-      setFilters((prev) => ({ ...prev, keyword: trimmedKeyword }));
-      setPage(0);
+    const trimmed = keyword.trim();
+    if (trimmed) {
+      const searchParams = new URLSearchParams(location.search);
+      searchParams.set('keyword', trimmed);
+      searchParams.set('page', 0); // 검색 시 첫 페이지로
+      navigate(`?${searchParams.toString()}`);
       setKeyword('');
     }
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
+    if (e.key === 'Enter') handleSearch();
   };
 
   return (

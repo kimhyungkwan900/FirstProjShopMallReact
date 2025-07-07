@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAllCategories } from '../../../api/user/product/categoryApi';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../../../component/common/Footer';
 
 const CategoryListPage = () => {
   const [categories, setCategories] = useState([]);
@@ -42,7 +43,7 @@ const CategoryListPage = () => {
       {categories.length === 0 ? (
         <p className="text-center text-gray-500">카테고리 정보가 없습니다.</p>
       ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mb-20">
           {categories.map((category) => (
             <div
               key={category.id}
@@ -54,6 +55,7 @@ const CategoryListPage = () => {
           ))}
         </div>
       )}
+      <Footer />
     </div>
   );
 };

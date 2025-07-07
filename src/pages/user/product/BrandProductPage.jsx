@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import FilteredProductListFeature from '../../../features/user/product/FilteredProductListFeature';
 import { fetchAllBrands } from '../../../api/user/product/brandApi';
+import Footer from '../../../component/common/Footer';
 
 const BrandProductPage = () => {
   const { brandId } = useParams();

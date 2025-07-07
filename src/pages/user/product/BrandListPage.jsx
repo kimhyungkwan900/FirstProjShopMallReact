@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAllBrands } from '../../../api/user/product/brandApi';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../../../component/common/Footer';
 
 const BrandListPage = () => {
   const [brands, setBrands] = useState([]);
@@ -38,7 +39,7 @@ const BrandListPage = () => {
       <h2 className="text-3xl font-extrabold mb-8 text-center text-gray-800">
         💼 브랜드 둘러보기
       </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-20">
         {brands.map((brand) => (
           <div
             key={brand.id}
@@ -54,6 +55,7 @@ const BrandListPage = () => {
           </div>
         ))}
       </div>
+      <Footer />
     </div>
   );
 };

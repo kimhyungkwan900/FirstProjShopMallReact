@@ -12,6 +12,8 @@ import RecommendedProducts from '../../../component/user/product/RecommendedProd
 import ProductBadge from '../../../component/user/product/ProductBadge';
 import Footer from '../../../component/common/Footer';
 import MainHeader from '../../common/Header/MainHeader';
+import { saveRecentlyViewedProduct } from '../../../utils/user/product/localStorageUtil';
+import StickyRecentlyViewedProducts from '../../../component/user/product/StickyRecentlyViewedProducts';
 
 const ProductDetailFeature = () => {
   const { id } = useParams();
@@ -25,6 +27,10 @@ const ProductDetailFeature = () => {
         const detail = await fetchProductDetail(id);
         setProduct(detail);
 
+        // ✅ 최근 본 상품 저장
+        saveRecentlyViewedProduct(detail);
+
+        // 추천 상품 불러오기
         const rec = await fetchRecommendedProducts(id);
         setRecommended(rec.content || []);
       } catch (error) {
@@ -48,6 +54,7 @@ const ProductDetailFeature = () => {
       {/* 헤더 */}
       <MainHeader />
 
+      <StickyRecentlyViewedProducts />
       {/* 메인 컨텐츠 */}
       <main className="flex-grow max-w-screen-lg mx-auto px-4 py-12">
         <div className="bg-white rounded-2xl shadow p-6 relative">
@@ -108,10 +115,11 @@ const ProductDetailFeature = () => {
         )}
 
         {/* 추천 상품 */}
-        <section className="mt-16 mb-20">
+        <section className="mt-16">
           <h3 className="text-2xl font-semibold mb-4">✨ 함께 보면 좋은 상품</h3>
           <RecommendedProducts products={recommended} />
         </section>
+
       </main>
 
       {/* 푸터 */}

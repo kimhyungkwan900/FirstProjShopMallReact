@@ -6,9 +6,11 @@ import MainHeader from '../../../features/common/Header/MainHeader';
 const categoryData = [
   {
     title: '패션의류/잡화',
+    titleId: 1,
     groups: [
       {
         name: '여성의류',
+        groupId: 2,
         subcategories: [
           { name: '원피스', id: 3 },
           { name: '블라우스', id: 4 },
@@ -18,6 +20,7 @@ const categoryData = [
       },
       {
         name: '남성의류',
+        groupId: 7,
         subcategories: [
           { name: '티셔츠', id: 8 },
           { name: '맨투맨', id: 9 },
@@ -27,6 +30,7 @@ const categoryData = [
       },
       {
         name: '패션잡화',
+        groupId: 12,
         subcategories: [
           { name: '가방', id: 13 },
           { name: '지갑', id: 14 },
@@ -37,6 +41,7 @@ const categoryData = [
   },
   {
     title: '디지털/가전',
+    titleId: 16,
     groups: [
       {
         name: '',
@@ -52,6 +57,7 @@ const categoryData = [
   },
   {
     title: '뷰티/미용',
+    titleId: 22,
     groups: [
       {
         name: '',
@@ -66,9 +72,11 @@ const categoryData = [
   },
   {
     title: '식품/건강',
+    titleId: 27,
     groups: [
       {
         name: '신선식품',
+        groupId: 28,
         subcategories: [
           { name: '과일', id: 29 },
           { name: '채소', id: 30 },
@@ -77,6 +85,7 @@ const categoryData = [
       },
       {
         name: '가공식품',
+        groupId: 32,
         subcategories: [
           { name: '간편식', id: 33 },
           { name: '라면/면류', id: 34 },
@@ -93,6 +102,7 @@ const categoryData = [
   },
   {
     title: '생활/주방',
+    titleId: 37,
     groups: [
       {
         name: '',
@@ -107,6 +117,7 @@ const categoryData = [
   },
   {
     title: '유아동',
+    titleId: 42,
     groups: [
       {
         name: '',
@@ -142,12 +153,28 @@ const CategoryTreePage = () => {
               key={i}
               className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
             >
-              <h3 className="text-xl font-bold mb-4 text-blue-600">{categoryBlock.title}</h3>
+              {/* 클릭 가능한 타이틀 */}
+              <h3
+                className="text-xl font-bold mb-4 text-blue-600 cursor-pointer hover:underline"
+                onClick={() =>
+                  categoryBlock.titleId && handleClick(categoryBlock.titleId)
+                }
+              >
+                {categoryBlock.title}
+              </h3>
+
               <ul className="space-y-3">
                 {categoryBlock.groups.map((group, j) => (
                   <li key={j}>
                     {group.name && (
-                      <span className="font-semibold text-gray-700">{group.name}</span>
+                      <span
+                        className="font-semibold text-gray-700 cursor-pointer hover:underline"
+                        onClick={() =>
+                          group.groupId && handleClick(group.groupId)
+                        }
+                      >
+                        {group.name}
+                      </span>
                     )}
                     <ul className="ml-4 mt-1 space-y-1">
                       {group.subcategories.map((sub, k) => (

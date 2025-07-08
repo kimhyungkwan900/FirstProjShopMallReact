@@ -1,13 +1,17 @@
 
 import MyReviewContent from "../../../component/user/review/MyReviewContent";
-import ReviewButton from "../../../component/user/review/ReviewButton";
+import MainHeader from "../../../features/common/Header/MainHeader";
+import Footer from "../../../component/common/Footer";
+import MypageMenu from "../../../component/user/myOrder/MypageMenu";
 const MyReviewPage =() => {
     const memberId = 1;
     return(
         <div>
-            <ReviewButton productId = {1}/>
+            <MainHeader/>
+            <MypageMenu/>
             <h1 className="text-3xl text-center mt-3 ">MyPage 리뷰 목록</h1>
             <MyReviewContent memberId = {memberId}/>
+            <Footer/>
         </div>
     )
 }

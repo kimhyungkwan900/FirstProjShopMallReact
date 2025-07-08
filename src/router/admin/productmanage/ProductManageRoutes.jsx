@@ -22,5 +22,4 @@ const ProductManageRouter = [
     },
 ];
 
-
 export default ProductManageRouter;

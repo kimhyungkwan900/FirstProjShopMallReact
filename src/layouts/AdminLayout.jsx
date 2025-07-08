@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom";
 
 const AdminLayout = ({children})=>{
 
@@ -21,10 +22,10 @@ const AdminLayout = ({children})=>{
                         {isOpen && (
                             <ul className="text-white font-bold">
                                 <li className="pr-2 text-2xl">
-                                    <Link to="">상품 등록</Link>
+                                    <Link to="/admin">상품 등록</Link>
                                 </li>
                                 <li className="pr-2 text-2xl">
-                                    <Link to="">상품 조회</Link>
+                                    <Link to="/admin/products">상품 조회</Link>
                                 </li>
                             </ul>
                         )}

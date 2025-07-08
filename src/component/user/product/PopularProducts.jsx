@@ -20,7 +20,6 @@ const PopularProducts = () => {
 
   return (
     <div className="popular-products my-8">
-      <h2 className="text-2xl font-bold mb-4">🔥 인기 상품</h2>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {popularProducts.map(product => (
           <ProductCard key={product.id} product={product} />

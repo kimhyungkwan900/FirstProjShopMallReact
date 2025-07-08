@@ -5,8 +5,10 @@ import NotFoundPage from '../pages/user/product/NotFoundPage';
 import MainPage from '../pages/MainPage';
 import ReviewRouter from './user/review/ReviewRouter';
 import productManageRoutes from './admin/productmanage/ProductManageRoutes';
+import orderManageRoutes from './admin/ordermanage/OrderManageRoutes';
 
 const router = createBrowserRouter([
+  ...orderManageRoutes,
   ...productManageRoutes,
   ...productRoutes,
   ...loginRoutes,

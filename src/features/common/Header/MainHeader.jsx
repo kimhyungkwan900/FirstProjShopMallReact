@@ -11,7 +11,7 @@ const MainHeader = () => {
 
     const onLogout = async() => {
         try {
-            await axios.post("http://localhost:8080/api/members/logout",{},{
+            await axios.post("http://localhost:8080/api/auth/logout",{},{
                 withCredentials: true
             });
             localStorage.removeItem('accessToken')

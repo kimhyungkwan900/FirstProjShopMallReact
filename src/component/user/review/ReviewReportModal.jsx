@@ -1,24 +1,29 @@
 import { Dialog } from "@headlessui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { reviewReportAction } from "../../../api/user/review/reviewReportApi";
+import { UserContext } from "../../common/Context/UserContext";
 
 const ReviewReportModal = ({ isOpen, onClose, reviewId }) => {
     const [reportReason, setReportReason] = useState("");
     const [detail, setDetail] = useState("");
-
-    const memberId = 1;
+    const { user } = useContext(UserContext);
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); // 기본 동작 방지
+        e.preventDefault();
         if (!reportReason) {
             alert("신고 사유를 선택해주세요.");
+            return;
+        }
+        
+        if (!user) {
+            alert("로그인이 필요합니다.");
             return;
         }
 
         try {
             await reviewReportAction({
             reviewId,
-            memberId,
+            memberId: user?.id,
             reason: reportReason,
             detail,
             });
@@ -29,7 +34,7 @@ const ReviewReportModal = ({ isOpen, onClose, reviewId }) => {
             setDetail("");
         } catch (error) {
             console.error("신고 중 오류 발생:", error);
-            console.log("신고 데이터", { reviewId, memberId, reason: reportReason, detail });
+            console.log("신고 데이터", { reviewId, memberId: user?.id, reason: reportReason, detail });
             alert("신고 처리 중 오류가 발생했습니다.");
         }
     };

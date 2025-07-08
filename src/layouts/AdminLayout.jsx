@@ -31,7 +31,8 @@ const AdminLayout = ({children})=>{
                     </div>
                 </div>
             </nav>
-            <main className="">
+            {/* 임시로 배경색 지정 */}
+            <main className="bg-cyan-400">  
                 {children}
             </main>
         </>

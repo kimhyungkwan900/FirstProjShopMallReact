@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AdminReviewContent from "../../../component/admin/review/AdminReviewContent";
 import AdminReviewSearch from "../../../component/admin/review/AdminReviewSearch";
+import MypageMenu from "../../../component/user/myOrder/MypageMenu";
 
 const AdminReviewPage = () => {
   const [filterType, setFilterType] = useState("ALL");
@@ -23,7 +24,7 @@ const AdminReviewPage = () => {
       <h2 className="text-3xl text-center mt-3 mb-6">관리자 리뷰 페이지</h2>
       <hr className="mb-6" />
       <AdminReviewSearch onSearch={handleSearch} />
-
+      <MypageMenu/>
       <div className="mt-6 flex justify-center">
         <button onClick={() => handleFilterChange("ALL")} className={`p-2 ${filterType === "ALL" ? "bg-blue-500" : "bg-gray-600"} text-white rounded m-1 w-[15%]`}>
           전체리뷰

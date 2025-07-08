@@ -27,7 +27,7 @@ const ProductCard = ({ product }) => {
         {/* 상품 이미지 */}
         <div className="relative">
           <img
-            src={getMainImageUrl(product.images)}
+            src={getMainImageUrl(product.images) || null}
             alt={product.name}
             className="w-full h-48 object-cover rounded-t-xl"
           />

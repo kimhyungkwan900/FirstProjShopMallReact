@@ -6,10 +6,12 @@ import 'swiper/css/navigation';
 import { UserContext } from './component/common/Context/UserContext';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { UserContext } from './component/common/Context/UserContext';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function App() {
   const [user, setUser] = useState(null);
-
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');

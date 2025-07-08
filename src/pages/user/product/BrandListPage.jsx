@@ -1,3 +1,4 @@
+// BrandListPage.jsx
 import React, { useEffect, useState } from 'react';
 import { fetchAllBrands } from '../../../api/user/product/brandApi';
 import { useNavigate } from 'react-router-dom';
@@ -33,41 +34,42 @@ const BrandListPage = () => {
     navigate(`/products/brand/${brandId}`);
   };
 
-  // 이미지 경로 생성 함수
-  const getBrandImageSrc = (brandName) => {
-    return `/images/brands/${brandName}.png`;
-  };
+  const getBrandImageSrc = (brandName) => `/images/brands/${brandName}.png`;
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="w-full bg-gray-50 min-h-screen">
+      {/* ✅ 헤더는 전체 너비로 분리 */}
       <MainHeader />
 
-      <h2 className="text-3xl font-extrabold mb-8 text-center text-gray-800">
-        💼 브랜드 둘러보기
-      </h2>
+      {/* ✅ 본문은 중앙 정렬된 고정 폭 레이아웃 */}
+      <main className="p-6 max-w-7xl mx-auto">
+        <h2 className="text-3xl font-extrabold mb-8 text-center text-gray-800">
+          💼 브랜드 둘러보기
+        </h2>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-20">
-        {brands.map((brand) => (
-          <div
-            key={brand.id}
-            onClick={() => handleClick(brand.id)}
-            className="bg-white shadow-md rounded-2xl p-4 cursor-pointer hover:scale-105 hover:shadow-xl transition transform duration-300 ease-in-out flex flex-col items-center"
-          >
-            <img
-              src={getBrandImageSrc(brand.name)}
-              alt={`${brand.name} 로고`}
-              className="w-16 h-16 object-contain mb-2"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = '/images/brands/default.png';
-              }}
-            />
-            <span className="text-gray-800 font-medium text-center">
-              {brand.name}
-            </span>
-          </div>
-        ))}
-      </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-20">
+          {brands.map((brand) => (
+            <div
+              key={brand.id}
+              onClick={() => handleClick(brand.id)}
+              className="bg-white shadow-md rounded-2xl p-4 cursor-pointer hover:scale-105 hover:shadow-xl transition transform duration-300 ease-in-out flex flex-col items-center"
+            >
+              <img
+                src={getBrandImageSrc(brand.name)}
+                alt={`${brand.name} 로고`}
+                className="w-16 h-16 object-contain mb-2"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = '/images/brands/default.png';
+                }}
+              />
+              <span className="text-gray-800 font-medium text-center">
+                {brand.name}
+              </span>
+            </div>
+          ))}
+        </div>
+      </main>
 
       <Footer />
     </div>

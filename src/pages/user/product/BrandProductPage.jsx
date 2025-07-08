@@ -29,22 +29,29 @@ const BrandProductPage = () => {
   }, [brandId]);
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-10">
+    <div className="w-full bg-gray-50 min-h-screen">
+      {/* ✅ 헤더를 전체 화면 너비로 분리 */}
       <MainHeader />
-      <div className="text-center mb-10">
-        <h2 className="text-3xl font-extrabold text-gray-800">
-          🏷️ {brandName ? `"${brandName}" 브랜드 상품` : '브랜드 상품 목록'}
-        </h2>
-        <p className="text-gray-500 mt-2">
-          {brandName === '브랜드 로딩 실패'
-            ? '브랜드 정보를 불러오는 데 실패했습니다.'
-            : brandName === '알 수 없는 브랜드'
-            ? '존재하지 않는 브랜드입니다.'
-            : '해당 브랜드의 다양한 상품을 만나보세요!'}
-        </p>
-      </div>
 
-      <FilteredProductListFeature filterType="brand" />
+      {/* ✅ 본문은 제한 너비로 감싸기 */}
+      <main className="max-w-screen-xl mx-auto px-4 py-10">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-extrabold text-gray-800">
+            🏷️ {brandName ? `"${brandName}" 브랜드 상품` : '브랜드 상품 목록'}
+          </h2>
+          <p className="text-gray-500 mt-2">
+            {brandName === '브랜드 로딩 실패'
+              ? '브랜드 정보를 불러오는 데 실패했습니다.'
+              : brandName === '알 수 없는 브랜드'
+              ? '존재하지 않는 브랜드입니다.'
+              : '해당 브랜드의 다양한 상품을 만나보세요!'}
+          </p>
+        </div>
+
+        <FilteredProductListFeature filterType="brand" />
+      </main>
+
+      <Footer />
     </div>
   );
 };

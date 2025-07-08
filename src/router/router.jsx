@@ -4,8 +4,10 @@ import loginRoutes from './member/login/LoginRouter';
 import NotFoundPage from '../pages/user/product/NotFoundPage';
 import MainPage from '../pages/MainPage';
 import ReviewRouter from './user/review/ReviewRouter';
+import productManageRoutes from './admin/productmanage/ProductManageRoutes';
 
 const router = createBrowserRouter([
+  ...productManageRoutes,
   ...productRoutes,
   ...loginRoutes,
   ...ReviewRouter,
@@ -18,6 +20,5 @@ const router = createBrowserRouter([
     element: <NotFoundPage />,
   },
 ]);
-
 
 export default router

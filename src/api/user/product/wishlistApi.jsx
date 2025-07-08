@@ -16,12 +16,17 @@ export const fetchWishlist = async (userId) => {
 
 // ✅ 특정 상품 찜 토글 (userId, productId 전달 필수)
 export const toggleWishlistItem = async (productId, userId) => {
+  const token = localStorage.getItem('accessToken'); // 또는 sessionStorage
+
   const response = await axios.post(
     '/api/wishlist/toggle',
     { productId, userId },
     {
-      withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${token}`, // ✅ JWT 인증 토큰 추가
+      }
     }
   );
+
   return response.data;
 };

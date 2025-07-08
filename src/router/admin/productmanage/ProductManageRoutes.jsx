@@ -28,5 +28,4 @@ const ProductManageRouter = [
         element: <Suspense fallback={Loading}><AdProductRegPage/></Suspense>
     },
 ];
-
 export default ProductManageRouter;

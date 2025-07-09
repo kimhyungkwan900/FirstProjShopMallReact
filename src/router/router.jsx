@@ -10,6 +10,7 @@ import myPageRouter from './member/mypage/myPageRouter';
 import CartRouter from './cart/CartRouter';
 import CartButton from '../component/user/cart/CartButton';
 import CartRouter from './cart/CartRouter';
+import OrderRouter from './order/OrderRouter';
 
 const router = createBrowserRouter([
   ...loginRoutes,
@@ -20,6 +21,7 @@ const router = createBrowserRouter([
   ...myPageRouter,
   ...CartButton,
   ...CartRouter,
+  ...OrderRouter,
   {
     path: '/',
     element: <MainPage  />

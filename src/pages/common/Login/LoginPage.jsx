@@ -10,17 +10,26 @@ const LoginPage = () => {
 
     const onLogin = async (userId, password) => {
         try {
-            const response = await axios.post("http://localhost:8080/api/auth/login", {
-                userId,
-                password,
-            });
-            const { accessToken } = response.data; // 백엔드에서 내려준 토큰을 추출
-            localStorage.setItem('accessToken', accessToken);
-            alert("쇼핑몰에 오신걸 환영합니다.");
-            navigate("/");
+        const response = await axios.post(
+            "http://localhost:8080/api/auth/login",
+            { userId, password },
+            {
+            withCredentials: true,
+            validateStatus: (status) => status >= 200 && status < 300
+            }
+        );
+
+        const { accessToken } = response.data;
+        if (!accessToken) {
+            throw new Error("서버에서 accessToken을 받지 못했습니다.");
+        }
+
+        localStorage.setItem("accessToken", accessToken);
+        alert("쇼핑몰에 오신 걸 환영합니다!");
+        navigate("/");
         } catch (e) {
-            console.error(e.response?.data || e.message);
-            alert("ID 및 비밀번호를 확인해주세요");
+        console.error(e.response?.data || e.message);
+        alert("ID 또는 비밀번호를 다시 확인해주세요.");
         }
     };
 

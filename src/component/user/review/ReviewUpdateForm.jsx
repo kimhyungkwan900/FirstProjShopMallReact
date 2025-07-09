@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { reviewUpdate, reviewUpdateAction } from "../../../api/user/review/reviewApi";
 
+import StarRatingInput from "./StarRatingInput";
+
 const ReviewUpdateForm = ({ reviewId, onClose }) => {
   
   const BASE_URL = "http://localhost:8080";
@@ -122,18 +124,14 @@ const ReviewUpdateForm = ({ reviewId, onClose }) => {
 
   return (
     <form onSubmit={handleSubmit}>
+
       <div>
         <input type="hidden" value={reviewId} name="reviewId" />
         <label className="block text-gray-600 font-medium">평점</label>
-        <input
-          type="number"
-          name="score"
-          value={review.score}
-          onChange={handleChange}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2"
-          min={1}
-          max={5}
-        />
+        <StarRatingInput
+          score={review.score}
+          setScore={(newScore) =>
+          setReview((prev) => ({ ...prev, score: newScore }))}/>
       </div>
 
       <div>

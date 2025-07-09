@@ -1,9 +1,9 @@
 import { Suspense, lazy } from "react";
 
 const Loading = <div>Loading...</div>;
-// const AdOrderListPage = lazy(() => import("../../admin/ordermanage/AdOrderListPage"))
 const AdOrderListPage = lazy(() => import("../../../pages/admin/ordermanage/AdOrderListPage"))
 const AdClaimListPage = lazy(() => import("../../../pages/admin/ordermanage/AdClaimListPage"))
+
 
 const OrderManageRouter = [
   {

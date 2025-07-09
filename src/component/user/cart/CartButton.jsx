@@ -1,46 +1,47 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { addCartItem } from "../../../api/user/cart/CartApi";
+import React, { useEffect, useState } from "react";
+import { addCartItem, fetchUserInfo } from "../../../api/user/cart/CartApi";
 
+const CartButton = ({ productId }) => {
+  const [userId, setUserId] = useState(null);
 
-const CartButton=({memebrId, productId})=>{
-
-  const [loading, setloading] = useState(false);
-  const navigate = useNavigate();
-
-  const handleAddToCart = async() =>{
-    if(loading) return;
-    setloading(true); //중복방지
-
-    try{
-      await addCartItem(memebrId, productId, 1)
-      const response = window.confirm("장바구니에 상품이 추가되었습니다.\n장바구니로 이동하시겠습니까?");
-
-      if(response){
-        navigate("/cart"); //장바구니 페이지로 이동
+  // ✅ 사용자 정보 불러오기
+  useEffect(() => {
+    const loadUserInfo = async () => {
+      try {
+        const response = await fetchUserInfo();
+        setUserId(response.data.memberId); // 사용자 ID 저장
+      } catch (error) {
+        console.error("사용자 정보를 불러오지 못했습니다:", error);
+        alert("로그인이 필요합니다.");
       }
-    }catch(error){
-      console.error("장바구니 추가 실패", error);
-      alert("상품을 장바구니에 추가하지 못했습니다.");
-    }finally{
-      setloading(false);
+    };
+
+    loadUserInfo();
+  }, []);
+
+  // ✅ 장바구니 추가
+  const handleAddToCart = async () => {
+    if (!userId) {
+      alert("로그인이 필요합니다.");
+      return;
     }
 
-  }
+    try {
+      await addCartItem(userId, productId, 1); // 수량 1개 추가
+      alert("장바구니에 추가되었습니다.");
+    } catch (error) {
+      console.error("장바구니 추가 실패:", error);
+      alert("장바구니 추가에 실패했습니다.");
+    }
+  };
 
-  return(
+  return (
     <button
       onClick={handleAddToCart}
-      disabled={loading}
-      className={`w-30 py-2 rounded-lg text-white transition duration-200 ${
-        loading
-          ? "bg-gray-400 cursor-not-allowed"
-          : "bg-blue-500 hover:bg-blue-600"
-      }`}
+      className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition"
     >
-      {loading ? "추가 중..." : "장바구니 담기"}
+      장바구니 담기
     </button>
-
   );
 };
 

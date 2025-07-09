@@ -1,18 +1,27 @@
 import axios from "axios";
 
 
+// axios 인스턴스 생성 (쿠키 포함)
+const instance = axios.create({
+  baseURL: "http://localhost:8080", // Spring Boot 서버 주소
+  withCredentials: true,           // ✅ 쿠키 포함
+});
+
+// 사용자 정보 불러오기
+export const fetchUserInfo = () =>
+  instance.get("/api/auth/me");
+
+// 장바구니에 상품 추가
+export const addCartItem = (memberId, productId, quantity) =>
+  instance.post(`/api/cart/items/${productId}`, null, {
+    params: { memberId, quantity },
+  });
+
 // 장바구니 항목 가져오기
 export const fetchCartItems = (memberId) =>
   axios.get(`/api/cart/items`,
     {params : {memberId},
   });
-
-// 장바구니 항목 추가
-export const addCartItem = (memberId, productId, quantity)=>
-  axios.post(`/api/cart/items/${productId}`,null,{
-    params:{memberId, quantity},
-  })
-
 
 // 장바구니 항목 삭제
 export const deleteCartItems = (memberId, itemId) =>

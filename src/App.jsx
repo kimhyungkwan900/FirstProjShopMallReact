@@ -16,6 +16,7 @@ function App() {
 
     if (!token || token === 'null' || token === 'undefined') {
       setUser(null);
+      console.log("토큰 정보 미존재")
       return;
     }
 

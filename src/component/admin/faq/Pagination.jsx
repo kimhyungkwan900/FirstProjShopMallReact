@@ -1,12 +1,12 @@
 import React from "react";
                      
-const Pagination = ({ currnetPage, totalCount, pageSize, onPageChange}) =>{   //지금보고있는 페이지 번호, 전체 faq 수, 한페이지에 보여줄 개수, 페이지 바뀌면 실행되는 함수 
+const Pagination = ({ currentPage, totalCount, pageSize, onPageChange}) =>{   //지금보고있는 페이지 번호, 전체 faq 수, 한페이지에 보여줄 개수, 페이지 바뀌면 실행되는 함수 
     const totalPages = Math.ceil(totalCount / pageSize); //전체 페이지 수 
 
     //현재 페이지 그룹의 시작번호아 끝 번호 계산 
     const groupSize = 10;
-    const currentGroup = Math.floor((currnetPage - 1) / groupSize);
-    const startPage = currnetPage * groupSize + 1;
+    const currentGroup = Math.floor((currentPage - 1) / groupSize);
+    const startPage = currentGroup * groupSize + 1;
     const endPage = Math.min(startPage + groupSize - 1, totalPages);
 
     //페이지 번호 배열 만들기
@@ -35,7 +35,7 @@ const Pagination = ({ currnetPage, totalCount, pageSize, onPageChange}) =>{   //
             ))}
 
             {/* 다음 버튼 */}
-            {endPage < totalPage && (
+            {endPage < totalPages && (
                 <button
                 onClick={()=> onPageChange(endPage + 1)}
                 className="px-2 py-1 border rounded hover:bg-gray-100">다음</button>

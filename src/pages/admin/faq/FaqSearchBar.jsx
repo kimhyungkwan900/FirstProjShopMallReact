@@ -1,3 +1,4 @@
+//검색 바 
 const FaqSearchBar = ({ searchParams, setSearchParams }) => {
   const handleChange = (e) => {
     const {name, value} = e.target;

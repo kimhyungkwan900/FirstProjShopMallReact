@@ -3,7 +3,7 @@ import axios from "axios"
 //등록 상품 전체 조회, 여기에 검색조건 추가
 export const getProductList = async ( productParams ) => {
 
-  const response = await axios.get(`/api/admin/products`, {productParams});
+  const response = await axios.get(`/api/admin/products`, {params: productParams});
   
   return response.data
 }

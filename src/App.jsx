@@ -10,7 +10,16 @@ import axios from 'axios';
 function App() {
   const [user, setUser] = useState(null);
 
+
   useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+
+    if (!token || token === 'null' || token === 'undefined') {
+      setUser(null);
+      console.log("토큰 정보 미존재")
+      return;
+    }
+
     const fetchCurrentUser = async () => {
       try {
         const res = await axios.get('/api/auth/me',{withCredentials: true});
@@ -23,6 +32,7 @@ function App() {
     };
     fetchCurrentUser();
   },[]);
+  
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <RouterProvider router={router}  />

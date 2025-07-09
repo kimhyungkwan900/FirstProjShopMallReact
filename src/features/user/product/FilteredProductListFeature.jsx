@@ -64,7 +64,7 @@ const FilteredProductListFeature = ({ filterType }) => {
     <div className="max-w-screen-xl mx-auto px-4 py-8">
       {/* 페이지 제목 */}
       <h2 className="text-3xl font-extrabold mb-6 text-gray-800 text-center">
-        {filterType === 'category' ? '🛒 카테고리 상품' : '🏷️ 브랜드 상품'}
+        {filterType === 'category' ? '' : ''}
       </h2>
 
       {/* 검색바 + 정렬 옵션 (상단 필터 UI) */}

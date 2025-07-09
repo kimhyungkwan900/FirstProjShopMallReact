@@ -24,6 +24,7 @@ const WishlistPage = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+      
       <Footer />
     </div>
   );

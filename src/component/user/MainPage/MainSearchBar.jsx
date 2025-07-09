@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FiSearch } from "react-icons/fi"; // react-icons 패키지를 사용할 경우
 
 const MainSearchBar = () => {
   const [keyword, setKeyword] = useState('');
@@ -28,14 +29,15 @@ const MainSearchBar = () => {
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder="🔍 원하는 상품을 검색해보세요"
+        placeholder="원하는 상품을 검색해보세요"
         className="flex-grow px-5 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-transparent"
       />
       <button
         onClick={handleSearch}
-        className="px-5 py-2.5 bg-blue-500 text-white text-sm font-semibold hover:bg-blue-600 transition-colors rounded-r-full"
+        className="px-4 py-2.5 bg-white-300 text-black rounded-r-full flex items-center justify-center"
+        title="검색"
       >
-        검색
+        <FiSearch className="w-5 h-5" />
       </button>
     </div>
   );

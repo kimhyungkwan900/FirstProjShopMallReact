@@ -11,9 +11,15 @@ export default defineConfig({
         target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
+        cookieDomainRewrite: 'localhost'
       },
       '/images': {
         target: 'http://localhost:8080', // 🔥 백엔드 서버 주소
+        changeOrigin: true,
+        secure: false,
+      },
+      '/oauth2': {
+        target: 'http://localhost:8080',
         changeOrigin: true,
         secure: false,
       }

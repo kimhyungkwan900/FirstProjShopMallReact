@@ -8,6 +8,7 @@ import productManageRoutes from './admin/productmanage/ProductManageRoutes';
 import orderManageRoutes from './admin/ordermanage/OrderManageRoutes';
 import CartRouter from './cart/CartRouter';
 import OrderRouter from './order/OrderRouter';
+import FaqRouter from './admin/faq/FaqRouter';
 
 const router = createBrowserRouter([
   ...orderManageRoutes,
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   ...ReviewRouter,
   ...CartRouter,
   ...OrderRouter,
+  ...FaqRouter,
   {
     path: '/',
     element: <MainPage  />

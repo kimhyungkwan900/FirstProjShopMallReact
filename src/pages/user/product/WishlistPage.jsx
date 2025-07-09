@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { fetchWishlist } from '../../../api/user/product/wishlistApi';
 import ProductCard from '../../../component/user/product/ProductCard';
 import Footer from '../../../component/common/Footer';
+import { UserContext } from '../../../component/common/Context/UserContext';
 
 const WishlistPage = () => {
   const [wishlist, setWishlist] = useState([]);
-
+  const {user} = useContext(UserContext);
   useEffect(() => {
     const loadWishlist = async () => {
-      const userId = 1; //형관님한테 받아와야 함, id(pk)
+      const userId = user?.id; //형관님한테 받아와야 함, id(pk)
       const data = await fetchWishlist(userId);
       setWishlist(data);
     };
@@ -23,6 +24,7 @@ const WishlistPage = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
+      
       <Footer />
     </div>
   );

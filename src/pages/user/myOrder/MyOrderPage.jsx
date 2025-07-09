@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect ,useState } from "react";
 import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
 
@@ -10,27 +10,57 @@ import MyOrderContent from "../../../component/user/myOrder/MyOrderContent";
 import { fetchMyOrderList } from "../../../api/user/myOrder/MyOrderApi";
 
 const MyOrderPage = () => {
-  const [startDate, setStartDate] = useState(new Date("2024-07-08"));
-  const [endDate, setEndDate] = useState(new Date("2025-07-08"));
+  // 오늘 날짜 (시작일)
+  const today = new Date();
+
+  const oneYearAgo = new Date();
+  // 1년전 날짜 설정
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+
+  // 초기값 지정
+  const [startDate, setStartDate] = useState(oneYearAgo);
+  const [endDate, setEndDate] = useState(today);
   const [keyword, setKeyword] = useState("");
   const [orders, setOrders] = useState([]);
 
+  // 페이지 네이션 
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
+
   const memberId = 1; // 실제 로그인 사용자 ID로 대체 필요
 
-  const loadOrders = async () => {
-     try {
-    const res = await fetchMyOrderList(memberId, 0, 20, startDate, endDate, keyword);
-    console.log("API 응답 res:", startDate, endDate, keyword);
-    setOrders(res.content || []);  // content가 없으면 빈 배열로 처리
-  } catch (e) {
-    console.error("주문 조회 실패", e);
+  const loadOrders = async (page = 0) => {
+  try {
+    const formattedStartDate = startDate?.toISOString().slice(0, 10);
+    const formattedEndDate = endDate?.toISOString().slice(0, 10);
+
+    const res = await fetchMyOrderList(
+      memberId,
+      page,
+      5,
+      formattedStartDate,
+      formattedEndDate,
+      keyword
+    );
+
+    setOrders(res.content || []);
+    setTotalPages(res.totalPages);
+    setCurrentPage(res.number);
+  } catch (error) {
+    console.log("주문 조회 실패", error);
   }
 };
 
   useEffect(() => {
-    loadOrders();
-  }, [startDate, endDate, keyword]);
+    loadOrders(0); //
+  }, []);
 
+
+  const handleSearch = () => {
+  loadOrders(0); // 첫 페이지부터 검색
+};
+ 
   return (
     <div>
       <MainHeader />
@@ -38,9 +68,26 @@ const MyOrderPage = () => {
         startDate={startDate}
         endDate={endDate}
         onStartChange={setStartDate}
-        onEndChange={setEndDate}/>
-      <MyOrderSearch keyword={keyword} setKeyword={setKeyword} />
-      <MyOrderContent orders={orders} />
+        onEndChange={setEndDate}
+        onSearch={handleSearch}
+      />
+      <MyOrderSearch keyword={keyword} setKeyword={setKeyword} onSearch={loadOrders} />
+      <MyOrderContent orders={orders} memberId={memberId} />
+      {totalPages > 1 && (
+        <div className="flex justify-center gap-2 mb-4">
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => loadOrders(index)}
+              className={`px-3 py-1 rounded-md ${
+                currentPage === index ? "bg-blue-500 text-white" : "bg-gray-200"
+              }`}
+              >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+      )}
       <MypageMenu />
       <Footer />
     </div>

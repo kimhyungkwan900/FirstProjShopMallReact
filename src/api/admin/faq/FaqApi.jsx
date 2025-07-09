@@ -7,10 +7,10 @@ export const getFaqList = async(searchParams) =>{
     try{
     const response = await axios.get(`${API_BASE}/search`, {
       params: {
-        category: params.category,
-        keyWord: params.keyWord,
-        page: params.page,
-        size: params.size,
+        category: searchParams.category,
+        keyWord: searchParams.keyWord,
+        page: searchParams.page,
+        size: searchParams.size,               
       },
     });
     return response.data;
@@ -23,28 +23,48 @@ export const getFaqList = async(searchParams) =>{
 
 
 //FAQ 등록
-export const createFaq = async(faqData) =>{
-    const response = await axios.post(`${API_BASE}/create`, faqData);
-    return response.data;
+export const createFaq = async(faqDto) =>{
+    try{
+        const response = await axios.post(`${API_BASE}/create`, faqDto);
+        return response.data;
+    }catch(error){
+        console.error("FAQ 등록 중 오류 발생", error);
+        throw error;
+    }
+
 }
 
 //FAQ 상세 조회
-export const getFaqById = async(id) =>{
-    const response = await axios.get(`${API_BASE}/${id}`)
+export const getFaqById = async (id) => {
+  try {
+    const response = await axios.get(`${API_BASE}/${id}`);
     return response.data;
-}
-
-//FAQ 수정
-export const updateFaq = async(id, faqData) =>{
-    const response = await axios.put(`${API_BASE}/update/${id}`, faqData);
-    return response.data;
-}
-
-//FAQ 삭제
-export const deleteFaqs = async(ids) =>{
-    const response = await axios.delete(`${API_BASE}/delete`, {
-        data: ids,
-    });
-    return response.data;
+  } catch (error) {
+    console.error("FAQ 상세 조회 실패", error);
+    throw error;
+  }
 };
 
+//FAQ 수정
+export const updateFaq = async (id, faqData) => {
+  try {
+    const response = await axios.put(`${API_BASE}/update/${id}`, faqData);
+    return response.data;
+  } catch (error) {
+    console.error("FAQ 수정 실패", error);
+    throw error;
+  }
+};
+
+//FAQ 삭제
+export const deleteFaqs = async (ids) => {
+  try {
+    const response = await axios.delete(`${API_BASE}/delete`, {
+      data: ids, // 요청 body에 배열로 전달
+    });
+    return response.data;
+  } catch (error) {
+    console.error("FAQ 삭제 실패", error);
+    throw error;
+  }
+};

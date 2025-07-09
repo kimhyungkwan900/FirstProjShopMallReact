@@ -64,14 +64,17 @@ const handleAfterBlind = (reviewId, blindReason) => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       {reviews.length === 0 ? (
-        <p className="text-center text-gray-500">리뷰가 없습니다.</p>
+       <div className="flex items-center justify-center text-gray-500 h-60 mt-4 text-center">
+        작성한 리뷰가 없습니다.
+      </div>
       ) : (
         reviews.map((review) => (
-          <div key={review.id} className="items-center justify-between p-4 border border-gray-200 rounded-lg shadow-sm bg-white hover:bg-gray-50 mb-4">
-            <div className="flex justify-between">
-                <div>작성 자 : <strong>{review.memberId}</strong></div> 
+          <div key={review.id} className="items-center justify-between p-4 border border-gray-200 rounded-lg shadow-sm bg-white hover:bg-gray-50 mb-4 font-bold">
+            <div className="flex justify-between font-bold">
+                <div>작성 자 : <strong>{review.userId}</strong></div> 
                 <div>작성 날짜 : {review.createdAt}</div>
             </div>
+            <div>상품 명 : {review.productName}</div>
             <div className="flex justify-between">
             <div className={`font-bold ${review.reviewStatus === 'normal' ? 'text-green-500' : 'text-red-500'}`}>
             <span>상태: </span>

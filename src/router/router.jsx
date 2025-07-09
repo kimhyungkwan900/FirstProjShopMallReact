@@ -9,10 +9,8 @@ import orderManageRoutes from './admin/ordermanage/OrderManageRoutes';
 import myPageRouter from './member/mypage/myPageRouter';
 import CartRouter from './cart/CartRouter';
 import CartButton from '../component/user/cart/CartButton';
-import CartRouter from './cart/CartRouter';
 import OrderRouter from './order/OrderRouter';
 import FaqRouter from './admin/faq/FaqRouter';
-import myPageRouter from './member/mypage/myPageRouter';
 
 const router = createBrowserRouter([
   ...loginRoutes,

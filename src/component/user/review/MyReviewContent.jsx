@@ -49,12 +49,13 @@ useEffect(() => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      {/* 제목 */}
       <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">내가 작성한 리뷰</h2>
 
       {/* 리뷰 없을 때 메시지 */}
       {reviews.length === 0 ? (
-        <div className="text-center text-gray-500 text-lg">작성한 리뷰가 없습니다.</div>
+       <div className="flex items-center justify-center text-gray-500 h-60 mt-4 text-center">
+        작성한 리뷰가 없습니다.
+      </div>
       ) : (
         <div className="space-y-4">
           {reviews.map((review) => (
@@ -66,6 +67,8 @@ useEffect(() => {
               <div className="truncate w-full">
                 {/* 한줄 요약 */}
                 <div className="font-semibold mr-2">
+                  <div>상품 명 : {review.productName}</div>
+                  <hr className="mt-3 mb-3" />
                   <div className="flex justify-between w-full">
                     <div className="break-words whitespace-normal max-w-[85%]">
                       한줄 요약 : {review.summation}
@@ -73,7 +76,6 @@ useEffect(() => {
                   </div>
                 </div>
 
-                <hr className="mt-3 mb-3" />
 
                 {/* 본문 내용 */}
                 <div className="flex">
@@ -114,8 +116,7 @@ useEffect(() => {
                     <ReviewUpdateModalButton reviewId={review.id} />
                     <button
                       className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
-                      onClick={() => handleDelete(review.id)}
-                    >
+                      onClick={() => handleDelete(review.id)}>
                       삭제
                     </button>
                   </div>

@@ -27,13 +27,13 @@ const MainPage = () => {
 
       {/* 인기 상품 섹션 */}
       <section className="max-w-screen-xl mx-auto px-4 py-12">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">🔥 인기 상품</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">인기 상품</h2>
         <PopularProducts />
       </section>
 
       {/* 최신 상품 섹션 */}
       <section className="max-w-screen-xl mx-auto px-4 py-12 bg-white">
-        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">🆕 최신 등록 상품</h2>
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">최신 등록 상품</h2>
         <RecentProducts />
       </section>
 

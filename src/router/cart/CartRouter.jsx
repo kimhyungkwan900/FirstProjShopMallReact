@@ -1,13 +1,12 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import CartPage from '../components/Cart/CartPage';
 
-const CartRouter = () =>{
-    <BrowserRouter>
-        <Routes>
-            <Route path='/cart' element={<CartPage/>}/>
-        </Routes>
-    </BrowserRouter>
-};
+import CartPage from '../../pages/user/cart/CartPage'; 
+
+const CartRouter = [
+ {
+    path : '/cart',
+    element : <CartPage/>
+ },
+
+];
 
 export default CartRouter;

@@ -2,10 +2,12 @@ import { useState } from "react";
 
 import AdminLayout from "../../../layouts/AdminLayout";
 import AdProductListComponent from "../../../component/admin/product/AdProductListComponent";
+import Pagination from "../../../component/admin/product/Pagination";
 
 const AdProductListPage = ()=>{
 
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
     // const [totalCount, setTotalCount] = useState(0);
     const pageSize = 5;
 
@@ -35,32 +37,7 @@ const AdProductListPage = ()=>{
                 검색조건 입력<br/>
                 상품번호: <input type="text" value={filters.productId} onChange={(e)=>setFilters({ ...filters, productId: e.target.value })}/><br/>
                 상품명: <input type="text" value={filters.productName} onChange={(e)=>setFilters({ ...filters, productName: e.target.value })}/><br/>
-                브랜드명:
-                {/* #region 브랜드 select */}
-                <select value={filters.brandName} onChange={(e)=>setFilters({...filters, brandName: e.target.value })}>
-                    <option value="">전체</option>
-                    <option value="1">아라사카</option>
-                    <option value="2">밀리테크</option>
-                    <option value="3">캉 타오</option>
-                    <option value="4">미드나이트</option>
-                    <option value="5">말로리안</option>
-                    <option value="6">테크트로니카</option>
-                    <option value="7">컨스티튜셔널</option>
-                    <option value="8">로스토빅</option>
-                    <option value="9">켄다치</option>
-                    <option value="10">미니스트릿</option>
-                    <option value="11">노블리안</option>
-                    <option value="12">더빈티지</option>
-                    <option value="13">나이트코프</option>
-                    <option value="14">어반나이트</option>
-                    <option value="15">웰메이드</option>
-                    <option value="16">바이오테크니카</option>
-                    <option value="17">네오패션</option>
-                    <option value="18">브루클린웨어</option>
-                    <option value="19">트렌디코어</option>
-                    <option value="20">콘페키</option>
-                </select>
-                {/* #endregion */}
+                브랜드명: <input type="text" value={filters.brandName} onChange={(e)=>setFilters({...filters, brandName: e.target.value })}/><br/>
                 판매상태:
                 <select value={filters.sellStatus} onChange={(e)=>setFilters({...filters, sellStatus: e.target.value })}>
                     <option value="판매중">판매중</option>
@@ -117,7 +94,10 @@ const AdProductListPage = ()=>{
                     <option value="46">유모차/카시트</option>
                 </select>
                 {/* #endregion */}
-                등록일자:
+                <select value={filters.dateType} onChange={(e)=>setFilters({...filters, dateType: e.target.value })}>
+                    <option value="등록일">등록일</option>
+                    <option value="수정일">수정일</option>
+                </select>
                 <input type="date" value={filters.startDate} onChange={(e) => setFilters({ ...filters, startDate: e.target.value })}/>
                 <input type="date" value={filters.endDate} onChange={(e) => setFilters({ ...filters, endDate: e.target.value })}/>
             </div>
@@ -127,11 +107,12 @@ const AdProductListPage = ()=>{
                 searchFilters={appliedFilters}
                 page={currentPage}
                 size={pageSize}
+                changeTotalPages={setTotalPages}
             />
             <div className="mt-12 mb-20">
             {/* <Pagination
                 page={products.number || 0}
-                totalPages={products.totalPages || 0}
+                totalPages={totalPages || 0}
                 onPageChange={handlePageChange}
             /> */}
             </div>

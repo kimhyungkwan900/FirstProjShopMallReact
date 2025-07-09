@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { getProductList } from "../../../api/admin/product/ProductManageApi";
 
-const AdProductListComponent = ({ searchFilters, page, size })=>{
+const AdProductListComponent = ({ searchFilters, page, size, changeTotalPages })=>{
     
     const [product, setProduct] = useState([]);
     
     useEffect(() => {
-        const fetchProducts = async () => {
+        const getProducts = async () => {
 
             const productParams = {
                 ...searchFilters,
@@ -19,20 +19,20 @@ const AdProductListComponent = ({ searchFilters, page, size })=>{
 
                 const { products, productSearchDto, maxPage } = result;
                 const productList = products.content;
+                console.log(productSearchDto);
+                console.log(products.number);
 
-                console.log("상품 목록:", productList);
-                console.log("전체 페이지 수:", products.totalPages);
-                console.log("검색 조건:", productSearchDto);
                 console.log("최대 페이지 표시 수:", maxPage);
 
                 setProduct(productList);
+                changeTotalPages(products.totalPages);
 
             } catch (error) {
                 console.error('상품 목록 불러오기 실패:', error);
             }
         };
 
-        fetchProducts();
+        getProducts();
     }, [searchFilters, page, size]);
 
     return(

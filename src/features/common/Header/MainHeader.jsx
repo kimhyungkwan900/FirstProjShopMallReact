@@ -42,7 +42,7 @@ const MainHeader = () => {
         <div className="flex items-center gap-4">
           {isLoggedIn ? (
             <>
-              <LinkedButton to="/mine" label="마이페이지" />
+              <LinkedButton to="/mypage" label="마이페이지" />
               <LinkedButton to="/cart" label="장바구니" />
               <LinkedButton to="/" label="고객지원" />
               <button

@@ -16,22 +16,28 @@ function App() {
 
     if (!token || token === 'null' || token === 'undefined') {
       setUser(null);
-      console.log("토큰 정보 미존재")
+      console.log("토큰 없음");
       return;
     }
 
     const fetchCurrentUser = async () => {
       try {
-        const res = await axios.get('/api/auth/me',{withCredentials: true});
-        console.log(" 받은 사용자 정보:", res.data);
+        const res = await axios.get('/api/auth/me', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          withCredentials: true
+        });
+        console.log("받은 사용자 정보:", res.data);
         setUser(res.data);
       } catch (err) {
-        console.error('사용자 정보를 불러오지 못했습니다.',err);
+        console.error('사용자 정보를 불러오지 못했습니다.', err);
         setUser(null);
       }
     };
+
     fetchCurrentUser();
-  },[]);
+  }, []);
   
   return (
     <UserContext.Provider value={{ user, setUser }}>

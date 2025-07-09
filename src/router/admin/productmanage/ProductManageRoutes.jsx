@@ -1,7 +1,3 @@
-// import AdminMainPage from "../../../pages/admin/AdminMainPage";
-// import AdProductListPage from "../../../pages/admin/productmanage/AdProductListPage";
-// import AdProductUpdatePage from "../../../pages/admin/productmanage/AdProductUpdatePage";
-// import AdProductRegPage from "../../../pages/admin/productmanage/AdProductRegPage"
 import { Suspense, lazy } from "react";
 
 const Loading = <div>Loading...</div>

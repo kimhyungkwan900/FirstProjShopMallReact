@@ -11,6 +11,7 @@ import CartRouter from './cart/CartRouter';
 import CartButton from '../component/user/cart/CartButton';
 import CartRouter from './cart/CartRouter';
 import OrderRouter from './order/OrderRouter';
+import FaqRouter from './admin/faq/FaqRouter';
 
 const router = createBrowserRouter([
   ...loginRoutes,
@@ -22,6 +23,7 @@ const router = createBrowserRouter([
   ...CartButton,
   ...CartRouter,
   ...OrderRouter,
+  ...FaqRouter,
   {
     path: '/',
     element: <MainPage  />

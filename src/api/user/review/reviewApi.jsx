@@ -47,7 +47,6 @@ export const reviewUpdateAction = async (reviewData, imageFiles) => {
 
   formData.append("reviewId", reviewData.reviewId);
 
-  // 기존 이미지 경로 리스트 (또는 ID 리스트)를 keepFilePaths로 보내야 함
   if (reviewData.existingImageIds && reviewData.existingImageIds.length > 0) {
     reviewData.existingImageIds.forEach((id) => {
       formData.append("keepFilePaths", id);  // 서버가 expect하는 이름과 동일하게
@@ -86,3 +85,4 @@ export const reviewDelete = async(reviewId) => {
   });
   return response.data;
 }
+

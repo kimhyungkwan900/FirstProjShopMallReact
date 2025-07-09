@@ -9,6 +9,7 @@ import orderManageRoutes from './admin/ordermanage/OrderManageRoutes';
 import myPageRouter from './member/mypage/myPageRouter';
 import CartRouter from './cart/CartRouter';
 import CartButton from '../component/user/cart/CartButton';
+import CartRouter from './cart/CartRouter';
 
 const router = createBrowserRouter([
   ...loginRoutes,
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
   ...ReviewRouter,
   ...myPageRouter,
   ...CartButton,
+  ...CartRouter,
   {
     path: '/',
     element: <MainPage  />

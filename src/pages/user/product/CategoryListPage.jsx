@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Footer from '../../../component/common/Footer';
 import MainHeader from '../../../features/common/Header/MainHeader';
 
+// 카테고리 트리 구조 데이터 정의
 const categoryData = [
   {
     title: '패션의류/잡화',
@@ -132,28 +133,36 @@ const categoryData = [
   },
 ];
 
+// 카테고리 트리 페이지 컴포넌트 정의
 const CategoryTreePage = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // 라우터 이동 훅
 
+  // 카테고리 클릭 시 상품 목록 페이지로 이동
   const handleClick = (categoryId) => {
     navigate(`/products/category/${categoryId}`);
   };
 
   return (
+    // 전체 페이지 레이아웃
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+      {/* 상단 공통 헤더 */}
       <MainHeader />
+
+      {/* 메인 콘텐츠 */}
       <main className="flex-grow max-w-screen-lg mx-auto px-4 py-12">
+        {/* 타이틀 */}
         <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
           📁 카테고리 둘러보기
         </h2>
 
+        {/* 2열 그리드로 최상위 카테고리 분류 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {categoryData.map((categoryBlock, i) => (
             <div
               key={i}
               className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
             >
-              {/* 클릭 가능한 타이틀 */}
+              {/* 카테고리 타이틀 (클릭 가능) */}
               <h3
                 className="text-xl font-bold mb-4 text-blue-600 cursor-pointer hover:underline"
                 onClick={() =>
@@ -163,9 +172,11 @@ const CategoryTreePage = () => {
                 {categoryBlock.title}
               </h3>
 
+              {/* 그룹 및 세부 카테고리 출력 */}
               <ul className="space-y-3">
                 {categoryBlock.groups.map((group, j) => (
                   <li key={j}>
+                    {/* 그룹명이 있을 경우 표시 */}
                     {group.name && (
                       <span
                         className="font-semibold text-gray-700 cursor-pointer hover:underline"
@@ -176,11 +187,12 @@ const CategoryTreePage = () => {
                         {group.name}
                       </span>
                     )}
+                    {/* 세부 카테고리 리스트 */}
                     <ul className="ml-4 mt-1 space-y-1">
                       {group.subcategories.map((sub, k) => (
                         <li
                           key={k}
-                          onClick={() => handleClick(sub.id)}
+                          onClick={() => handleClick(sub.id)} // 클릭 시 이동
                           role="button"
                           className="text-sm text-blue-500 hover:underline cursor-pointer"
                         >
@@ -195,6 +207,8 @@ const CategoryTreePage = () => {
           ))}
         </div>
       </main>
+
+      {/* 하단 공통 푸터 */}
       <Footer />
     </div>
   );

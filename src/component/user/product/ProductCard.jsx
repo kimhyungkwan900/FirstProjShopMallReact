@@ -11,7 +11,7 @@ import { UserContext } from '../../common/Context/UserContext';
 const ProductCard = ({ product }) => {
   const { user } = useContext(UserContext);
 
-  const userId = user.id; // 실제 로그인 사용자 ID로 교체 필요 -> 수정 완
+  const userId = user?.id; // 실제 로그인 사용자 ID로 교체 필요 -> 수정 완
 
   return (
     <div className="relative bg-white rounded-xl border border-gray-200 hover:shadow-xl transition duration-300 group overflow-hidden">

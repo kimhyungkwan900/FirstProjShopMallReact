@@ -4,9 +4,9 @@ import { UserContext } from '../../common/Context/UserContext';
 
 const WishlistButton = ({ productId }) => {
   const [liked, setLiked] = useState(false);
-  const [user] = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
-  const userId = user.id;
+  const userId = user?.id;
 
   const toggleWishlist = async () => {
     try {

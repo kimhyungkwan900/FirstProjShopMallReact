@@ -3,6 +3,7 @@ import MyReviewContent from "../../../component/user/review/MyReviewContent";
 import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
 import MypageMenu from "../../../component/user/myOrder/MypageMenu";
+
 const MyReviewPage =() => {
     const memberId = 1;
     return(

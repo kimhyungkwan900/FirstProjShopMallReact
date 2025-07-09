@@ -102,7 +102,7 @@ const ReviewContent = ({ productId, memberId }) => {
       <div
         key={review.id}
         className="bg-white p-6 rounded-2xl shadow-md space-y-4">
-
+          <div>작성자 : {review.memberName}</div>
         <div className="flex justify-between items-center border-b pb-2">
           <span className="text-lg font-semibold text-gray-800">
             한줄 리뷰 : {review.summation || "없음"}

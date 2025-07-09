@@ -38,6 +38,7 @@ const MainHeader = () => {
                     <div className="flex space-x-4">
                         <LinkedButton to="/me" label="마이 페이지" />
                         <LinkedButton to="/cart" label="장바구니" />
+                        <LinkedButton to="/" label="고객지원" />
                         <button onClick={onLogout} className="text-sm font-medium px-3 py-2 hover:text-blue-500 transition">로그아웃</button>
                     </div> 
                     ) : (

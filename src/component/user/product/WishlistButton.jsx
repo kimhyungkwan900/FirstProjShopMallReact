@@ -1,8 +1,12 @@
 import { toggleWishlistItem } from '../../../api/user/product/wishlistApi';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import { UserContext } from '../../common/Context/UserContext';
 
-const WishlistButton = ({ productId, userId }) => {
+const WishlistButton = ({ productId }) => {
   const [liked, setLiked] = useState(false);
+  const { user } = useContext(UserContext);
+
+  const userId = user?.id;
 
   const toggleWishlist = async () => {
     try {

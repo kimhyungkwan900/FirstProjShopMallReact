@@ -12,7 +12,6 @@ const ReviewContent = ({ productId, memberId }) => {
    const BASE_URL = "http://localhost:8080";
 
   const [reviews, setReviews] = useState([]);
-  const [averageScore, setAverageScore] = useState(null);
 
   const [selectedImages, setSelectedImages] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,7 +38,6 @@ const ReviewContent = ({ productId, memberId }) => {
     try {
       const data = await findReviewList(productId, sort);
       setReviews(data.reviewList || []);
-      setAverageScore(data.averageScore);
     } catch (error) {
       console.error("리뷰 불러오기 실패:", error);
     }
@@ -50,7 +48,6 @@ const ReviewContent = ({ productId, memberId }) => {
     try {
       const data = await findReviewList(productId, sortOrder);
       setReviews(data.reviewList || []);
-      setAverageScore(data.averageScore);
 
     } catch (error) {
       console.error("리뷰 불러오기 실패:", error);
@@ -66,9 +63,10 @@ const ReviewContent = ({ productId, memberId }) => {
     <div className="space-y-6">
         {reviews.length !== 0 && (
           <div className="flex justify-between">
-          <h2 className="font-bold text-gray-800">
-            평균 평점: {averageScore ?? "N/A"} <StartRating productId={productId}/> 
-          </h2>
+          <div className="font-bold text-gray-800 flex gap-2">
+            <span>평균 평점 :</span>
+            <StartRating productId={productId}/> 
+          </div>
           <div className="flex space-x-4 mb-4">
 
           <button

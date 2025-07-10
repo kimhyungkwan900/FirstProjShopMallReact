@@ -6,10 +6,10 @@ import Pagination from "../../../component/admin/product/Pagination";
 const AdProductListPage = ()=>{
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
+    // const [totalPages, setTotalPages] = useState(0);
   
     // const [totalCount, setTotalCount] = useState(0);
-    const pageSize = 5;
+    // const pageSize = 5;
 
     const [filters, setFilters] = useState({
         productId: '',
@@ -24,11 +24,13 @@ const AdProductListPage = ()=>{
 
     const [appliedFilters, setAppliedFilters] = useState(filters);
 
-    // const totalPages = Math.ceil(totalCount / pageSize);
-
     const handleSearch = () => {
         setAppliedFilters(filters);
         setCurrentPage(1); // 첫 페이지로 초기화
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
     };
 
     return(
@@ -105,17 +107,9 @@ const AdProductListPage = ()=>{
 
             <AdProductListComponent
                 searchFilters={appliedFilters}
-                page={currentPage}
-                size={pageSize}
-                changeTotalPages={setTotalPages}
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
             />
-            <div className="mt-12 mb-20">
-            <Pagination
-                // page={products.number || 0}
-                totalPages={totalPages || 0}
-                // onPageChange={handlePageChange}
-            />
-            </div>
         </AdminLayout>
     );
 }

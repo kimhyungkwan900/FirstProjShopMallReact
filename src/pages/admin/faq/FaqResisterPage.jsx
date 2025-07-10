@@ -26,7 +26,8 @@ const FaqResisterPage = () =>{
         try{
             await createFaq(faq);
             alert("FAQ가 등록 되었습니다!")
-            navigate("/admin/faq");//목록페이지로 이동
+            // navigate("/admin/faq");//목록페이지로 이동
+            window.location.href = "/admin/faq";
         }catch(error){
             console.log("FAQ 등록 실패", error);
             alert("등록에 실패했습니다");

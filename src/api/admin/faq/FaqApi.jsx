@@ -5,6 +5,9 @@ const API_BASE = "http://localhost:8080/api/admin/faqs"
 //Faq 목록 조회 + 검색
 export const getFaqList = async(searchParams) =>{
     try{
+
+      console.log("📡 getFaqList 실행됨", searchParams);////////////////
+      
     const response = await axios.get(`${API_BASE}/search`, {
       params: {
         category: searchParams.category,
@@ -13,6 +16,8 @@ export const getFaqList = async(searchParams) =>{
         size: searchParams.size,               
       },
     });
+
+    console.log("✅ 백엔드 응답 확인", response.data); ///////
     return response.data;
 
     } catch(error){

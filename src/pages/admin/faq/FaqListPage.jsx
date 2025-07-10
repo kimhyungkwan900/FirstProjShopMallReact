@@ -52,6 +52,8 @@ const FaqListPage = () => {
 
   // 검색 조건이 바뀌거나 페이지 바뀌면 다시 불러오기 
   useEffect(() => {
+
+    console.log("✅ FaqListPage useEffect 실행됨");////////////////
     fetchFaqList();
   }, [searchParams]);
 

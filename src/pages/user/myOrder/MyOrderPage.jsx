@@ -9,6 +9,9 @@ import MyOrderContent from "../../../component/user/myOrder/MyOrderContent";
 
 import { fetchMyOrderList } from "../../../api/user/myOrder/MyOrderApi";
 
+import { useContext } from "react";
+import { UserContext } from "../../../component/common/Context/UserContext";
+
 const MyOrderPage = () => {
   // 오늘 날짜 (시작일)
   const today = new Date();
@@ -23,11 +26,14 @@ const MyOrderPage = () => {
   const [keyword, setKeyword] = useState("");
   const [orders, setOrders] = useState([]);
 
+  // 페이지 네이션 
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
 
-  const memberId = 1; // 실제 로그인 사용자 ID로 대체 필요
+  const {user} = useContext(UserContext);
+  const memberId = user?.id;
+
 
   const loadOrders = async (page = 0) => {
   try {

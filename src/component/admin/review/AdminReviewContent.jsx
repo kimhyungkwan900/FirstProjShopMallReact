@@ -65,7 +65,7 @@ const handleAfterBlind = (reviewId, blindReason) => {
     <div className="max-w-4xl mx-auto px-4 py-8">
       {reviews.length === 0 ? (
        <div className="flex items-center justify-center text-gray-500 h-60 mt-4 text-center">
-        작성한 리뷰가 없습니다.
+        검색한 리뷰가 존재하지 않습니다.
       </div>
       ) : (
         reviews.map((review) => (

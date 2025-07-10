@@ -3,9 +3,13 @@ import MyReviewContent from "../../../component/user/review/MyReviewContent";
 import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
 import MypageMenu from "../../../component/user/myOrder/MypageMenu";
+import { useContext } from "react";
+import { UserContext } from "../../../component/common/Context/UserContext";
+
 
 const MyReviewPage =() => {
-    const memberId = 1;
+    const {user} = useContext(UserContext);
+    const memberId = user?.id;
     return(
         <div>
             <MainHeader/>

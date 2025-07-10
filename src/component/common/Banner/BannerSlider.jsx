@@ -3,8 +3,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 const BannerSlider = ({images}) => {
 
-    const isEmpty = images.length === 0;
-
+    const isArray = Array.isArray(images);
+    const isEmpty = !isArray || images.length === 0;
+    
     return(
         <div className="w-full aspect-[21/5] bg-gray-200">
             <Swiper modules={[Navigation, Autoplay]} loop  autoplay={{ delay: 3000 }} navigation={true} className="w-full h-full">

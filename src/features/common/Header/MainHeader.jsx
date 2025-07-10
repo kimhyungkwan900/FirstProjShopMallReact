@@ -18,8 +18,6 @@ const MainHeader = () => {
       alert("로그아웃 실패");
     }
   };
-
-<<<<<<< HEAD
   return (
     <header className="w-full bg-neutral-900 text-white shadow-md sticky top-0 z-50">
       {/* 상단 네비게이션 */}
@@ -28,54 +26,6 @@ const MainHeader = () => {
         <div className="flex items-center gap-4">
           <LinkedButton to="/brands" label="브랜드" />
           <LinkedButton to="/categories" label="카테고리" />
-=======
-    const isLoggedIn = !!localStorage.getItem('accessToken');
-
-    const onLogout = async() => {
-        try {
-            await axios.post("http://localhost:8080/api/auth/logout",{},{
-                withCredentials: true
-            });
-            localStorage.removeItem('accessToken')
-            alert("로그아웃 되었습니다.")
-            navigate("/")
-        } catch (error) {
-            console.error(error);
-            alert("로그아웃 실패")
-        }
-    };
-
-    return(
-        <div>
-            <header className="w-full bg-neutral-900 text-white px-6 py-2 text-sm">
-                <nav className="flex justify-between items-center">
-                    <div className="flex space-x-4">
-                        <LinkedButton to="/brands" label="브랜드" />
-                        <LinkedButton to="/categories" label="카테고리" />
-                    </div>
-                    <div className="flex space-x-4">
-                        <LinkedButton to="/" label="FirstProjShopMall" className="text-4xl font-extrabold tracking-tight"/>
-                    </div>
-                    {isLoggedIn ? (
-                    <div className="flex space-x-4">
-                        <LinkedButton to="/me" label="마이 페이지" />
-                        <LinkedButton to="/cart" label="장바구니" />
-                        <button onClick={onLogout} className="text-sm font-medium px-3 py-2 hover:text-blue-500 transition">로그아웃</button>
-                    </div> 
-                    ) : (
-                        <div className="flex space-x-4">
-                            <LinkedButton to="/login" label="로그인" />
-                            <LinkedButton to="/signup" label="회원가입" />
-                        </div>
-                    )}
-                </nav>
-                <div className="flex mt-3">
-                    <div className="ml-auto text-black">
-                        <MainSearchBar/>
-                    </div>
-                </div>
-            </header>
->>>>>>> 7e6da87 (2025_07_07_2119)
         </div>
 
         {/* 중앙: 로고 */}

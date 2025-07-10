@@ -7,7 +7,6 @@ import { Navigate } from "react-router-dom";
 
 const MyPage = () => {
     const { user } = useContext(UserContext);
-    const id = user.id;
 
     if (!user) return <Navigate to="/login" replace />;
     

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { addProduct } from "../../../api/admin/product/ProductManageApi"
 
 const initState = {
@@ -16,6 +16,15 @@ const AdProductRegComponent = ()=>{
     const [product, setProduct] = useState({...initState})
     const [files, setFiles] = useState([]); 
 
+    const isFormValid = useMemo(()=>{
+
+        const hasEmptyField = Object.values(product).some(val => val === "" || val == null);
+
+        const hasNoFiles = files.length === 0;
+
+        return !hasEmptyField && !hasNoFiles; 
+    }, [product, files]);
+
     const handleChangeProduct = (e) => {
         product[e.target.name] = e.target.value
 
@@ -26,9 +35,12 @@ const AdProductRegComponent = ()=>{
         setFiles(e.target.files);
     };
 
-    const handleClickAdd = () => {
+    const handleClickAdd = (e) => {
+        e.preventDefault();
+
         const formData = new FormData();
 
+        console.log("product")
         console.log(product);   //나중에 제거
 
         for(const key in product){
@@ -39,9 +51,16 @@ const AdProductRegComponent = ()=>{
             formData.append("itemImgFile", files[i]);
         }
 
-        addProduct(product)
+        console.log("formData")
+        for (const [key, value] of formData.entries()) {
+            console.log("key:", key);
+            console.log("value:", value);
+        }
+
+        addProduct(formData)
         .then(result => {
             console.log(result)
+            // window.location.reload();
         }).catch(e => {
             console.error(e)
         })
@@ -52,23 +71,21 @@ const AdProductRegComponent = ()=>{
             {/* 상품명 */}
             <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                <div className="w-1/5 p-6 text-right font-bold">상품이름</div>
-                <input className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md" 
-                name="name"
-                type={'text'} 
-                value={product.name}
-                onChange={handleChangeProduct}
-                >
-                </input>
-
+                    <div className="w-1/5 p-1 text-right font-bold">상품이름</div>
+                    <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
+                        name="name"
+                        type={'text'} 
+                        value={product.name}
+                        onChange={handleChangeProduct}
+                    />
                 </div>
             </div>
 
             {/* 가격 */}
             <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                <div className="w-1/5 p-6 text-right font-bold">가격</div>
-                <input className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md" 
+                <div className="w-1/5 p-1 text-right font-bold">가격</div>
+                <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="price"
                 type={'text'} 
                 value={product.price}
@@ -81,8 +98,8 @@ const AdProductRegComponent = ()=>{
             {/* 설명 */}
             <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                <div className="w-1/5 p-6 text-right font-bold">상품 설명</div>
-                <input className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md" 
+                <div className="w-1/5 p-5 text-right font-bold">상품 설명</div>
+                <input className="w-4/5 p-5 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="description"
                 type={'text'} 
                 value={product.description}
@@ -95,8 +112,8 @@ const AdProductRegComponent = ()=>{
             {/* 재고 */}
             <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                <div className="w-1/5 p-6 text-right font-bold">재고</div>
-                <input className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md" 
+                <div className="w-1/5 p-1 text-right font-bold">재고</div>
+                <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="stock"
                 type={'text'} 
                 value={product.stock}
@@ -109,9 +126,9 @@ const AdProductRegComponent = ()=>{
             {/* 카테고리 */}
             <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                <div className="w-1/5 p-6 text-right font-bold">카테고리</div>
+                <div className="w-1/5 p-1 text-right font-bold">카테고리</div>
                 {/* #region 카테고리 select */}
-                <select className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md" 
+                <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="categoryId"
                 type={'text'} 
                 value={product.categoryId}
@@ -171,9 +188,9 @@ const AdProductRegComponent = ()=>{
             {/* 브랜드 */}
             <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                <div className="w-1/5 p-6 text-right font-bold">브랜드</div>
+                <div className="w-1/5 p-1 text-right font-bold">브랜드</div>
                 {/* #region 브랜드 select */}
-                <select className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md" 
+                <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="brandId"
                 type={'text'} 
                 value={product.brandId}
@@ -208,8 +225,8 @@ const AdProductRegComponent = ()=>{
             {/* 배송방법 */}
             <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                <div className="w-1/5 p-6 text-right font-bold">배송방법</div>
-                <select className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md" 
+                <div className="w-1/5 p-1 text-right font-bold">배송방법</div>
+                <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="deliveryInfoId"
                 type={'text'} 
                 value={product.deliveryInfoId}
@@ -226,8 +243,8 @@ const AdProductRegComponent = ()=>{
             {/* 판매상태 */}
             <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                <div className="w-1/5 p-6 text-right font-bold">판매상태</div>
-                <select className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md" 
+                <div className="w-1/5 p-1 text-right font-bold">판매상태</div>
+                <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="sellStatus"
                 type={'text'} 
                 value={product.sellStatus}
@@ -242,8 +259,8 @@ const AdProductRegComponent = ()=>{
             {/* 이미지 파일 */}
             <div className="flex justify-center">
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                <div className="w-1/5 p-6 text-right font-bold">상품 이미지</div>
-                <input className="w-4/5 p-6 rounded-r border border-solid border-neutral-500 shadow-md" 
+                <div className="w-1/5 p-1 text-right font-bold">상품 이미지</div>
+                <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="itemImgFile"
                 type={'file'} 
                 multiple
@@ -253,13 +270,24 @@ const AdProductRegComponent = ()=>{
                 </div>
             </div>
 
+            
+            {/* 유효성 안내 문구 */}
+            {!isFormValid && (
+                <div className="text-red-600 text-sm mb-2">
+                모든 필드를 입력하고 최소 1개의 이미지를 선택해주세요.
+                </div>
+            )}
+
             <div className="flex justify-end">
                 <div className="relative mb-4 flex p-4 flex-wrap items-stretch">
-                <button type="button" 
-                className="rounded p-4 w-36 bg-blue-500 text-xl  text-white "
-                onClick={handleClickAdd}          
-                >
-                등록
+                    <button type="button" 
+                        className={`rounded p-2 w-18 text-white ${
+                            isFormValid ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-300 cursor-not-allowed'
+                        }`}
+                        onClick={handleClickAdd}
+                        disabled={!isFormValid}
+                    >
+                    등록
                 </button>
                 </div>
             </div>

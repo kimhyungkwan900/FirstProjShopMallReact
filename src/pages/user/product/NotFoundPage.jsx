@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../../../component/common/Footer';
+import MainHeader from '../../../features/common/Header/MainHeader';
 
 const NotFoundPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+      <MainHeader />
       {/* 메인 콘텐츠 */}
       <main className="flex-grow flex flex-col items-center justify-center px-6 text-center">
         <div className="mb-8">

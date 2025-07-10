@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../../../component/common/Footer';
 import MainHeader from '../../../features/common/Header/MainHeader';
+import { ChevronDown, ChevronUp, Folder } from 'lucide-react';
 
-// 카테고리 트리 구조 데이터 정의
 const categoryData = [
   {
     title: '패션의류/잡화',
@@ -133,82 +133,92 @@ const categoryData = [
   },
 ];
 
-// 카테고리 트리 페이지 컴포넌트 정의
 const CategoryTreePage = () => {
-  const navigate = useNavigate(); // 라우터 이동 훅
+  const navigate = useNavigate();
+  const [openIndexes, setOpenIndexes] = useState([]);
 
-  // 카테고리 클릭 시 상품 목록 페이지로 이동
   const handleClick = (categoryId) => {
     navigate(`/products/category/${categoryId}`);
   };
 
-  return (
-    // 전체 페이지 레이아웃
-    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
-      {/* 상단 공통 헤더 */}
-      <MainHeader />
+  const toggleAccordion = (index) => {
+    setOpenIndexes((prev) =>
+      prev.includes(index)
+        ? prev.filter((i) => i !== index)
+        : [...prev, index]
+    );
+  };
 
-      {/* 메인 콘텐츠 */}
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+      <MainHeader />
       <main className="flex-grow max-w-screen-lg mx-auto px-4 py-12">
-        {/* 타이틀 */}
-        <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">
-          📁 카테고리 둘러보기
+        <h2 className="text-3xl font-bold text-center mb-12 flex items-center justify-center gap-2">
+          <Folder className="text-blue-500" /> 카테고리 둘러보기
         </h2>
 
-        {/* 2열 그리드로 최상위 카테고리 분류 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {categoryData.map((categoryBlock, i) => (
-            <div
-              key={i}
-              className="bg-white p-6 rounded-xl shadow-sm border border-gray-200"
-            >
-              {/* 카테고리 타이틀 (클릭 가능) */}
-              <h3
-                className="text-xl font-bold mb-4 text-blue-600 cursor-pointer hover:underline"
-                onClick={() =>
-                  categoryBlock.titleId && handleClick(categoryBlock.titleId)
-                }
+          {categoryData.map((categoryBlock, i) => {
+            const isOpen = openIndexes.includes(i);
+            return (
+              <div
+                key={i}
+                className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-blue-300 transition-all"
               >
-                {categoryBlock.title}
-              </h3>
+                <button
+                  onClick={() => toggleAccordion(i)}
+                  className="flex justify-between items-center w-full text-left text-xl font-bold text-blue-600 hover:text-blue-700 hover:underline transition-colors"
+                >
+                  <div className="flex items-center gap-2">
+                    <Folder size={20} className="text-blue-500" />
+                    {categoryBlock.title}
+                  </div>
+                  {isOpen ? (
+                    <ChevronUp size={20} className="text-gray-500" />
+                  ) : (
+                    <ChevronDown size={20} className="text-gray-500" />
+                  )}
+                </button>
 
-              {/* 그룹 및 세부 카테고리 출력 */}
-              <ul className="space-y-3">
-                {categoryBlock.groups.map((group, j) => (
-                  <li key={j}>
-                    {/* 그룹명이 있을 경우 표시 */}
-                    {group.name && (
-                      <span
-                        className="font-semibold text-gray-700 cursor-pointer hover:underline"
-                        onClick={() =>
-                          group.groupId && handleClick(group.groupId)
-                        }
-                      >
-                        {group.name}
-                      </span>
-                    )}
-                    {/* 세부 카테고리 리스트 */}
-                    <ul className="ml-4 mt-1 space-y-1">
-                      {group.subcategories.map((sub, k) => (
-                        <li
-                          key={k}
-                          onClick={() => handleClick(sub.id)} // 클릭 시 이동
-                          role="button"
-                          className="text-sm text-blue-500 hover:underline cursor-pointer"
-                        >
-                          ├─ {sub.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+                <div
+                  className={`transition-all duration-500 ease-in-out overflow-hidden transform ${
+                    isOpen
+                      ? 'max-h-[1000px] opacity-100 scale-y-100 translate-y-0 mt-4'
+                      : 'max-h-0 opacity-0 scale-y-95 -translate-y-2'
+                  }`}
+                >
+                  <ul className="space-y-3">
+                    {categoryBlock.groups.map((group, j) => (
+                      <li key={j} className="mb-2">
+                        {group.name && (
+                          <span
+                            className="font-semibold text-gray-700 cursor-pointer hover:underline hover:text-blue-600"
+                            onClick={() => group.groupId && handleClick(group.groupId)}
+                          >
+                            {group.name}
+                          </span>
+                        )}
+                        <ul className="ml-5 mt-1 space-y-1 border-l border-gray-200 pl-3">
+                          {group.subcategories.map((sub, k) => (
+                            <li
+                              key={k}
+                              onClick={() => handleClick(sub.id)}
+                              role="button"
+                              className="text-sm text-blue-500 hover:text-blue-700 hover:underline cursor-pointer transition-colors"
+                            >
+                              ├─ {sub.name}
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </main>
-
-      {/* 하단 공통 푸터 */}
       <Footer />
     </div>
   );

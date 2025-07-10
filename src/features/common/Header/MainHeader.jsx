@@ -22,6 +22,7 @@ const MainHeader = () => {
     <header className="w-full bg-neutral-900 text-white shadow-md sticky top-0 z-50">
       {/* 상단 네비게이션 */}
       <div className="max-w-screen-xl mx-auto px-6 py-3 flex justify-between items-center text-sm">
+        
         {/* 좌측: 메뉴 */}
         <div className="flex items-center gap-4">
           <LinkedButton to="/brands" label="브랜드" />

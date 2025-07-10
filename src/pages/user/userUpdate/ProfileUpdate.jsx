@@ -4,21 +4,25 @@ import { UserContext } from "../../../component/common/Context/UserContext";
 
 const ProfileUpdatePage = () => {
 
+    // 변수 지정
     const { user, setUser } = useContext(UserContext);
     const token = localStorage.getItem("accessToken");
 
+    // 프로필 기본값
     const [profile, setProfile] = useState({
         nickname: '',
         profileImgUrl: '',
         delivAddress: ''
     });
 
+    // 비밀번호 기본값
     const [passwords, setPasswords] = useState({
         currentPassword: "",
         newPassword: "",
         confirmPassword: ""
     });
 
+    // 불러올 값
     useEffect(() => {
         if (user) {
             setProfile({

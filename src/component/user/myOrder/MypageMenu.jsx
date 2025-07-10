@@ -4,7 +4,7 @@ const MypageMenu = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed top-20 left-4 w-52 p-4 border rounded-xl shadow-md mt-10 bg-white z-50">
+    <div className="fixed top-20 left-4 w-52 p-4 border rounded-xl shadow-md mt-20 bg-white z-50">
       <h1 className="text-center text-lg font-semibold mb-4 text-gray-800">📋 마이페이지</h1>
       <div className="flex flex-col gap-2">
         <button
@@ -20,8 +20,15 @@ const MypageMenu = () => {
           나의 주문
         </button>
         <button
+          onClick={() => navigate("/mypage/orderChangeHistory")}
+          className="py-2 px-4 bg-cyan-500 text-white rounded-md hover:bg-cyan-600 transition"
+        >
+          교환/반품/취소
+        </button>
+
+        <button
           onClick={() => navigate("/admin/review")}
-          className="py-2 px-4 bg-fuchsia-400 text-white rounded-md hover:bg-green-600 transition"
+          className="py-2 px-4 bg-indigo-400 text-white rounded-md hover:bg-indigo-600 transition"
         >
           관리자 주문
         </button>

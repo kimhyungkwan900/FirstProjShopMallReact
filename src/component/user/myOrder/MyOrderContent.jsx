@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ReviewWriterFormModal from "../review/ReviewWriterFormModal";
 import MyOrderReturnForm from "./MyOrderReturnForm";
+import { deleteOrder } from "../../../api/user/myOrder/MyOrderDeleteApi";
 
 const MyOrderContent = ({ orders: ordersProp, memberId }) => {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -8,8 +9,8 @@ const MyOrderContent = ({ orders: ordersProp, memberId }) => {
   const [reviewInfo, setReviewInfo] = useState(null);
   const [returnInfo, setReturnInfo] = useState(null);
 
-  
   const [orders, setOrders] = useState([]);
+
 
   const returnTypeLabels = {
   CANCEL_REQUEST: "취소 신청",
@@ -28,7 +29,6 @@ const orderStatusLabels = {
   접수: "배송 준비",
   배송중: "배송중",
   배송완료: "배송완료",
-  // 필요하면 더 추가
 };
 
   useEffect(() => {
@@ -53,6 +53,20 @@ const orderStatusLabels = {
   setIsReturnModalOpen(true);
 };
 
+const handleDeleteOrder = async(orderId) => {
+  if(!window.confirm("정말 삭제 하시겠습니까? (복구 불가능)")){
+    return;
+  }
+  try{
+    await deleteOrder(orderId);
+    setOrders((prev) => 
+    prev.map((order) => 
+    order.id === orderId ? {...order,orderDelete: true} : order));
+  }catch(error){
+    console.log(error + "삭제 실패")
+  } 
+}
+
   if (!orders || orders.length === 0) {
     return (
       <div className="flex items-center justify-center text-gray-500 h-60 mt-4 text-center">
@@ -60,18 +74,19 @@ const orderStatusLabels = {
       </div>
     );
   }
-
   return (
     <div className="px-4 mt-6 space-y-4 w-250 m-auto mb-20">
       {orders.map((order) => (
-       console.log("상품 이미지들:", order.product),
         <div
           key={order.id}
-          className="items-center justify-between p-4 border border-gray-200 rounded-lg shadow-sm bg-white hover:bg-gray-50"
-        >
+          className={`items-center justify-between p-4 border border-gray-200 rounded-lg shadow-sm bg-white hover:bg-gray-50 ${
+            order.orderDelete === true ? 'hidden' : ''
+          }`}
+>
           <div className="flex justify-between">
             <div className="font-semibold pb-2">결제 방식 : {order.paymentMethod}</div>
-            <button className="px-3 bg-gray-400 text-white rounded hover:bg-black transition">
+            <button className="px-3 bg-gray-400 text-white rounded hover:bg-black transition"
+            onClick={() => handleDeleteOrder(order.id)}>
               x
             </button>
           </div>
@@ -82,7 +97,13 @@ const orderStatusLabels = {
 
           <div className="flex justify-between mt-4">
             <div className="font-semibold pb-2 mb-2">
-              상품명 : {order.product?.name || "상품명 없음"}
+              상품명 :<a
+                    href={`/products/${order.product?.id }`}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                  {order.product?.name}
+                </a>
+              
             </div>
             <div className="font-semibold pb-2">
               상태 :

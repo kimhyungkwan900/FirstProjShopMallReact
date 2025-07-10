@@ -21,6 +21,7 @@ const MainHeader = () => {
       alert("로그아웃 실패");
     }
   };
+
   return (
     <header className="w-full bg-neutral-900 text-white shadow-md sticky top-0 z-50">
       {/* 상단 네비게이션 */}

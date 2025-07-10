@@ -37,7 +37,7 @@ const AdProductListComponent = ({ searchFilters, page, size, changeTotalPages })
 
         getProducts();
 
-    }, [searchFilters, page, size]);
+    }, [searchFilters, page, size, changeTotalPages]);
 
     return(
         <ul>

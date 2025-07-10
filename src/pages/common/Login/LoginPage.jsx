@@ -3,15 +3,12 @@ import naverLoginImg from "../../../assets/Naver/2021_Login_with_naver_guideline
 import googleLoginImg from "../../../assets/Google/signin-assets/Web (mobile + desktop)/png@1x/dark/web_dark_rd_na@1x.png";
 import LoginForm from "../../../features/common/oauth/LoginForm";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
-
-    const navigate = useNavigate();
 
     const onLogin = async (userId, password) => {
         try {
         const response = await axios.post(
-            "http://localhost:8080/api/auth/login",
+            "/api/auth/login",
             { userId, password },
             {
             withCredentials: true,
@@ -26,7 +23,7 @@ const LoginPage = () => {
 
         localStorage.setItem("accessToken", accessToken);
         alert("쇼핑몰에 오신 걸 환영합니다!");
-        navigate("/");
+        window.location.replace("/");
         } catch (e) {
         console.error(e.response?.data || e.message);
         alert("ID 또는 비밀번호를 다시 확인해주세요.");

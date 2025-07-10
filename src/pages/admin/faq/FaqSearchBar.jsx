@@ -10,10 +10,22 @@ const FaqSearchBar = ({ searchParams, setSearchParams }) => {
     });
   };
 
+  //검색 버튼 클릭시 실행 
   const handleSearch = (e) =>{
-    e.prevnetDefault(); //새로고침 방지
-  }
+   e.preventDefault(); //새로고침 방지
 
+    if(!searchParams.category || searchParams.category.trim() === ""){
+      alert("카테고리를 선택하세요");
+      return;
+    }
+
+    //검색 실행, 페이지를 1로 고정해주면서 목록 갱신
+    setSearchParams({
+      ...searchParams,
+      page:1,
+    });
+  };
+   
   return (
     <form onSubmit={handleSearch} className="flex items-center space-x-4 mb-4">
       <select

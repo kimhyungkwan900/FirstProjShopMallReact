@@ -19,7 +19,12 @@ export const getProductDetail = async (id) => {
 //상품 등록
 export const addProduct = async (productInfo) => {
 
-  const response = await axios.post(`api/admin/products/new` , productInfo)
+  const response = await axios.post(`/api/admin/products/new` , productInfo,
+    {
+      withCredentials: true,
+      headers: {'Content-Type': 'multipart/form-data'}
+    }
+    );
 
   return response.data
 }

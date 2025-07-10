@@ -4,12 +4,15 @@ import FaqListItem from "./FaqListItem";
 import FaqSearchBar from "./FaqSearchBar";
 import Pagination from "../../../component/admin/faq/Pagination";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 //목록 페이지 겸 메인
 
 const FaqListPage = () => {
 
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   //faq 목록 저장할 상태
   const [faqList, setFaqList] = useState([]);
@@ -41,7 +44,7 @@ const FaqListPage = () => {
   const fetchFaqList = async () => {
     try {
       const response = await getFaqList(searchParams);//백엔드 호출
-      console.log("📦 응답 데이터:", response); //로그 추가
+      
       setFaqList(response.dtoList); //데이터만 따로 저장
       setTotalCount(response.totalCount); // 전체 개수 저장
     } catch (e) {
@@ -50,8 +53,22 @@ const FaqListPage = () => {
   };
 
 
+    useEffect(() => {
+    if (location.state?.resetSearch) {
+      console.log("✅ [resetSearch] 등록 후 초기화 실행됨");
+      setSearchParams({
+        category: "",
+        keyWord: "",
+        page: 1,
+        size: 10,
+      });
+    }
+  }, [location.state]);
+
+
   // 검색 조건이 바뀌거나 페이지 바뀌면 다시 불러오기 
   useEffect(() => {
+    console.log("🕵️‍♀️ searchParams 확인: ", searchParams);
     fetchFaqList();
   }, [searchParams]);
 

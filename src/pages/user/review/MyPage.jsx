@@ -21,7 +21,7 @@ const MyPage = () => {
                         <LinkedButton to={`/mypage/orders`} label="주문목록 / 배송조회" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
                         <LinkedButton to="/mypage/orderChangeHistory" label="취소 / 반품 / 교환" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
                         <LinkedButton to="#" label="결제수단 관리" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
-                        <LinkedButton to={`/order/${id}`} label="영수증 조회" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
+                        <LinkedButton to="/order" label="영수증 조회" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
                     </div>
                     <div className="bg-white rounded-xl shadow divide-y">
                         <LinkedButton to="/mypage/reviews" label="리뷰" className="px-4 py-4 hover:bg-gray-50 block text-sm" />

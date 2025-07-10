@@ -2,10 +2,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import LinkedButton from "../../../component/common/Link/LinkedButton";
 import MainSearchBar from "../../../component/user/MainPage/MainSearchBar";
+import { useContext } from "react";
+import { UserContext } from "../../../component/common/Context/UserContext";
 
 const MainHeader = () => {
   const navigate = useNavigate();
-  const isLoggedIn = !!localStorage.getItem('accessToken');
+  const {user} = useContext(UserContext);
+  const isLoggedIn = !!user;
 
   const onLogout = async () => {
     try {
@@ -23,7 +26,7 @@ const MainHeader = () => {
     <header className="w-full bg-neutral-900 text-white shadow-md sticky top-0 z-50">
       {/* 상단 네비게이션 */}
       <div className="max-w-screen-xl mx-auto px-6 py-3 flex justify-between items-center text-sm">
-        
+
         {/* 좌측: 메뉴 */}
         <div className="flex items-center gap-4">
           <LinkedButton to="/brands" label="브랜드" />

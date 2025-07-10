@@ -81,7 +81,9 @@ const OrderChangeContent = ({ list }) => {
             </div>
           ))
         ) : (
-          <p className="text-gray-500">현재 처리 중인 내역이 없습니다.</p>
+         <div className="flex items-center justify-center text-gray-500 h-60 mt-4 text-center">
+        주문 내역이 없습니다.
+        </div>
         )}
       </div>
     </div>

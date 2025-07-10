@@ -24,8 +24,6 @@ export default defineConfig({
       //   secure: false,
       // }
     },
-    historyApiFallback: true,
-    port: 5173,
-    open: true,
+    
   },
 })

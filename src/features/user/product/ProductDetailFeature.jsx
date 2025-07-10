@@ -14,6 +14,7 @@ import Footer from '../../../component/common/Footer';
 import MainHeader from '../../common/Header/MainHeader';
 import { saveRecentlyViewedProduct } from '../../../utils/user/product/localStorageUtil';
 import StickyRecentlyViewedProducts from '../../../component/user/product/StickyRecentlyViewedProducts';
+import CartButton from '../../../component/user/cart/CartButton';
 
 const ProductDetailFeature = () => {
   const { id } = useParams();
@@ -81,6 +82,10 @@ const ProductDetailFeature = () => {
               <div className="my-2">
                 {/* <AddToCartButton productId={product.id} /> */}
               </div>
+            {/* 장바구니 버튼 자리 */}
+            <div className="my-4">
+              <CartButton productId={product.id} />
+            </div>
 
               {/* 리뷰 작성 */}
               <div>

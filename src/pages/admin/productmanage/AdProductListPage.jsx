@@ -35,17 +35,17 @@ const AdProductListPage = ()=>{
         <AdminLayout>
             <div className="text-1xl">
                 검색조건 입력<br/>
-                상품번호: <input type="text" value={filters.productId} onChange={(e)=>setFilters({ ...filters, productId: e.target.value })}/><br/>
-                상품명: <input type="text" value={filters.productName} onChange={(e)=>setFilters({ ...filters, productName: e.target.value })}/><br/>
-                브랜드명: <input type="text" value={filters.brandName} onChange={(e)=>setFilters({...filters, brandName: e.target.value })}/><br/>
+                상품번호: <input type="text" value={filters.productId} onChange={(e)=>setFilters({ ...filters, productId: e.target.value })} className="border"/><br/>
+                상품명: <input type="text" value={filters.productName} onChange={(e)=>setFilters({ ...filters, productName: e.target.value })} className="border"/><br/>
+                브랜드명: <input type="text" value={filters.brandName} onChange={(e)=>setFilters({...filters, brandName: e.target.value })} className="border"/><br/>
                 판매상태:
-                <select value={filters.sellStatus} onChange={(e)=>setFilters({...filters, sellStatus: e.target.value })}>
+                <select value={filters.sellStatus} onChange={(e)=>setFilters({...filters, sellStatus: e.target.value })}  className="border">
                     <option value="판매중">판매중</option>
                     <option value="품절">품절</option>
                 </select>
                 카테고리:
                 {/* #region 카테고리 select */}
-                <select value={filters.categoryId} onChange={(e)=>setFilters({...filters, categoryId: e.target.value })}>
+                <select value={filters.categoryId} onChange={(e)=>setFilters({...filters, categoryId: e.target.value })}  className="border">
                     <option value="1">패션의류/잡화</option>
                     <option value="2">여성의류</option>
                     <option value="3">원피스</option>
@@ -94,14 +94,14 @@ const AdProductListPage = ()=>{
                     <option value="46">유모차/카시트</option>
                 </select>
                 {/* #endregion */}
-                <select value={filters.dateType} onChange={(e)=>setFilters({...filters, dateType: e.target.value })}>
+                <select value={filters.dateType} onChange={(e)=>setFilters({...filters, dateType: e.target.value })} className="border">
                     <option value="등록일">등록일</option>
                     <option value="수정일">수정일</option>
                 </select>
-                <input type="date" value={filters.startDate} onChange={(e) => setFilters({ ...filters, startDate: e.target.value })}/>
-                <input type="date" value={filters.endDate} onChange={(e) => setFilters({ ...filters, endDate: e.target.value })}/>
+                <input type="date" value={filters.startDate} onChange={(e) => setFilters({ ...filters, startDate: e.target.value })} className="border"/>
+                <input type="date" value={filters.endDate} onChange={(e) => setFilters({ ...filters, endDate: e.target.value })} className="border"/>
             </div>
-            <button onClick={handleSearch}>검색</button>
+            <button className="border" onClick={handleSearch}>검색</button>
 
             <AdProductListComponent
                 searchFilters={appliedFilters}
@@ -110,11 +110,11 @@ const AdProductListPage = ()=>{
                 changeTotalPages={setTotalPages}
             />
             <div className="mt-12 mb-20">
-            {/* <Pagination
-                page={products.number || 0}
+            <Pagination
+                // page={products.number || 0}
                 totalPages={totalPages || 0}
-                onPageChange={handlePageChange}
-            /> */}
+                // onPageChange={handlePageChange}
+            />
             </div>
         </AdminLayout>
     );

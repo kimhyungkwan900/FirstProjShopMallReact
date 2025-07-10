@@ -5,21 +5,21 @@ import axios from 'axios';
 export const fetchWishlist = async (userId) => {
   try {
     const response = await axios.get(`/api/wishlist/user/${userId}`, {
-      withCredentials: true
+      withCredentials: true,
     });
     return response.data;
   } catch (error) {
-    console.error('위시리스트 조회 실패:', error);
+    console.error('❌ 위시리스트 조회 실패:', error);
     return [];
   }
 };
 
-// ✅ 특정 상품 찜 토글 (userId, productId 전달 필수)
+// ✅ 특정 상품 찜 토글
 export const toggleWishlistItem = async (productId, userId) => {
   const token = localStorage.getItem('accessToken');
 
   if (!token) {
-    console.warn('❗️토큰이 없습니다. 로그인 후 시도해주세요.');
+    console.warn('❗️ 토큰이 없습니다. 로그인 후 시도해주세요.');
     return null;
   }
 
@@ -31,7 +31,7 @@ export const toggleWishlistItem = async (productId, userId) => {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true  // ✅ 서버가 세션 쿠키/인증 쿠키도 병행한다면 필수
+        withCredentials: true,
       }
     );
     return response.data;

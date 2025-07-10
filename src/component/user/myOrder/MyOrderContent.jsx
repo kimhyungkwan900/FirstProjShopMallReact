@@ -71,7 +71,9 @@ const orderStatusLabels = {
         >
           <div className="flex justify-between">
             <div className="font-semibold pb-2">결제 방식 : {order.paymentMethod}</div>
-            <button className="px-3 bg-gray-400 text-white rounded hover:bg-black transition">
+            <button className="px-3 bg-gray-400 text-white rounded hover:bg-black transition"
+  
+            >
               x
             </button>
           </div>

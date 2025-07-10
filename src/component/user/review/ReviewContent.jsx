@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { findReviewList, reactReview} from "../../../api/user/review/reviewApi";
 import ReviewImgModal from "./ReviewImgModal";
 import ReviewReportModal from "./ReviewReportModal";
+import StarScore from "./StarScore";
+
+
+import StartRating from "../../common/starRating/StarRating";
 
 const ReviewContent = ({ productId, memberId }) => {
 
@@ -59,12 +63,11 @@ const ReviewContent = ({ productId, memberId }) => {
 }, [productId, sortOrder]);
 
   return (
-
     <div className="space-y-6">
         {reviews.length !== 0 && (
           <div className="flex justify-between">
-          <h2 className="text-2xl font-bold text-gray-800">
-                평균 평점: {averageScore ?? "N/A"}
+          <h2 className="font-bold text-gray-800">
+            평균 평점: {averageScore ?? "N/A"} <StartRating productId={productId}/> 
           </h2>
           <div className="flex space-x-4 mb-4">
 
@@ -102,7 +105,10 @@ const ReviewContent = ({ productId, memberId }) => {
       <div
         key={review.id}
         className="bg-white p-6 rounded-2xl shadow-md space-y-4">
-          <div>작성자 : {review.memberName}</div>
+          <div className="flex justify-between">
+            <div className="font-bold">작성자 : {review.memberNickname}</div>
+            <StarScore score={review.score}/>
+          </div>
         <div className="flex justify-between items-center border-b pb-2">
           <span className="text-lg font-semibold text-gray-800">
             한줄 리뷰 : {review.summation || "없음"}
@@ -113,9 +119,8 @@ const ReviewContent = ({ productId, memberId }) => {
           {review.reviewContent || "내용 없음"}
         </div>
 
-        <div className="text-gray-700">
-          <strong className="text-gray-900">평점 :</strong> {review.score}
-        </div>
+      
+         
 
        <div className="flex justify-between items-center pt-2">
   {/* 버튼 그룹 - 왼쪽 */}

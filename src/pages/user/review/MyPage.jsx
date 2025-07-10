@@ -18,8 +18,8 @@ const MyPage = () => {
                 <h1 className="text-xl font-semibold mb-6">{user.nickname}님의 마이페이지</h1>
                 <div className="space-y-6">
                     <div className="bg-white rounded-xl shadow divide-y">
-                        <LinkedButton to={`/cart/${id}`} label="주문목록 / 배송조회" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
-                        <LinkedButton to="#" label="반품 / 교환" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
+                        <LinkedButton to={`/mypage/orders`} label="주문목록 / 배송조회" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
+                        <LinkedButton to="/mypage/orderChangeHistory" label="취소 / 반품 / 교환" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
                         <LinkedButton to="#" label="결제수단 관리" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
                         <LinkedButton to={`/order/${id}`} label="영수증 조회" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
                     </div>

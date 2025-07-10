@@ -12,9 +12,10 @@ const MyReviewContent = ({ memberId }) => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
+
   const BASE_URL =  "http://localhost:8080";
-  // 최초 렌더링 또는 memberId 변경 시 내 리뷰 목록 불러오기
-useEffect(() => {
+
+  useEffect(() => {
   const fetchReviews = async () => {
     try {
       const data = await myReviewList(memberId, page); // ← page 반영
@@ -33,7 +34,6 @@ useEffect(() => {
   // 리뷰 삭제 함수
   const handleDelete = async (reviewId) => {
     const option = confirm("리뷰를 정말 삭제하시겠습니까? (삭제 후 복구 불가능)");
-
     try {
       if (option) {
         await reviewDelete(reviewId); // 서버에 삭제 요청
@@ -48,8 +48,8 @@ useEffect(() => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">내가 작성한 리뷰</h2>
+    <div className="w-250 mx-auto px-4 py-8">
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center ">내가 작성한 리뷰</h2>
 
       {/* 리뷰 없을 때 메시지 */}
       {reviews.length === 0 ? (
@@ -67,7 +67,12 @@ useEffect(() => {
               <div className="truncate w-full">
                 {/* 한줄 요약 */}
                 <div className="font-semibold mr-2">
-                  <div>상품 명 : {review.productName}</div>
+                  <div>상품 명 : <a
+                    href={`/products/${review.productId}`}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                  {review.productName}
+                </a></div>
                   <hr className="mt-3 mb-3" />
                   <div className="flex justify-between w-full">
                     <div className="break-words whitespace-normal max-w-[85%]">

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { getFaqById, updateFaq } from "../../../api/admin/faq/FaqApi";
 
@@ -50,7 +50,7 @@ const FaqModifyPage = () =>{
 
         return(
         <div className="p-8 max-w-xl mx-auto">
-            <h1 className="text-2xl font-bold mb-6">FAQ 등록</h1>
+            <h1 className="text-2xl font-bold mb-6">FAQ 수정</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
                 {/* 카테고리 */}
                 <div>
@@ -58,15 +58,17 @@ const FaqModifyPage = () =>{
                     <select 
                      name="category"
                      value={faq.category}
-                     onChange={handelChange}
+                     onChange={handleChange}
                      className="w-full border p-2 rounded"
                      required
                     >
                     <option value="">카테고리 선택</option>
                     <option value="배송">배송</option>
+                    <option value="취소/교환/반품">취소/교환/반품</option>
                     <option value="환불">환불</option>
-                    <option value="주문">주문</option>
-                    <option value="회원">회원</option>
+                    <option value="주문/결제">주문/결제</option>
+                    <option value="쿠폰/포인트">쿠폰/포인트</option>
+                    <option value="기타">기타</option>
                     </select>
                 </div>
 
@@ -89,7 +91,7 @@ const FaqModifyPage = () =>{
                     <textarea
                      name="answer"
                      value={faq.answer}
-                     onChange={handelChange}
+                     onChange={handleChange}
                      className="w-full border p-2 rounded"
                      rows={5}
                      required

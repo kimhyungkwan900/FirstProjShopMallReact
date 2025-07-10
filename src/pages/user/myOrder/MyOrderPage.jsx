@@ -23,7 +23,6 @@ const MyOrderPage = () => {
   const [keyword, setKeyword] = useState("");
   const [orders, setOrders] = useState([]);
 
-  // 페이지 네이션 
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 

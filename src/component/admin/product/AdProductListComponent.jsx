@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react'
 import { getProductList } from "../../../api/admin/product/ProductManageApi";
 
+
 const AdProductListComponent = ({ searchFilters, page, size, changeTotalPages })=>{
     
     const [product, setProduct] = useState([]);
     
     useEffect(() => {
+
         const getProducts = async () => {
 
             const productParams = {
@@ -19,6 +21,7 @@ const AdProductListComponent = ({ searchFilters, page, size, changeTotalPages })
 
                 const { products, productSearchDto, maxPage } = result;
                 const productList = products.content;
+
                 console.log(productSearchDto);
                 console.log(products.number);
 
@@ -33,6 +36,7 @@ const AdProductListComponent = ({ searchFilters, page, size, changeTotalPages })
         };
 
         getProducts();
+
     }, [searchFilters, page, size]);
 
     return(

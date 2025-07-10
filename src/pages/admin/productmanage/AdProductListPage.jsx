@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import AdminLayout from "../../../layouts/AdminLayout";
 import AdProductListComponent from "../../../component/admin/product/AdProductListComponent";
 import Pagination from "../../../component/admin/product/Pagination";
@@ -8,6 +7,7 @@ const AdProductListPage = ()=>{
 
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
+  
     // const [totalCount, setTotalCount] = useState(0);
     const pageSize = 5;
 

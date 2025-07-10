@@ -13,6 +13,7 @@ import {
 
 const CartPage = () => {
   const navigate = useNavigate();
+  
 
   const [cartItems, setCartItems] = useState([]); 
   const [total, setTotal] = useState({
@@ -21,6 +22,8 @@ const CartPage = () => {
     grandTotal: 0,
   });
 
+  
+
   // ✅ 장바구니 & 총액 API로 불러오기
   const loadCart = async () => {
   try {
@@ -28,6 +31,8 @@ const CartPage = () => {
     const items = Array.isArray(response.data) ? response.data : []; // 배열인지 확인
     setCartItems(items);
     await loadTotal();
+    console.log("Cart Items:", items);
+
   } catch (error) {
     console.error("장바구니 불러오기 실패", error);
     setCartItems([]); // 에러 시에도 배열로 초기화
@@ -35,18 +40,23 @@ const CartPage = () => {
 };
 
 
-  const loadTotal = async () => {
-    try {
-      const response = await calculateTotalWithDelivery(); // API 호출: 총액 계산
-      if (response.data != null) {
-        setTotal(response.data);
-      } else {
-        setTotal({ totalProductPrice: 0, deliveryFee: 0, grandTotal: 0 });
-      }
-    } catch (error) {
-      console.error("총액 계산 실패", error);
+const loadTotal = async () => {
+  try {
+    const response = await calculateTotalWithDelivery(); // API 호출
+    if (response.data) {
+      setTotal({
+        totalProductPrice: response.data.totalProductPrice,
+        deliveryFee: response.data.deliveryFee,
+        grandTotal: response.data.grandTotal,
+      });
+    } else {
+      setTotal({ totalProductPrice: 0, deliveryFee: 0, grandTotal: 0 });
     }
-  };
+  } catch (error) {
+    console.error("총액 계산 실패", error);
+  }
+};
+
 
   useEffect(() => {
     loadCart(); // ✅ 페이지 진입 시 API 호출
@@ -114,13 +124,13 @@ const CartPage = () => {
             <label className="flex items-center gap-3 text-lg font-medium">
               <input
                 type="checkbox"
-                checked={cartItems.every((item) => item.isSelected)}
+                checked={cartItems.every((item) => item._selected)}
                 onChange={async () => {
                   try {
-                    const isAllSelected = cartItems.every((item) => item.isSelected);
+                    const isAllSelected = cartItems.every((item) => item._selected);
                     await toggleCartAllSelection(!isAllSelected);
                     await loadCart();
-                    setTotal();
+                    loadTotal();
                   } catch (error) {
                     console.error("❌ 전체 선택 API 호출 실패", error);
                   }
@@ -159,6 +169,8 @@ const CartPage = () => {
                     brand={brand}
                     items={items}
                     setCartItems={setCartItems}
+                    updateTotal={loadTotal}
+                    loadCart={loadCart}
                     onDeleteItem={async (itemId) => {
                       try {
                         await deleteCartItems(itemId); // ✅ API 호출: 개별 삭제
@@ -204,6 +216,10 @@ const CartPage = () => {
               <div className="flex justify-between mb-3 text-lg">
                 <span>배송비</span>
                 <span>{(total.deliveryFee ?? 0).toLocaleString()} 원</span>
+              </div>
+
+              <div className="flex justify-between mb-3 text-[15px] text-gray-400">
+                <span>5만원 이상 구매시 무료 배송</span>
               </div>
 
               <div className="flex justify-between mb-5 text-xl font-bold border-t pt-4">

@@ -13,15 +13,15 @@ const BrandGroup = ({
   items,
   setCartItems,
   loadCart,
-  updateTotal,
+  updateTotal
 }) => {
   // ✅ 브랜드 내 모든 상품 선택 여부
-  const isBrandAllSelected = items.every((item) => item.isSelected);
+  const isBrandAllSelected = items.every((item) => item._selected);
 
   // ✅ 브랜드 전체 선택/해제
-  const handleToggleBrandSelect = async () => {
+  const handleToggleBrandSelect = async (checked) => {
   try {
-    await toggleCartBrandSelection(brand, !isBrandAllSelected);
+    await toggleCartBrandSelection(brand, checked);
     await loadCart();
     await updateTotal();
   } catch (error) {
@@ -29,23 +29,28 @@ const BrandGroup = ({
   }
 };
 
-  // ✅ 개별 상품 선택/해제
-  const handleToggleItemSelect = async (itemId) => {
-    try {
-      const isSelected = items.find((item) => item.id === itemId).isSelected;
-      await toggleCartItemSelection(itemId, isSelected);
-      await updateTotal();
-    } catch (error) {
-      console.error("❌ 상품 선택 상태 업데이트 실패", error);
-      setCartItems((prev) => prev); // 롤백
-    }
-  };
+// ✅ 개별 상품 선택/해제
+const handleToggleItemSelect = async (itemId) => {
+  const item = items.find((item) => Number(item.id) === Number(itemId));
+  console.log("itemId:", itemId, "현재 isSelected:", item._selected);
+
+  try {
+    await toggleCartItemSelection(itemId, !item._selected); // 반대값으로 토글
+    await loadCart();
+    await updateTotal(); // ✅ 선택 후 총액 새로고침
+  } catch (error) {
+    console.error("❌ 상품 선택 상태 업데이트 실패", error);
+  }
+};
+
+
 
   // ✅ 수량 변경
   const handleUpdateItemQuantity = async (itemId, quantity) => {
     try {
       await updateCartItemQuantity(itemId, quantity);
       await calculateTotalWithDelivery();
+      await loadCart();
       await updateTotal();
     } catch (error) {
       console.error("❌ 수량 업데이트 실패", error);
@@ -72,7 +77,7 @@ const BrandGroup = ({
           <input
             type="checkbox"
             checked={isBrandAllSelected}
-            onChange={handleToggleBrandSelect}
+            onChange={(e) => handleToggleBrandSelect(e.target.checked)}
             className="w-5 h-5 rounded border-gray-400 accent-blue-600"
           />
           <span>
@@ -91,7 +96,7 @@ const BrandGroup = ({
             {/* 선택 */}
             <input
               type="checkbox"
-              checked={item.isSelected}
+              checked={item._selected}
               onChange={() => handleToggleItemSelect(item.id)}
               className="w-4 h-4 accent-blue-500"
             />

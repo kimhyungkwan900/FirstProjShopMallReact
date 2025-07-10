@@ -31,11 +31,13 @@ export const updateCartItemQuantity = (itemId, quantity) => {
 };
 
 // ✅ 5. 장바구니 항목 선택/해제
-export const toggleCartItemSelection = (itemId, isSelected) => {
-  return axiosInstance.put(`/api/cart/items/${itemId}/select`, null, {
-    params: { isSelected }
+export const toggleCartItemSelection = async (itemId, isSelected) => {
+  const res = await axiosInstance.put(`/api/cart/items/${itemId}/select`, null, {
+    params: { isSelected },
   });
+  return res;
 };
+
 
 // ✅ 6. 장바구니 전체 비우기
 export const clearCart = () => {

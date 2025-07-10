@@ -78,10 +78,6 @@ const ProductDetailFeature = () => {
               <p className="text-gray-600">브랜드: {product.brandName || '브랜드 없음'}</p>
               <p className="text-gray-600">카테고리: {product.categoryName || '카테고리 없음'}</p>
 
-              {/* 장바구니 버튼 자리 */}
-              <div className="my-2">
-                {/* <AddToCartButton productId={product.id} /> */}
-              </div>
             {/* 장바구니 버튼 자리 */}
             <div className="my-4">
               <CartButton productId={product.id} />

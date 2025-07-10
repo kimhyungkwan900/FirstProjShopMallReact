@@ -57,30 +57,34 @@ const BrandListPage = () => {
 
         {/* 브랜드 목록을 그리드로 렌더링 */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-20">
-          {brands.map((brand) => (
-            <div
-              key={brand.id}                           // React key
-              onClick={() => handleClick(brand.id)}    // 클릭 시 이동
-              className="bg-white shadow-md rounded-2xl p-4 cursor-pointer hover:scale-105 hover:shadow-xl transition transform duration-300 ease-in-out flex flex-col items-center"
-            >
-              {/* 브랜드 이미지 */}
-              <img
-                src={getBrandImageSrc(brand.name)}     // 브랜드 이름 기반 이미지 경로
-                alt={`${brand.name} 로고`}            // 접근성 텍스트
-                className="w-16 h-16 object-contain mb-2"
-                onError={(e) => {
-                  e.target.onerror = null;             // 무한 루프 방지
-                  e.target.src = '/images/brands/default.png'; // 이미지 로드 실패 시 기본 이미지
-                }}
-              />
-
-              {/* 브랜드명 표시 */}
-              <span className="text-gray-800 font-medium text-center">
-                {brand.name}
-              </span>
-            </div>
-          ))}
+          {brands.length > 0 ? (
+            brands.map((brand) => (
+              <div
+                key={brand.id}
+                onClick={() => handleClick(brand.id)}
+                className="group bg-white border border-gray-200 rounded-xl p-5 cursor-pointer hover:shadow-lg hover:border-blue-400 transform hover:-translate-y-1 transition-all duration-300 ease-in-out text-center"
+              >
+                <img
+                  src={getBrandImageSrc(brand.name)}
+                  alt={`${brand.name} 로고`}
+                  className="w-20 h-20 object-contain mx-auto mb-3 group-hover:scale-105 transition-transform"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/images/brands/default.png';
+                  }}
+                />
+                <span className="text-gray-800 font-semibold text-base">
+                  {brand.name}
+                </span>
+                {/* 선택적 슬로건 */}
+                {/* <p className="text-xs text-gray-500 mt-1">당신의 스타일을 완성하세요</p> */}
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-gray-500 col-span-full">브랜드가 존재하지 않습니다.</p>
+          )}
         </div>
+
       </main>
 
       {/* 하단 공통 푸터 */}

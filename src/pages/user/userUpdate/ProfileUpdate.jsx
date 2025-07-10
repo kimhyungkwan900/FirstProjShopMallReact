@@ -4,21 +4,25 @@ import { UserContext } from "../../../component/common/Context/UserContext";
 
 const ProfileUpdatePage = () => {
 
+    // 변수 지정
     const { user, setUser } = useContext(UserContext);
     const token = localStorage.getItem("accessToken");
 
+    // 프로필 기본값
     const [profile, setProfile] = useState({
         nickname: '',
         profileImgUrl: '',
         delivAddress: ''
     });
 
+    // 비밀번호 기본값
     const [passwords, setPasswords] = useState({
         currentPassword: "",
         newPassword: "",
         confirmPassword: ""
     });
 
+    // 불러올 값지정 없다면 null
     useEffect(() => {
         if (user) {
             setProfile({
@@ -29,27 +33,37 @@ const ProfileUpdatePage = () => {
         }
     }, [user]);
 
+    // profile set
     const onProfileChange = (e) => {
         setProfile({ ...profile, [e.target.name]: e.target.value });
     };
 
+    // password set JSON 기준 target name: value 값
     const onPasswordChange = (e) => {
         setPasswords({ ...passwords, [e.target.name]: e.target.value });
     };
 
+    // file = target의 file
     const onImageUpload = async (e) => {
         const file = e.target.files[0];
+
+        // file 이 없다면 return
         if (!file) return;
 
+        // FormData() 브라우저 내장 객체 Key-Value 형태로 저장하고 서버로 전송
         const formData = new FormData();
+        // file 에 file 을 담아서 전송
         formData.append("file", file);
 
         try {
+            // post로 formData 를 upload
             const res = await axios.post("http://localhost:8080/api/members/upload", formData, {
                 headers: {
+                    // 요청 헤더에 형식 명시
                     "Content-Type": "multipart/form-data",
                 },
             });
+            // Profile 기존 ImgUrl 을 응답받은 data.imageUrl 로 변경
             setProfile((prev) => ({
                 ...prev,
                 profileImgUrl: res.data.imageUrl,
@@ -66,7 +80,7 @@ const ProfileUpdatePage = () => {
             return;
         }
 
-        // 필수값 체크
+        // 닉네임 빈칸방지
         if (!profile.nickname) {
             alert("닉네임은 필수 입력 항목입니다.");
             return;

@@ -16,19 +16,19 @@ const [detail, setDetail] = useState("");
   }, [isCancel]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!returnType || !reason) {
-      alert("유형과 사유를 입력해주세요.");
-      return;
-    }
+  e.preventDefault();
+  if (!returnType || !reason) {
+    alert("유형과 사유를 입력해주세요.");
+    return;
+  }
 
-    const formData = {
-      orderId,
-      memberId,
-      returnType,
-      reason,
-      detail,
-    };
+  const formData = {
+    orderId,
+    memberId,
+    returnType,
+    reason,
+    detail,
+  };
     try {
       await insertOrderReturn(formData);
       alert("신청이 완료되었습니다.");

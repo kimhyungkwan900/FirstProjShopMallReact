@@ -1,21 +1,19 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import LinkedButton from "../../../component/common/Link/LinkedButton";
 import MainSearchBar from "../../../component/user/MainPage/MainSearchBar";
 import { useContext } from "react";
 import { UserContext } from "../../../component/common/Context/UserContext";
 
 const MainHeader = () => {
-  const navigate = useNavigate();
   const {user} = useContext(UserContext);
   const isLoggedIn = !!user;
 
   const onLogout = async () => {
     try {
-      await axios.post("http://localhost:8080/api/auth/logout", {}, { withCredentials: true });
+      await axios.post("/api/auth/logout", {}, { withCredentials: true });
       localStorage.removeItem('accessToken');
       alert("로그아웃 되었습니다.");
-      navigate("/");
+      window.location.replace("/");
     } catch (error) {
       console.error(error);
       alert("로그아웃 실패");

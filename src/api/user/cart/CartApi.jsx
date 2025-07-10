@@ -2,23 +2,8 @@ import axios from "axios";
 
 // ✅ axios 공통 인스턴스 생성 (쿠키 자동 포함 + baseURL)
 const axiosInstance = axios.create({
-  withCredentials: true,           // ✅ 모든 요청에 쿠키 포함
+  withCredentials: true, // ✅ 이거 중요
 });
-
-// ✅ 세션 만료 시 자동 리다이렉트 처리
-axiosInstance.interceptors.response.use(
-  (response) => response, // 성공 시 그대로 반환
-  (error) => {
-    if (
-      error.response &&
-      error.response.status === 302 &&
-      error.response.headers.location === "/login"
-    ) {
-      window.location.href = "/login"; // ✅ 프론트 로그인 페이지로 이동
-    }
-    return Promise.reject(error);
-  }
-);
 
 
 // ✅ 1. 장바구니에 상품 추가
@@ -47,7 +32,7 @@ export const updateCartItemQuantity = (itemId, quantity) => {
 
 // ✅ 5. 장바구니 항목 선택/해제
 export const toggleCartItemSelection = (itemId, isSelected) => {
-  return axiosInstance.patch(`/api/cart/items/${itemId}/select`, null, {
+  return axiosInstance.put(`/api/cart/items/${itemId}/select`, null, {
     params: { isSelected }
   });
 };
@@ -69,7 +54,7 @@ export const calculateTotalWithDelivery = () => {
 
 // ✅ 9. 장바구니 품절 상태 자동 갱신
 export const refreshCartStockStatus = () => {
-  return axiosInstance.patch(`/api/cart/items/refresh-stock`);
+  return axiosInstance.put(`/api/cart/items/refresh-stock`);
 };
 
 // ✅ 10. 장바구니 항목을 위시리스트로 이동
@@ -81,28 +66,20 @@ export const moveCartItemToWishlist = (cartItemId) => {
 export const requestRestockAlarm = (itemsId) => {
   return axiosInstance.post(`/api/cart/items/${itemsId}/restockAlarm`);
 };
-  // 배송지 목록 조회
-export const fetchAddresses = async (memberId) => {
-  const response = await axios.get(`/api/order/addresses/list`, {
-    params: { memberId },
+
+
+// ✅ 12. 브랜드별 전체 선택
+export const toggleCartBrandSelection = (brandName, isSelected) => {
+  return axiosInstance.put(`/api/cart/items/select-brand/${encodeURIComponent(brandName)}`,
+  null,
+  { params: { isSelected } }
+);
+
+};
+
+// ✅ 13. 장바구니 항목 전체 선택 
+export const toggleCartAllSelection = (isSelected) => {
+  return axiosInstance.put(`/api/cart/items/select-all`, null, {
+    params: { isSelected },
   });
-  return response.data;
-};
-
-// 배송지 추가
-export const addAddress = async (memberId, addressData) => {
-  const response = await axios.post(`/api/order/addresses/add`, addressData, {
-    params: { memberId },
-  });
-  return response.data; // 생성된 배송지 ID 반환
-};
-
-// 배송지 수정
-export const updateAddress = async (addressId, addressData) => {
-  await axios.put(`/api/order/addresses/${addressId}/update`, addressData);
-};
-
-// 배송지 삭제
-export const deleteAddress = async (addressId) => {
-  await axios.delete(`/api/order/addresses/${addressId}/delete`);
 };

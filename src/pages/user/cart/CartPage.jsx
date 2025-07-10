@@ -1,118 +1,91 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BrandGroup from "../../../component/user/cart/BrandGroup";
+import {
+  fetchCartItems,                 // ✅ API 호출: 장바구니 목록 조회
+  updateCartItemQuantity,         // ✅ API 호출: 수량 변경
+  toggleCartItemSelection,        // ✅ API 호출: 개별 선택/해제
+  deleteSelectedItems,            // ✅ API 호출: 선택된 항목 삭제
+  calculateTotalWithDelivery,     // ✅ API 호출: 총액 계산
+  deleteCartItems,
+  toggleCartAllSelection,
+} from "../../../api/user/cart/CartApi";
 
 const CartPage = () => {
   const navigate = useNavigate();
 
-  // 장바구니 데이터 상태 (현재는 목데이터)
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      brand: "브랜드A",
-      name: "린넨 반팔 셔츠",
-      price: 25000,
-      quantity: 2,
-      isSelected: false,
-      imageUrl: "https://picsum.photos/150",
-    },
-    {
-      id: 2,
-      brand: "브랜드A",
-      name: "린넨 긴팔 셔츠",
-      price: 35000,
-      quantity: 1,
-      isSelected: false,
-      imageUrl: "https://picsum.photos/150",
-    },
-    {
-      id: 3,
-      brand: "브랜드B",
-      name: "코튼 팬츠",
-      price: 45000,
-      quantity: 1,
-      isSelected: false,
-      imageUrl: "https://picsum.photos/150",
-    },
-    {
-      id: 4,
-      brand: "브랜드C",
-      name: "코튼 롱 스커트",
-      price: 45000,
-      quantity: 1,
-      isSelected: false,
-      imageUrl: "https://picsum.photos/150",
-    },
-  ]);
-
+  const [cartItems, setCartItems] = useState([]); 
   const [total, setTotal] = useState({
     totalProductPrice: 0,
     deliveryFee: 0,
     grandTotal: 0,
   });
 
-  const calculateTotal = (items) => {
-    const selectedItems = items.filter((item) => item.isSelected);
-    const totalProductPrice = selectedItems.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
-    const deliveryFee = totalProductPrice >= 50000 ? 0 : 3000;
-    const grandTotal = totalProductPrice + deliveryFee;
-    return { totalProductPrice, deliveryFee, grandTotal };
-  };
+  // ✅ 장바구니 & 총액 API로 불러오기
+  const loadCart = async () => {
+  try {
+    const response = await fetchCartItems(); // API 호출
+    const items = Array.isArray(response.data) ? response.data : []; // 배열인지 확인
+    setCartItems(items);
+    await loadTotal();
+  } catch (error) {
+    console.error("장바구니 불러오기 실패", error);
+    setCartItems([]); // 에러 시에도 배열로 초기화
+  }
+};
 
-  const updateTotal = (items) => {
-    const newTotal = calculateTotal(items);
-    setTotal(newTotal);
+
+  const loadTotal = async () => {
+    try {
+      const response = await calculateTotalWithDelivery(); // API 호출: 총액 계산
+      if (response.data != null) {
+        setTotal(response.data);
+      } else {
+        setTotal({ totalProductPrice: 0, deliveryFee: 0, grandTotal: 0 });
+      }
+    } catch (error) {
+      console.error("총액 계산 실패", error);
+    }
   };
 
   useEffect(() => {
-    updateTotal(cartItems);
-  }, [cartItems]);
+    loadCart(); // ✅ 페이지 진입 시 API 호출
+  }, []);
+  
+  
 
-  const handleSelectAll = () => {
-    const selectedItems = cartItems.filter((item) => item.isSelected);
-
-  if (selectedItems.length === 0) {
-    alert("주문할 상품을 선택해주세요.");
-    return;
-  }
-
-  const totalPrice = selectedItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-
-  const deliveryFee = totalPrice >= 50000 ? 0 : 3000;
-  const grandTotal = totalPrice + deliveryFee;
-
-  navigate("/order", {
-    state: {
-      selectedItems,
-      total: {
-        totalProductPrice: totalPrice,
-        deliveryFee,
-        grandTotal,
-      },
-    },
-  });
+  // ✅ 개별 상품 선택/해제 (API 호출)
+  const handleToggleSelect = async (itemId, isSelected) => {
+    try {
+      await toggleCartItemSelection(itemId, isSelected); // API 호출
+      await loadCart(); // 변경 후 장바구니 새로고침
+    } catch (error) {
+      console.error("선택 상태 변경 실패", error);
+    }
   };
 
-  const handleToggleSelectBrand = (brand, selectAll) => {
-    const updatedItems = cartItems.map((item) =>
-      item.brand === brand ? { ...item, isSelected: selectAll } : item
-    );
-    setCartItems(updatedItems);
-    updateTotal(updatedItems);
+  // ✅ 수량 변경 (API 호출)
+  const handleUpdateQuantity = async (itemId, quantity) => {
+    if (quantity < 1) return;
+    try {
+      await updateCartItemQuantity(itemId, quantity); // API 호출
+      await loadCart();
+    } catch (error) {
+      console.error("수량 변경 실패", error);
+    }
   };
 
-  const handleDeleteSelectedItems = () => {
-    const updatedItems = cartItems.filter((item) => !item.isSelected);
-    setCartItems(updatedItems);
-    updateTotal(updatedItems);
+  // ✅ 선택된 상품 삭제 (API 호출)
+  const handleDeleteSelectedItems = async () => {
+    try {
+      await deleteSelectedItems(); // API 호출
+      await loadCart();
+    } catch (error) {
+      console.error("선택된 상품 삭제 실패", error);
+    }
   };
 
+  // ✅ 주문 페이지로 이동
   const handleOrder = () => {
     const selectedItems = cartItems.filter((item) => item.isSelected);
     if (selectedItems.length === 0) {
@@ -120,7 +93,7 @@ const CartPage = () => {
       return;
     }
     const response = window.confirm("주문하시겠습니까?");
-    if(response){
+    if (response) {
       navigate("/order", { state: { selectedItems, total } });
     }
   };
@@ -130,7 +103,6 @@ const CartPage = () => {
       <div className="flex w-full max-w-7xl gap-8">
         {/* 왼쪽: 장바구니 리스트 */}
         <div className="basis-[65%] bg-white rounded-3xl shadow-xl p-6 border border-gray-100 h-auto">
-          {/* 헤더 */}
           <div className="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-gray-200 px-4 py-4 rounded-t-3xl">
             <h1 className="text-3xl font-extrabold text-black flex items-center gap-2">
               🛒 장바구니
@@ -143,9 +115,19 @@ const CartPage = () => {
               <input
                 type="checkbox"
                 checked={cartItems.every((item) => item.isSelected)}
-                onChange={handleSelectAll}
+                onChange={async () => {
+                  try {
+                    const isAllSelected = cartItems.every((item) => item.isSelected);
+                    await toggleCartAllSelection(!isAllSelected);
+                    await loadCart();
+                    setTotal();
+                  } catch (error) {
+                    console.error("❌ 전체 선택 API 호출 실패", error);
+                  }
+                }}
                 className="w-5 h-5 rounded border-gray-400 accent-blue-600 hover:accent-blue-700 cursor-pointer"
               />
+
               <span>전체 선택</span>
             </label>
 
@@ -167,8 +149,8 @@ const CartPage = () => {
               <>
                 {Object.entries(
                   cartItems.reduce((acc, item) => {
-                    if (!acc[item.brand]) acc[item.brand] = [];
-                    acc[item.brand].push(item);
+                    if (!acc[item.brandName]) acc[item.brandName] = [];
+                    acc[item.brandName].push(item);
                     return acc;
                   }, {})
                 ).map(([brand, items]) => (
@@ -176,31 +158,31 @@ const CartPage = () => {
                     key={brand}
                     brand={brand}
                     items={items}
-                    onDeleteItem={(itemId) => {
-                      const updatedItems = cartItems.filter(
-                        (item) => item.id !== itemId
-                      );
-                      setCartItems(updatedItems);
-                      updateTotal(updatedItems);
+                    setCartItems={setCartItems}
+                    onDeleteItem={async (itemId) => {
+                      try {
+                        await deleteCartItems(itemId); // ✅ API 호출: 개별 삭제
+                        await loadCart();
+                      } catch (error) {
+                        console.error("상품 삭제 실패", error);
+                      }
                     }}
-                    onUpdateQuantity={(itemId, quantity) => {
-                      if (quantity < 1) return;
-                      const updatedItems = cartItems.map((item) =>
-                        item.id === itemId ? { ...item, quantity } : item
-                      );
-                      setCartItems(updatedItems);
-                      updateTotal(updatedItems);
-                    }}
+                    onUpdateQuantity={handleUpdateQuantity}
                     onToggleSelect={(itemId) => {
-                      const updatedItems = cartItems.map((item) =>
-                        item.id === itemId
-                          ? { ...item, isSelected: !item.isSelected }
-                          : item
-                      );
-                      setCartItems(updatedItems);
-                      updateTotal(updatedItems);
+                      const currentItem = cartItems.find((item) => item.id === itemId);
+                      handleToggleSelect(itemId, !currentItem.isSelected);
                     }}
-                    onToggleSelectBrand={handleToggleSelectBrand}
+                    onToggleSelectBrand={async (brand, selectAll) => {
+                      try {
+                        const brandItems = cartItems.filter((item) => item.brand === brand);
+                        for (const item of brandItems) {
+                          await toggleCartItemSelection(item.id, selectAll); // ✅ API 호출: 브랜드별 선택/해제
+                        }
+                        await loadCart();
+                      } catch (error) {
+                        console.error("브랜드별 선택 실패", error);
+                      }
+                    }}
                   />
                 ))}
               </>
@@ -216,12 +198,12 @@ const CartPage = () => {
 
               <div className="flex justify-between mb-3 text-lg">
                 <span>상품 합계</span>
-                <span>{total.totalProductPrice.toLocaleString()} 원</span>
+                <span>{(total.totalProductPrice ?? 0).toLocaleString()} 원</span>
               </div>
 
               <div className="flex justify-between mb-3 text-lg">
                 <span>배송비</span>
-                <span>{total.deliveryFee.toLocaleString()} 원</span>
+                <span>{(total.deliveryFee ?? 0).toLocaleString()} 원</span>
               </div>
 
               <div className="flex justify-between mb-5 text-xl font-bold border-t pt-4">

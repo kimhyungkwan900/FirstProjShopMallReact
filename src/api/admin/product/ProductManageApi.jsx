@@ -38,4 +38,5 @@ export const deleteProduct = async (id) => {
   const response = await axios.delete(`api/admin/products/${id}` )
 
   return response.data
+
 }

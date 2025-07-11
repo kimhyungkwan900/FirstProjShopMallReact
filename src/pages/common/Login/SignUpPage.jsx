@@ -8,7 +8,10 @@ const SignUpPage = () => {
 
     const onSignUp = async (form) => {
     try {
-        const response = await axios.post("http://localhost:8080/api/members/signup", form);
+        console.log("가입 요청 데이터:", form);
+        const response = await axios.post("http://localhost:8080/api/members/signup", form, {
+            withCredentials: true,
+        });
 
         // 200번대 응답인지 확인
         if (response.status >= 200 && response.status < 300) {

@@ -3,19 +3,23 @@ import { deleteFaqs, getFaqList } from "../../../api/admin/faq/FaqApi"; //백엔
 import FaqListItem from "./FaqListItem";
 import FaqSearchBar from "./FaqSearchBar";
 import Pagination from "../../../component/admin/faq/Pagination";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate,  useLocation } from "react-router-dom";
 
 //목록 페이지 겸 메인
 
 const FaqListPage = () => {
 
   const navigate = useNavigate();
-
   const location = useLocation();
 
   //faq 목록 저장할 상태
   const [faqList, setFaqList] = useState([]);
+
+  //전체 페이지 수 
+  const [totalCount, setTotalCount] =useState(0);
+
+  //체크박스 선택된 id들 
+  const [checkedItems, setCheckedItems] = useState([]);
 
   //검색 조건 및 페이지 정보
   const [searchParams, setSearchParams] = useState({
@@ -25,11 +29,7 @@ const FaqListPage = () => {
     size: 10,
   });
 
-  //전체 페이지 수 
-  const [totalCount, setTotalCount] =useState(0);
-
-  //체크박스 선택된 id들 
-  const [checkedItems, setCheckedItems] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
 
   //체크박스 클릭시 id 저장 또는 제거 
@@ -41,21 +41,42 @@ const FaqListPage = () => {
 
 
   //faq 불러오기 
-  const fetchFaqList = async () => {
+  const fetchFaqList = async (params = searchParams) => {
+    console.log("📦 요청 searchParams:", params);
+
     try {
-      const response = await getFaqList(searchParams);//백엔드 호출
-      
-      setFaqList(response.dtoList); //데이터만 따로 저장
-      setTotalCount(response.totalCount); // 전체 개수 저장
+      const response = await getFaqList(params);
+
+      console.log("📦 받아온 응답:", response);
+
+      setFaqList(response.dtoList || []); //데이터만 따로 저장
+      setTotalCount(response.totalCount || 0); // 전체 개수 저장
+
     } catch (e) {
       console.error("FAQ 목록을 불러오는데 실패했습니다.", e);
     }
   };
 
 
+   // ✅ 검색창에서 검색 실행 시
+  const handleSearch = ({ category, keyWord }) => {
+    setIsSearching(true);
+
+    const newParams = {
+      category,
+      keyWord,
+      page: 1,
+      size: 10,
+    };
+
+    setSearchParams(newParams);     // 상태 업데이트
+    fetchFaqList(newParams);        // 바로 목록 요청 실행
+  };
+
+
     useEffect(() => {
     if (location.state?.resetSearch) {
-      console.log("✅ [resetSearch] 등록 후 초기화 실행됨");
+    
       setSearchParams({
         category: "",
         keyWord: "",
@@ -68,10 +89,21 @@ const FaqListPage = () => {
 
   // 검색 조건이 바뀌거나 페이지 바뀌면 다시 불러오기 
   useEffect(() => {
-    console.log("🕵️‍♀️ searchParams 확인: ", searchParams);
     fetchFaqList();
-  }, [searchParams]);
+    setIsSearching(false); // 검색 플래그 초기화
+  }, [searchParams.page, searchParams.size]);
 
+
+  //  //totalCount 변경 시, 현재 페이지가 유효한지 확인
+  // useEffect(() => {
+  //   const totalPage = Math.ceil(totalCount / searchParams.size);
+  //   if (searchParams.page > totalPage && totalPage > 0) {
+  //     setSearchParams((prev) => ({
+  //       ...prev,
+  //       page: 1,
+  //     }));
+  //   }
+  // }, [totalCount]);
 
 
     //faq 삭제하기
@@ -103,7 +135,8 @@ const FaqListPage = () => {
       {/* 검색바 */}  
       <FaqSearchBar 
       searchParams={searchParams}
-      setSearchParams={setSearchParams} />
+      setSearchParams={setSearchParams} 
+      onSearch={handleSearch}/>
 
       {/* 목록 테이블 */}  
       <table className="w-full border">
@@ -128,12 +161,12 @@ const FaqListPage = () => {
           ))}
         </tbody> */}
         <tbody>
-          {faqList && faqList.length > 0 ? (
+          {faqList.length > 0 ? (
             faqList.map((faq, index) => (
             <FaqListItem 
               key={faq.id} 
               faq={faq} 
-              index={index + 1 + ((searchParams.page - 1) * searchParams.size)}
+              index={index + 1 + (searchParams.page - 1) * searchParams.size}
               isChecked={checkedItems.includes(faq.id)}
               onCheck={handleCheck}
             />

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { UserContext } from "../../component/common/Context/UserContext";
-import AddressCard from "../../component/common/AddressCard";
-import AddressForm from "../../component/common/AddressForm";
+import { UserContext } from "../../../component/common/Context/UserContext";
+import AddressCard from "../../../component/user/Address/AddressCard";
+import AddressForm from "../../../component/user/Address/AddressForm";
 
 const UserAddressList = () => {
   const [addresses, setAddresses] = useState([]);

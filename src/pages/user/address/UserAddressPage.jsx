@@ -1,6 +1,6 @@
 import MainFooter from "../../../features/common/Footer/MainFooter";
 import MainHeader from "../../../features/common/Header/MainHeader";
-import UserAddressList from "../../../features/common/Address/UserAddressList";
+import UserAddressList from "../../../features/user/Address/UserAddressList";
 
 const UserAddressPage =() =>{
     return(

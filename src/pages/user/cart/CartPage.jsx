@@ -99,8 +99,8 @@ const loadTotal = async () => {
   };
 
   // ✅ 주문 페이지로 이동
-  const handleOrder = () => {
-    const selectedItems = cartItems.filter((item) => item.isSelected);
+  const handleOrder = async() => {
+    const selectedItems = cartItems.filter((item) => item._selected);
     if (selectedItems.length === 0) {
       alert("주문할 상품을 선택해주세요.");
       return;

@@ -6,7 +6,7 @@ import {
   calculateTotalWithDelivery,
   toggleCartBrandSelection,
 } from "../../../api/user/cart/CartApi";
-import CartPage from "../../../pages/user/cart/CartPage";
+import WishlistButton from "../product/WishlistButton";
 
 const BrandGroup = ({
   brand,
@@ -15,6 +15,7 @@ const BrandGroup = ({
   loadCart,
   updateTotal
 }) => {
+
   // ✅ 브랜드 내 모든 상품 선택 여부
   const isBrandAllSelected = items.every((item) => item._selected);
 
@@ -62,6 +63,7 @@ const handleToggleItemSelect = async (itemId) => {
   const handleDeleteItem = async (itemId) => {
     try {
       await deleteCartItems(itemId);
+      await loadCart();
       await updateTotal();
     } catch (error) {
       console.error("❌ 상품 삭제 실패", error);
@@ -105,15 +107,16 @@ const handleToggleItemSelect = async (itemId) => {
             <img
               src={item.imageUrl || "/images/default-product.png"}
               alt={item.name}
-              className="w-20 h-20 rounded-lg border object-cover"
+              className="w-25 h-25 rounded-lg border object-cover"
             />
 
             {/* 상품 정보 */}
             <div>
               <p className="font-medium text-gray-900 text-base">{item.productTitle}</p>
-              <p className="text-gray-500 text-sm">
-                  {(item.productPrice ?? 0).toLocaleString()}원
+              <p className="text-gray-500 text-sm flex space-x-4">
+                  <span >{(item.quantity ?? 0).toLocaleString()}개</span>
               </p>
+
               <div className="flex gap-3 mt-2 items-center">
                 {/* 수량 - */}
                 <button
@@ -135,13 +138,23 @@ const handleToggleItemSelect = async (itemId) => {
             </div>
           </div>
 
-          {/* 삭제 버튼 */}
-          <button
-            onClick={() => handleDeleteItem(item.id)}
-            className="text-red-500 text-sm font-medium hover:underline"
-          >
-            삭제
-          </button>
+
+          {/* 찜 버튼 */}
+          <div className="flex gap-2">
+            <div>
+              <span className="text-xl font-bold">{(item.productPrice ?? 0).toLocaleString()}원</span>
+            </div>
+
+            <WishlistButton productId={item.product_id} />
+
+            {/* 삭제 버튼 */}
+            <button
+              onClick={() => handleDeleteItem(item.id)}
+              className="hover:scale-110 transition-transform duration-150 text-xl"
+            >
+              🗑️
+            </button>
+          </div>
         </div>
       ))}
     </div>

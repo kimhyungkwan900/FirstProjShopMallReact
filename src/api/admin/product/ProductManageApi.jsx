@@ -38,9 +38,9 @@ export const patchProduct = async (updateInfo) => {
 }
 
 //특정 상품 삭제
-export const deleteProduct = async (id) => {
+export const deleteProduct = async (productIds) => {
 
-  const response = await axios.delete(`api/admin/products/${id}` )
+  const response = await axios.delete(`/api/admin/products`, {data: productIds});
 
   return response.data
 

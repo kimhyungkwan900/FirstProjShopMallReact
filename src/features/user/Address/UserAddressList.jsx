@@ -48,7 +48,7 @@ const UserAddressList = () => {
           onClick={() => setEditingAddress(null)} // 빈 폼 보여주기
           className="text-blue-500 text-sm font-semibold flex items-center justify-center mx-auto" >
           <span className="mr-1 text-xl">+</span> 배송지 추가
-        </button>s
+        </button>
       </div>
     </div>
   );

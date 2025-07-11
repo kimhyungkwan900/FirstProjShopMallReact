@@ -41,15 +41,14 @@ export const reviewUpdate = async (reviewId) => {
   return response.data;
 };
 
-
 export const reviewUpdateAction = async (reviewData, imageFiles) => {
   const formData = new FormData();
 
   formData.append("reviewId", reviewData.reviewId);
 
-  if (reviewData.existingImageIds && reviewData.existingImageIds.length > 0) {
-    reviewData.existingImageIds.forEach((id) => {
-      formData.append("keepFilePaths", id);  // 서버가 expect하는 이름과 동일하게
+  if (reviewData.keepImageIds && reviewData.keepImageIds.length > 0) {
+    reviewData.keepImageIds.forEach((id) => {
+      formData.append("keepImageIds", id); // 서버가 인식할 이름
     });
   }
 
@@ -59,11 +58,15 @@ export const reviewUpdateAction = async (reviewData, imageFiles) => {
   });
   formData.append("review", reviewBlob);
 
-  // 새로 추가한 이미지 파일들
   if (imageFiles && imageFiles.length > 0) {
     imageFiles.forEach((file) => {
       formData.append("reviewImgFile", file);
     });
+  }
+
+  // ✅ formData에 뭐가 들어있는지 확인
+  for (let pair of formData.entries()) {
+    console.log(pair[0], pair[1]);
   }
 
   const response = await axios.put(
@@ -78,6 +81,8 @@ export const reviewUpdateAction = async (reviewData, imageFiles) => {
 
   return response.data;
 };
+
+
 // 서버에 리뷰 삭제 요청 
 export const reviewDelete = async(reviewId) => {
   const response = await axios.delete(`${API_BASE_URL}/mypage/review/delete`,{

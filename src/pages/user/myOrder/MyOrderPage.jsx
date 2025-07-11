@@ -59,12 +59,12 @@ const MyOrderPage = () => {
 };
 
   useEffect(() => {
-    loadOrders(0); //
+    loadOrders(0); 
   }, []);
 
 
   const handleSearch = () => {
-  loadOrders(0); // 첫 페이지부터 검색
+  loadOrders(0); 
 };
 
 const handleDeleteOrder = async (orderId) => {

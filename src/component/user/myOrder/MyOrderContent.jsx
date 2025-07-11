@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ReviewWriterFormModal from "../review/ReviewWriterFormModal";
 import MyOrderReturnForm from "./MyOrderReturnForm";
-import { deleteOrder } from "../../../api/user/myOrder/MyOrderDeleteApi";
+import MyOrderDeleteButton from "./MyOrderDeleteButton";
 
 const MyOrderContent = ({ orders: ordersProp, memberId, onDelete }) => {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -53,18 +53,7 @@ const orderStatusLabels = {
   setIsReturnModalOpen(true);
 };
 
-const handleDeleteOrder = async (orderId) => {
-  if (!window.confirm("정말 삭제 하시겠습니까? (복구 불가능)")){
-    return;
-  } 
 
-  try {
-    await deleteOrder(orderId);
-    onDelete(orderId);
-  } catch (error) {
-    console.error("삭제 실패:", error);
-  }
-};
 
   if (!orders || orders.length === 0) {
     return (
@@ -84,10 +73,13 @@ const handleDeleteOrder = async (orderId) => {
 >
           <div className="flex justify-between">
             <div className="font-semibold pb-2">결제 방식 : {order.paymentMethod}</div>
-            <button className="px-3 bg-gray-400 text-white rounded hover:bg-black transition"
-            onClick={() => handleDeleteOrder(order.id)}>
-              x
-            </button>
+            <MyOrderDeleteButton
+              orderId={order.id}
+              onDelete={(orderId) => {
+                setOrders((prev) => prev.filter((o) => o.id !== orderId));
+                onDelete(orderId);
+              }}
+            />
           </div>
 
           <div className="flex items-center space-x-2 mb-2 justify-between">
@@ -130,8 +122,9 @@ const handleDeleteOrder = async (orderId) => {
             </div>
 
             <div className="ml-auto text-right mt-5">
-              <div className="font-semibold pb-2">주문 수량 : {order.totalCount}</div>
-              <div className="font-semibold pb-2">총 주문 금액 : {order.totalAmount}</div>
+              <div className="font-semibold">주문 수량 : {order.totalCount}</div>
+              <div className="font-semibold">상품 가격 : {order.product?.price}</div>
+              <div className="font-semibold">총 주문 금액 : {order.totalAmount}</div>
             </div>
           </div>
 

@@ -56,11 +56,15 @@ const ReviewUpdateForm = ({ reviewId, onClose }) => {
 
   // 특정 인덱스에 해당하는 이미지를 삭제하는 함수
   const handleRemoveImg = (indexToRemove) => {
-    // 이미지 미리보기 배열에서 해당 인덱스를 제외한 나머지를 남김
-    setImagePreviews((prev) => prev.filter((_, idx) => idx !== indexToRemove));
-    // 실제 이미지 파일 배열에서도 동일하게 해당 인덱스를 제외 
-    setImageFiles((prev) => prev.filter((_, idx) => idx !== indexToRemove));
-  };
+  setImagePreviews((prev) => prev.filter((_, idx) => idx !== indexToRemove));
+  setImageFiles((prev) => prev.filter((_, idx) => idx !== indexToRemove));
+
+  setReview((prev) => {
+    if (!prev.existingImageIds) return prev;
+    const newExistingIds = prev.existingImageIds.filter((_, idx) => idx !== indexToRemove);
+    return { ...prev, existingImageIds: newExistingIds };
+  });
+};
 
   // 수정을 누른 리뷰 번호를 reviewUpdate 를 호출해 받아와서 변화 
   useEffect(() => {
@@ -76,8 +80,12 @@ const ReviewUpdateForm = ({ reviewId, onClose }) => {
           summation: result.summation || "",
           reviewContent: result.reviewContent || "",
           score: result.score || 0,
+          existingImageIds: result.reviewImgDTOList
+          ? result.reviewImgDTOList.map(img => img.id)
+          : [],
         });
        
+        console.log(result.reviewImgDTOList)
 
         const previews = data.reviewImgDTOList.map((img) => BASE_URL + img.filePath);
         setImagePreviews(previews);
@@ -102,26 +110,28 @@ const ReviewUpdateForm = ({ reviewId, onClose }) => {
 
   // 수정한 리뷰 reviewupdateAction 호출 백엔드 연동 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      // 서버에 리뷰 수정 요청을 보냄
-      await reviewUpdateAction(
-        {
-          ...review, // 기존 리뷰 데이터 복사
-          reviewId, //  수정할 리뷰의 고유 ID 추가 
-        },
-        imageFiles // 함께 전송할 이미지 파일들
-      );
-      alert("리뷰가 성공적으로 수정되었습니다.");
-      onClose?.();
-      // 페이지 새로고침으로 변경 사항 반영 
-      window.location.reload();
-    } catch (err) {
-      console.error(err);
-      alert("리뷰 수정 실패");
-    }
-  };
+  e.preventDefault();
+  try {
+    // 서버에 리뷰 수정 요청을 보냄
+    await reviewUpdateAction(
+      {
+        ...review,            // 기존 리뷰 데이터 복사
+        reviewId,             // 수정할 리뷰의 고유 ID 추가 
+        keepImageIds: review.existingImageIds, // 👈 이 부분 추가
+      },
+      imageFiles             // 함께 전송할 이미지 파일들
+    );
 
+    console.log(review.reviewImgDTOList)
+
+    alert("리뷰가 성공적으로 수정되었습니다.");
+    onClose?.();
+    window.location.reload(); // 페이지 새로고침으로 변경 사항 반영 
+  } catch (err) {
+    console.error(err);
+    alert("리뷰 수정 실패");
+  }
+};
   return (
     <form onSubmit={handleSubmit}>
 

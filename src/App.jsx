@@ -6,6 +6,7 @@ import 'swiper/css/navigation';
 import { UserContext } from './component/common/Context/UserContext';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Modal from 'react-modal';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -38,6 +39,8 @@ function App() {
     fetchCurrentUser();
   }, []);
   
+  Modal.setAppElement('#root');
+
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <RouterProvider router={router}  />

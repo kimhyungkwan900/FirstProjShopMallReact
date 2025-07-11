@@ -26,7 +26,7 @@ export const addProduct = async (productInfo) => {
     }
     );
 
-  return response.data
+  return response
 }
 
 //특정 상품 수정

@@ -61,6 +61,7 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
     };
 
     const openModal = (product) => {
+        console.log(product);
         setSelectedProduct(product);
         setModalIsOpen(true);
     };
@@ -103,18 +104,19 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
                                     <input
                                         type='checkbox'
                                         checked={selectedIds.includes(p.id)}
+                                        onClick={e => e.stopPropagation()}  //모달창 클릭 방지
                                         onChange={() => toggleSelect(p.id)}
                                     />
                                 </td>    
                                 <td>{p.id}</td>
                                 <td>{p.name}</td>
                                 <td>{p.price.toLocaleString()}</td>
-                                <td>{p.stock}개</td>
-                                <td>{p.viewCount}</td>
+                                <td>{p.stock}</td>
                                 <td>{p.sellStatus}</td>
-                                <td>{p.brand.name}</td>
                                 <td>{p.category.name}</td>
-                                <td>{new Date(p.createTime).toLocaleString()}</td>
+                                <td>{p.brand.name}</td>
+                                <td>{p.viewCount}</td>
+                                <td>{new Date(p.regTime).toLocaleDateString()}</td>
                             </tr>
                         ))
                     )}

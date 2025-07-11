@@ -6,31 +6,37 @@ import { UserContext } from '../../../component/common/Context/UserContext';
 import MainHeader from '../../../features/common/Header/MainHeader';
 
 const WishlistPage = () => {
-  const [wishlist, setWishlist] = useState([]);
-  const { user } = useContext(UserContext);
+  const [wishlist, setWishlist] = useState([]); // 위시리스트 상태 정의 (초기값은 빈 배열)
+  const { user } = useContext(UserContext); // Context를 통해 로그인한 사용자 정보 불러오기
 
   useEffect(() => {
+    // 사용자가 로그인하지 않았을 경우 함수 실행 안 함
     if (!user?.id) return;
 
+    // 위시리스트 데이터 불러오는 함수
     const loadWishlist = async () => {
       try {
         const data = await fetchWishlist(user.id);
+
+        // ProductCard 컴포넌트에 맞게 데이터 형식 가공
         const formatted = data.map(item => ({
-          id: item.productId,
-          name: item.productName,
-          brandName: item.brandName,
-          price: item.price,
-          sellStatus: item.sellStatus,
-          images: item.images || [],
+          id: item.productId,             // 상품 ID
+          name: item.productName,         // 상품 이름
+          brandName: item.brandName,      // 브랜드 이름
+          price: item.price,              // 가격
+          sellStatus: item.sellStatus,    // 판매 상태
+          images: item.images || [],      // 이미지 배열 (없으면 빈 배열로 대체)
         }));
+
+        // 상태 업데이트
         setWishlist(formatted);
       } catch (error) {
         console.error('❌ 위시리스트 가져오기 실패:', error);
       }
     };
 
-    loadWishlist();
-  }, [user?.id]);
+    loadWishlist(); // 위시리스트 불러오기 실행
+  }, [user?.id]);// user.id가 바뀌면 다시 실행됨
 
   return (
     <div className="w-full bg-gray-50 min-h-screen">

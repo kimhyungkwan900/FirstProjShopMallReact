@@ -1,15 +1,12 @@
 import { useState } from "react";
 import AdminLayout from "../../../layouts/AdminLayout";
 import AdProductListComponent from "../../../component/admin/product/AdProductListComponent";
-import Pagination from "../../../component/admin/product/Pagination";
 
 const AdProductListPage = ()=>{
-
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
+    // const [totalPages, setTotalPages] = useState(0);
   
     // const [totalCount, setTotalCount] = useState(0);
-    const pageSize = 5;
+    // const pageSize = 5;
 
     const [filters, setFilters] = useState({
         productId: '',
@@ -22,30 +19,38 @@ const AdProductListPage = ()=>{
         endDate: '',
     });
 
+    const [currentPage, setCurrentPage] = useState(0);
+
     const [appliedFilters, setAppliedFilters] = useState(filters);
 
-    // const totalPages = Math.ceil(totalCount / pageSize);
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setFilters((prev) => ({ ...prev, [name]: value }));
+    // };
 
     const handleSearch = () => {
         setAppliedFilters(filters);
-        setCurrentPage(1); // 첫 페이지로 초기화
+        setCurrentPage(0); // 첫 페이지로 초기화
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
     };
 
     return(
         <AdminLayout>
-            <div className="text-1xl">
-                검색조건 입력<br/>
-                상품번호: <input type="text" value={filters.productId} onChange={(e)=>setFilters({ ...filters, productId: e.target.value })}/><br/>
-                상품명: <input type="text" value={filters.productName} onChange={(e)=>setFilters({ ...filters, productName: e.target.value })}/><br/>
-                브랜드명: <input type="text" value={filters.brandName} onChange={(e)=>setFilters({...filters, brandName: e.target.value })}/><br/>
+            <div className="space-y-2">
+                상품번호: <input type="text" value={filters.productId} onChange={(e)=>setFilters({ ...filters, productId: e.target.value })} className="border ml-2 p-1"/><br/>
+                상품명: <input type="text" value={filters.productName} onChange={(e)=>setFilters({ ...filters, productName: e.target.value })} className="border ml-2 p-1"/><br/>
+                브랜드명: <input type="text" value={filters.brandName} onChange={(e)=>setFilters({...filters, brandName: e.target.value })} className="border ml-2 p-1"/><br/>
                 판매상태:
-                <select value={filters.sellStatus} onChange={(e)=>setFilters({...filters, sellStatus: e.target.value })}>
+                <select value={filters.sellStatus} onChange={(e)=>setFilters({ ...filters, sellStatus: e.target.value })}  className="border ml-2 p-1">
                     <option value="판매중">판매중</option>
                     <option value="품절">품절</option>
                 </select>
                 카테고리:
                 {/* #region 카테고리 select */}
-                <select value={filters.categoryId} onChange={(e)=>setFilters({...filters, categoryId: e.target.value })}>
+                <select value={filters.categoryId} onChange={(e)=>setFilters({ ...filters, categoryId: e.target.value })}  className="border ml-2 p-1">
                     <option value="1">패션의류/잡화</option>
                     <option value="2">여성의류</option>
                     <option value="3">원피스</option>
@@ -94,28 +99,20 @@ const AdProductListPage = ()=>{
                     <option value="46">유모차/카시트</option>
                 </select>
                 {/* #endregion */}
-                <select value={filters.dateType} onChange={(e)=>setFilters({...filters, dateType: e.target.value })}>
+                <select value={filters.dateType} onChange={(e)=>setFilters({ ...filters, dateType: e.target.value })} className="border ml-2 p-1">
                     <option value="등록일">등록일</option>
                     <option value="수정일">수정일</option>
                 </select>
-                <input type="date" value={filters.startDate} onChange={(e) => setFilters({ ...filters, startDate: e.target.value })}/>
-                <input type="date" value={filters.endDate} onChange={(e) => setFilters({ ...filters, endDate: e.target.value })}/>
+                <input type="date" value={filters.startDate} onChange={(e)=>setFilters({ ...filters, startDate: e.target.value })} className="border ml-2 p-1"/>
+                <input type="date" value={filters.endDate} onChange={(e)=>setFilters({ ...filters, endDate: e.target.value })} className="border ml-2 p-1"/>
             </div>
-            <button onClick={handleSearch}>검색</button>
+            <button className="bg-blue-500 text-white px-4 py-1 rounded" onClick={handleSearch}>검색</button>
 
             <AdProductListComponent
                 searchFilters={appliedFilters}
-                page={currentPage}
-                size={pageSize}
-                changeTotalPages={setTotalPages}
-            />
-            <div className="mt-12 mb-20">
-            {/* <Pagination
-                page={products.number || 0}
-                totalPages={totalPages || 0}
+                currentPage={currentPage}
                 onPageChange={handlePageChange}
-            /> */}
-            </div>
+            />
         </AdminLayout>
     );
 }

@@ -38,7 +38,6 @@ export const toggleCartItemSelection = async (itemId, isSelected) => {
   return res;
 };
 
-
 // ✅ 6. 장바구니 전체 비우기
 export const clearCart = () => {
   return axiosInstance.delete(`/api/cart/items`);
@@ -85,3 +84,6 @@ export const toggleCartAllSelection = (isSelected) => {
     params: { isSelected },
   });
 };
+
+// // ✅ 14. 주문으로 이동
+// export 

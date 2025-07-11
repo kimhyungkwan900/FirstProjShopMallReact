@@ -154,7 +154,6 @@ const ProfileUpdatePage = () => {
             alert("회원 정보가 업데이트되었습니다.");
 
             navigate("/mypage");
-            window.location.reload();
 
         } catch (e) {
             console.error("업데이트 실패:", e);

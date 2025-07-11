@@ -29,7 +29,7 @@ const MyPage = () => {
                     </div>
                     <div className="bg-white rounded-xl shadow divide-y">
                         <LinkedButton to="/mypage/update" label="개인정보 확인/변경" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
-                        <LinkedButton to="#" label="배송지 관리" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
+                        <LinkedButton to="/mypage/address" label="배송지 관리" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
                     </div>
                     <div className="bg-white rounded-xl shadow divide-y">
                         {/* 미구현 FAQ 만 존재 */}

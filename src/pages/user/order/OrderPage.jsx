@@ -15,26 +15,42 @@ const OrderPage = () => {
 
   const {user} = useContext(UserContext);
   const [deliveryAddressId, setDeliveryAddressId] = useState(null);
-  const [paymentMethod, setPaymentMethod] = useState("신용카드"); // 기본 결제 방식
+  const [paymentMethod, setPaymentMethod] = useState(""); // 기본 결제 방식
   const [deliveryRequest, setDeliveryRequest] = useState(""); // 요청사항
-  const [selectedMethod, setSelectedMethod] = useState("");
+  const [selectedMethod, setSelectedMethod] = useState(""); //사용자가 고른 결제 방식
   const [selectedOther, setSelectedOther] = useState("");
+  const [address, setAddresses] = useState([]);
+  const [newAddress, setNewAddress] = useState()
 
+  // 결제 정보는 db에 저장이 되어야함
+
+  //간편결제
   const quickPayments = [
-    { id: "toss", name: "토스페이", color: "text-blue-500", tag: "혜택" },
-    { id: "kakao", name: "카카오페이", color: "text-yellow-500", tag: "혜택" },
-    { id: "payco", name: "페이코", color: "text-red-500", tag: "혜택" },
+    { id: "toss", label: "토스페이", color: "text-blue-500", benefits: [
+      "계좌로 모든 상품 9만원 이상 결제 시 4천원 할인",
+      "삼성카드로 모든 상품 12만원 이상 결제 시 5천원 할인"
+    ] },
+    { id: "kakao", label: "카카오페이", color: "text-yellow-500", benefits: [
+      "페이머니로 모든 상품 7만원 이상 결제 시 3천원 할인"
+    ] },
+    { id: "payco", label: "페이코", color: "text-red-500", benefits: [
+      "페이코 포인트로 모든 상품 6만원 이상 결제 시 2천원 할인"
+    ] },
   ];
 
+  //기타결제
   const otherPayments = [
     { id: "card", name: "신용카드" },
     { id: "bank", name: "무통장입금" },
-    { id: "phone", name: "휴대폰결제" },
+    { id: "phone", name: "휴대폰" },
+    { id: "samsung", name: "삼성페이" },
   ];
 
   const handleAddressList = async()=>{
     try{
-      await fetchAddresses(user.id);
+      if(!await fetchAddresses(user.id)){
+        return "등록된 배송지가 없습니다.";
+      }
     }catch(error){
       console.error("배송지 목록을 불러오는 데 실패했습니다.", error);
     }
@@ -100,7 +116,7 @@ const OrderPage = () => {
       </div>
 
       {/* ✅ 주문 상품 목록 */}
-      <div className="mt-8">
+      <div className="mt-8 mb-5">
         <h2 className="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">
           주문 상품
         </h2>
@@ -136,36 +152,54 @@ const OrderPage = () => {
         )}
       </div>
 
-        <div className="space-y-4">
-      {/* ✅ 간편결제 */}
-      <div className="space-y-2">
+        <div className="space-y-3">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 border-b pb-2">
+          결제 수단
+        </h2>
+
+      {/* 간편결제 버튼 */}
+      <div className="space-y-3">
         {quickPayments.map((method) => (
-          <label
-            key={method.id}
-            className={`flex items-center gap-2 p-2 border rounded-lg cursor-pointer ${
-              selectedMethod === method.id ? "border-blue-500" : "border-gray-300"
-            }`}
-          >
-            <input
-              type="radio"
-              name="quickPayment"
-              checked={selectedMethod === method.id}
-              onChange={() => {
-                setSelectedMethod(method.id);
-                setSelectedOther(""); // 기타 결제 초기화
-              }}
-            />
-            <span className={`font-medium ${method.color}`}>{method.name}</span>
-            <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
-              {method.tag}
-            </span>
-          </label>
+          <div key={method.id} className="border rounded-lg p-3">
+            {/* 라디오 버튼 */}
+            <label
+              className={`flex items-center gap-2 cursor-pointer ${
+                selectedMethod === method.id ? "border-blue-500" : "border-gray-300"
+              }`}
+            >
+              <input
+                type="radio"
+                name="quickPayment"
+                checked={selectedMethod === method.id}
+                onChange={() => setSelectedMethod(method.id)}
+                className="accent-blue-500"
+              />
+              <span className={`font-semibold ${method.color}`}>{method.label}</span>
+              <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
+                혜택
+              </span>
+            </label>
+
+            {/* ✅ 혜택 목록 */}
+            {selectedMethod === method.id && (
+              <ul className="mt-2 space-y-1 pl-5">
+                {method.benefits.map((benefit, idx) => (
+                  <li key={idx} className="text-sm text-gray-600 before:content-['•'] before:mr-2">
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         ))}
       </div>
 
+
       {/* ✅ 기타 결제 */}
-      <div className="space-y-2">
-        <label className="flex items-center gap-2 font-medium">
+      <div className="space-y-1">
+        <label className={`flex items-center gap-2 p-3 mb-3 text-p[15px] font-medium border rounded-lg cursor-pointer ${
+              selectedMethod === "other" ? "border-blue-500" : "border-black-300"
+            }`}>
           <input
             type="radio"
             name="quickPayment"
@@ -200,7 +234,7 @@ const OrderPage = () => {
     </div>
 
       {/* 💰 총 결제 금액 */}
-      <div className="p-6 bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg border border-gray-100">
+      <div className="p-6 mt-8 bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg border border-gray-100">
         <h3 className="text-2xl font-bold mb-4 text-gray-800">결제 금액</h3>
 
         {/* 상품 금액 */}

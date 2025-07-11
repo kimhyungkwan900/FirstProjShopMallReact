@@ -26,7 +26,9 @@ const OrderChangeContent = ({ list }) => {
     <div className="w-250 m-auto">
       <div className="space-y-4">
         {list && list.length > 0 ? (
-          list.map((item) => (
+          list
+          .filter((item) => !item.orderDelete)
+          .map((item) => (
             <div
               key={item.id}
               className="p-4 transition font-bold border border-gray-200 rounded-lg shadow-sm bg-white hover:bg-gray-50"
@@ -85,7 +87,7 @@ const OrderChangeContent = ({ list }) => {
         주문 내역이 없습니다.
         </div>
         )}
-      </div>
+      </div> 
     </div>
   );
 };

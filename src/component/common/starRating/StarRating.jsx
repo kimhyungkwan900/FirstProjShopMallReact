@@ -19,9 +19,7 @@ const StartRating = ({ productId }) => {
     }
   }, [productId]);
 
-  // 별 갯수 (내림)
   const fullStars = Math.floor(avgRating);
-  // 빈 별 수 계산 (최대 5개)
   const emptyStars = 5 - fullStars;
   return (
     <div>

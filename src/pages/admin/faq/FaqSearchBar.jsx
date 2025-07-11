@@ -1,12 +1,11 @@
 //검색 바 
-const FaqSearchBar = ({ searchParams, setSearchParams }) => {
+const FaqSearchBar = ({ searchParams, setSearchParams, onSearch }) => {
   const handleChange = (e) => {
     const {name, value} = e.target;
 
     setSearchParams({
       ...searchParams,
       [name] : value,
-      page : 1, //검색시 페이지를 1페이지로 초기화
     });
   };
 
@@ -14,15 +13,18 @@ const FaqSearchBar = ({ searchParams, setSearchParams }) => {
   const handleSearch = (e) =>{
    e.preventDefault(); //새로고침 방지
 
-    if(!searchParams.category || searchParams.category.trim() === ""){
+    const trimmedCategory = searchParams.category?.trim();
+    const trimmedKeyWord = searchParams.keyWord?.trim();
+
+    if(!trimmedCategory){
       alert("카테고리를 선택하세요");
       return;
     }
 
-    //검색 실행, 페이지를 1로 고정해주면서 목록 갱신
-    setSearchParams({
-      ...searchParams,
-      page:1,
+    onSearch({
+      category: trimmedCategory,
+      keyWord: trimmedKeyWord,
+      
     });
   };
    

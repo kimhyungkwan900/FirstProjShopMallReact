@@ -31,9 +31,7 @@ const UserAddressList = () => {
   return (
     <div className="w-full border rounded p-4">
       {editingAddress !== null && (
-        <AddressForm
-          selectedAddress={editingAddress}
-          onSuccess={() => {
+        <AddressForm selectedAddress={editingAddress} onSuccess={() => { 
             setEditingAddress(null);
             fetchAddresses();
           }}
@@ -48,8 +46,7 @@ const UserAddressList = () => {
       <div className="text-center py-3">
         <button
           onClick={() => setEditingAddress(null)} // 빈 폼 보여주기
-          className="text-blue-500 text-sm font-semibold flex items-center justify-center mx-auto"
-        >
+          className="text-blue-500 text-sm font-semibold flex items-center justify-center mx-auto" >
           <span className="mr-1 text-xl">+</span> 배송지 추가
         </button>
       </div>

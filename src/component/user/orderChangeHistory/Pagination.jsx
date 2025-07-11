@@ -1,5 +1,8 @@
 const Pagination = ({ page, totalPages, onPageChange }) => {
-  // totalPages가 너무 크면, 일부 페이지만 보여주도록 추가 커스터마이징도 가능
+
+  if(totalPages <= 1){
+    return null;
+  }
 
   const pages = [...Array(totalPages).keys()]; // [0, 1, 2, ..., totalPages-1]
 

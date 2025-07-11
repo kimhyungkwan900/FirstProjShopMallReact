@@ -3,38 +3,13 @@ import axios from 'axios';
 const API_BASE = "http://localhost:8080/api/admin/faqs"
 
 //Faq 목록 조회 + 검색
-// export const getFaqList = async(searchParams) =>{
-
-//   const hasSearch = searchParams.category || searchParams.keyWord;
-//   const endpoint = hasSearch ? "/search" : "/list";
-//   console.log(`🛰️ 호출 API: ${endpoint} | 조건:`, searchParams);
-
-//     try{
-      
-//     const response = await axios.get(`${API_BASE}${endpoint}`, {
-//       params: {
-//         category: searchParams.category,
-//         keyWord: searchParams.keyWord,
-//         page: searchParams.page,
-//         size: searchParams.size,               
-//       },
-//     });
-
-//     return response.data;
-
-//     } catch(error){
-//     console.log("FAQ 목록 조회 실패 : ", error)
-//     throw error;
-//     } 
-// };
-
 export const getFaqList = async (searchParams) => {
   const hasCategory = searchParams.category?.trim().length > 0;
   const hasKeyword = searchParams.keyWord?.trim().length > 0;
   const isSearch = hasCategory || hasKeyword;
 
   const endpoint = isSearch ? "/search" : "/list";
-  console.log(`🛰️ 호출 API: ${endpoint} | 조건:`, searchParams);
+  console.log(`호출 API: ${endpoint} | 조건:`, searchParams);
 
   try {
     const response = await axios.get(`${API_BASE}${endpoint}`, {

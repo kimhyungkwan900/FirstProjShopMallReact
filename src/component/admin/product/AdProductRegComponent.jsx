@@ -32,8 +32,12 @@ const AdProductRegComponent = ()=>{
     }
 
     const handleFileChange = (e) => {
-        setFiles(e.target.files);
+        setFiles(Array.from(e.target.files));
     };
+
+    // const handleFileChange = (e) => {
+    //     setFiles(e.target.files);
+    // };
 
     const handleClickAdd = (e) => {
         e.preventDefault();
@@ -48,13 +52,12 @@ const AdProductRegComponent = ()=>{
         }
 
         for (let i = 0; i < files.length; i++) {
-            formData.append("itemImgFile", files[i]);
+            formData.append("productImgFile", files[i]);
         }
 
         console.log("formData")
         for (const [key, value] of formData.entries()) {
-            console.log("key:", key);
-            console.log("value:", value);
+            console.log("key/value: ", key, value);
         }
 
         addProduct(formData)
@@ -261,7 +264,7 @@ const AdProductRegComponent = ()=>{
                 <div className="relative mb-4 flex w-full flex-wrap items-stretch">
                 <div className="w-1/5 p-1 text-right font-bold">상품 이미지</div>
                 <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
-                name="itemImgFile"
+                name="productImgFile"
                 type={'file'} 
                 multiple
                 onChange={handleFileChange}
@@ -269,7 +272,6 @@ const AdProductRegComponent = ()=>{
                 </input>
                 </div>
             </div>
-
             
             {/* 유효성 안내 문구 */}
             {!isFormValid && (

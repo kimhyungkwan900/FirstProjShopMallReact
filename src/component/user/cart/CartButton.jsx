@@ -2,12 +2,12 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { addCartItem } from "../../../api/user/cart/CartApi";
 
-const CartButton = ({ productId, quantity = 1 }) => {
+const CartButton = ({productId}) => {
   const navigate = useNavigate();
 
   const handleAddToCart = async () => {
     try {
-      await addCartItem(productId, quantity);
+      await addCartItem(productId, 1);
       const confirmed = window.confirm(
         "상품이 장바구니에 추가되었습니다.\n장바구니로 이동하시겠습니까?"
       );
@@ -20,8 +20,6 @@ const CartButton = ({ productId, quantity = 1 }) => {
 
   return (
     <button
-      id={`add-to-cart-${productId}`} // ✅ id 추가
-      name="add-to-cart"             // ✅ name 추가
       onClick={handleAddToCart}
       className="px-4 py-2 bg-green-600 text-white rounded"
     >

@@ -1,18 +1,20 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../../../component/common/Context/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const ProfileUpdatePage = () => {
 
     // 변수 지정
     const { user, setUser } = useContext(UserContext);
     const token = localStorage.getItem("accessToken");
+    const navigate = useNavigate();
 
     // 프로필 기본값
     const [profile, setProfile] = useState({
         nickname: '',
         profileImgUrl: '',
-        delivAddress: ''
+        // delivAddress: ''
     });
 
     // 비밀번호 기본값
@@ -28,7 +30,7 @@ const ProfileUpdatePage = () => {
             setProfile({
                 nickname: user.nickname || '',
                 profileImgUrl: user.profileImgUrl || '',
-                delivAddress: user.delivAddress || ''
+                // delivAddress: user.delivAddress || ''
             });
         }
     }, [user]);
@@ -104,7 +106,7 @@ const ProfileUpdatePage = () => {
 
         try {
             // 프로필 업데이트
-            await axios.put("http://localhost:8080/api/members/profile", {
+            const profileRes = await axios.put("/api/members/profile", {
                 memberId: user.id,
                 ...profile
             }, {
@@ -115,29 +117,44 @@ const ProfileUpdatePage = () => {
                 withCredentials: true
             });
 
-            // 비밀번호 변경
+            const newAccessToken = profileRes.data.accessToken;
+                if (newAccessToken) {
+                    // accessToken 저장 및 이후 요청에서 사용
+                    localStorage.setItem("accessToken", newAccessToken);
+                }
+
+            // 이후 요청에서도 새로운 토큰 사용
+            const effectiveToken = newAccessToken || token;
+
+
+            // 비밀번호 변경 요청
             if (passwords.newPassword) {
-                await axios.put("http://localhost:8080/api/members/password", {
+                await axios.put("/api/members/password", {
                     id: user.id,
                     currentPassword: passwords.currentPassword,
                     newPassword: passwords.newPassword
                 }, {
                     headers: {
-                        Authorization: `Bearer ${token}`,
+                        Authorization: `Bearer ${effectiveToken}`,
                         'Content-Type': 'application/json',
                     },
                     withCredentials: true
                 });
             }
 
-            // 최신 사용자 정보 갱신
-            const res = await axios.get("http://localhost:8080/api/auth/me", {
-                headers: { Authorization: `Bearer ${token}` },
+            // 사용자 정보 재요청
+            const meRes = await axios.get("/api/auth/me", {
+                headers: {
+                    Authorization: `Bearer ${effectiveToken}`,
+                },
                 withCredentials: true
             });
-            setUser(res.data);
+            setUser(meRes.data);
 
             alert("회원 정보가 업데이트되었습니다.");
+
+            navigate("/mypage");
+
         } catch (e) {
             console.error("업데이트 실패:", e);
             alert(e?.response?.data?.message || "업데이트에 실패했습니다.");
@@ -158,10 +175,6 @@ const ProfileUpdatePage = () => {
                     {profile.profileImgUrl && (
                         <img src={profile.profileImgUrl} alt="프로필" className="mt-2 w-32 h-32 object-cover rounded-full border" />
                     )}
-                </div>
-                <div>
-                    <label className="block text-sm font-medium">배송지 주소</label>
-                    <input className="w-full border rounded p-2" name="delivAddress" value={profile.delivAddress} onChange={onProfileChange} />
                 </div>
             </div>
             <div className="space-y-4">

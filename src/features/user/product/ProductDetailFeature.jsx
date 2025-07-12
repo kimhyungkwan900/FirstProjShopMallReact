@@ -67,7 +67,7 @@ const ProductDetailFeature = () => {
           {/* 상품 이미지 + 정보 */}
           <div className="flex flex-col md:flex-row gap-8">
             <div className="md:w-1/2">
-              <ProductImageGallery images={product.images || []} />
+              <ProductImageGallery images={product.images?.filter(img => img.repImg) || []} />
             </div>
 
             <div className="md:w-1/2 flex flex-col gap-4">

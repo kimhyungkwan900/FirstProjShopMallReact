@@ -12,7 +12,7 @@ const AddressForm = ({ selectedAddress, onSuccess, onCancel }) => {
   });
 
   useEffect(() => {
-    if (selectedAddress) {
+    if (selectedAddress && selectedAddress.id) {
       setForm(selectedAddress);
     } else {
       setForm({
@@ -38,11 +38,9 @@ const AddressForm = ({ selectedAddress, onSuccess, onCancel }) => {
     e.preventDefault();
     try {
       if (form.id) {
-        // 수정
-        await axios.put("/api/members/addresses", form);
+        await axios.put("/api/members/addresses", form);  // 수정
       } else {
-        // 추가
-        await axios.post("/api/members/addresses", form);
+        await axios.post("/api/members/addresses", form); // 추가
       }
       onSuccess(); // 저장 후 목록 새로고침
     } catch (error) {
@@ -51,35 +49,35 @@ const AddressForm = ({ selectedAddress, onSuccess, onCancel }) => {
   };
 
   return (
-    <form onSubmit={onSubmit} className="p-4 border rounded mb-4">
+    <form onSubmit={onSubmit} className="p-4 border rounded mb-4 text-sm font-semibold">
       <div className="mb-2">
         <label className="block">우편번호</label>
-        <input name="zipcode" value={form.zipcode} onChange={onChange} className="border p-1 w-full" required />
+        <input name="zipcode" value={form.zipcode} onChange={onChange} className="border p-1 w-full text-sm font-semibold" required />
       </div>
       <div className="mb-2">
         <label className="block">주소</label>
-        <input name="address" value={form.address} onChange={onChange} className="border p-1 w-full"
+        <input name="address" value={form.address} onChange={onChange} className="border p-1 w-full text-sm font-semibold"
           required
         />
       </div>
       <div className="mb-2">
         <label className="block">상세 주소</label>
-        <input name="address_detail" value={form.address_detail} onChange={onChange} className="border p-1 w-full" required />
+        <input name="address_detail" value={form.address_detail} onChange={onChange} className="border p-1 w-full text-sm font-semibold" required />
       </div>
       <div className="mb-2">
         <label className="block">요청사항</label>
-        <input name="note" value={form.note} onChange={onChange} className="border p-1 w-full" />
+        <input name="note" value={form.note} onChange={onChange} className="border p-1 w-full text-sm font-semibold" />
       </div>
       <div className="mb-2">
-        <label>
-          <input type="checkbox" name="is_default" checked={form.is_default} onChange={onChange} />기본 배송지로 설정
+        <label className="inline-flex items-center">
+          <input type="checkbox" name="is_default" checked={form.is_default} onChange={onChange}  className="mr-2" />기본 배송지로 설정
         </label>
       </div>
       <div className="flex gap-2">
-        <button type="submit" className="bg-blue-500 text-white px-4 py-1 rounded">
+        <button type="submit" className="text-blue-500 text-sm font-semibold hover:underline mr-2">
           저장
         </button>
-        <button type="button" onClick={onCancel} className="bg-gray-300 px-4 py-1 rounded">
+        <button type="button" onClick={onCancel} className="text-red-500 text-sm font-semibold hover:underline">
           취소
         </button>
       </div>

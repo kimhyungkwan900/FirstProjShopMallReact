@@ -39,7 +39,7 @@ const AdProductRegComponent = ()=>{
     //     setFiles(e.target.files);
     // };
 
-    const handleClickAdd = (e) => {
+    const handleClickAdd = async (e) => {
         e.preventDefault();
 
         const formData = new FormData();
@@ -55,18 +55,14 @@ const AdProductRegComponent = ()=>{
             formData.append("productImgFile", files[i]);
         }
 
-        console.log("formData")
-        for (const [key, value] of formData.entries()) {
-            console.log("key/value: ", key, value);
+        try {
+            const result = await addProduct(formData);
+            console.log("result: ")
+            console.log(result);
+            window.location.reload();
+            } catch (e) {
+            console.error(e);
         }
-
-        addProduct(formData)
-        .then(result => {
-            console.log(result)
-            // window.location.reload();
-        }).catch(e => {
-            console.error(e)
-        })
     }
 
     return(

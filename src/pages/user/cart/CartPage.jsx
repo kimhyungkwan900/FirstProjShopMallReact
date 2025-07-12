@@ -43,15 +43,12 @@ const CartPage = () => {
 const loadTotal = async () => {
   try {
     const response = await calculateTotalWithDelivery(); // API 호출
-    if (response.data) {
       setTotal({
         totalProductPrice: response.data.totalProductPrice,
-        deliveryFee: response.data.deliveryFee,
+        deliveryFee : response.data.minOrderAmount <= response.data.totalProductPrice ? 0 : response.data.deliveryFee,
         grandTotal: response.data.grandTotal,
       });
-    } else {
-      setTotal({ totalProductPrice: 0, deliveryFee: 0, grandTotal: 0 });
-    }
+
   } catch (error) {
     console.error("총액 계산 실패", error);
   }
@@ -86,18 +83,24 @@ const loadTotal = async () => {
   };
 
   // ✅ 선택된 상품 삭제 (API 호출)
-  const handleDeleteSelectedItems = async () => {
-    try {
-      await deleteSelectedItems(); // API 호출
-      await loadCart();
-    } catch (error) {
-      console.error("선택된 상품 삭제 실패", error);
+  const handleDeleteSelectedItems = async (items) => {
+    const isSelected = items.some((item) => item._selected);
+
+    if(isSelected){
+      try {
+        await deleteSelectedItems(); // API 호출
+        await loadCart();
+      } catch (error) {
+        console.error("선택된 상품 삭제 실패", error);
+      }
+    }else{
+      alert("삭제할 상품을 선택해주세요.")
     }
   };
 
   // ✅ 주문 페이지로 이동
-  const handleOrder = () => {
-    const selectedItems = cartItems.filter((item) => item.isSelected);
+  const handleOrder = async() => {
+    const selectedItems = cartItems.filter((item) => item._selected);
     if (selectedItems.length === 0) {
       alert("주문할 상품을 선택해주세요.");
       return;
@@ -142,8 +145,8 @@ const loadTotal = async () => {
             </label>
 
             <button
-              onClick={handleDeleteSelectedItems}
-              className="text-[14px] bg-emerald-400 text-white font-semibold px-3 py-1.5 rounded-xl shadow hover:bg-emerald-500 transition"
+              onClick={() => handleDeleteSelectedItems(cartItems)}
+              className="text-[14px] border-gray-400 border-1 text-black font-semibold px-3 py-1.5 rounded-xl shadow hover:bg-gray-300 transition"
             >
               선택 삭제
             </button>
@@ -215,7 +218,7 @@ const loadTotal = async () => {
 
               <div className="flex justify-between mb-3 text-lg">
                 <span>배송비</span>
-                <span>{(total.deliveryFee ?? 0).toLocaleString()} 원</span>
+                <span>{total.deliveryFee === 0 ? 0 : `${total.deliveryFee.toLocaleString()}`} 원</span>
               </div>
 
               <div className="flex justify-between mb-3 text-[15px] text-gray-400">

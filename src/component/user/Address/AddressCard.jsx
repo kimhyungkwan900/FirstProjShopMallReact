@@ -1,4 +1,4 @@
-const AddressCard = ({ addr, onEdit }) => (
+const AddressCard = ({ addr, onEdit, onDelete }) => (
   <div className="border-b px-4 py-3">
     <div className="flex flex-wrap items-center gap-2 mb-1 font-semibold">
       <span>{addr.address} {addr.address_detail}</span>
@@ -8,12 +8,22 @@ const AddressCard = ({ addr, onEdit }) => (
     </div>
     <div className="text-sm text-gray-700">{addr.zipcode}</div>
     {addr.note && <div className="text-sm text-gray-600">요청사항: {addr.note}</div>}
-    <div className="mt-2">
+    <div className="mt-2 flex gap-2">
       <button
-        className="text-blue-600 border px-2 py-0.5 text-sm rounded"
+        className="text-blue-600 border border-blue-600 hover:bg-blue-50 px-3 py-1 text-sm rounded transition"
         onClick={() => onEdit(addr)}
       >
         수정
+      </button>
+      <button
+        className="text-red-600 border border-red-600 hover:bg-red-50 px-3 py-1 text-sm rounded transition"
+        onClick={() => {
+          if (window.confirm("정말 삭제하시겠습니까?")) {
+            onDelete(addr.id);
+          }
+        }}
+      >
+        삭제
       </button>
     </div>
   </div>

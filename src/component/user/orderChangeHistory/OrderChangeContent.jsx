@@ -1,6 +1,8 @@
 import { useState } from "react";
+import MyOrderDeleteButton from "../myOrder/MyOrderDeleteButton";
 
-const OrderChangeContent = ({ list }) => {
+const OrderChangeContent = ({ list, onDelete }) => {
+
   const [openItems, setOpenItems] = useState({});
 
   const toggleDetails = (id) => {
@@ -26,38 +28,49 @@ const OrderChangeContent = ({ list }) => {
     <div className="w-250 m-auto">
       <div className="space-y-4">
         {list && list.length > 0 ? (
-          list.map((item) => (
+          list
+          .filter((item) => !item.orderDelete)
+          .map((item) => (
             <div
               key={item.id}
-              className="p-4 transition font-bold border border-gray-200 rounded-lg shadow-sm bg-white hover:bg-gray-50"
-            >
+              className="p-4 transition font-bold border border-gray-200 rounded-lg shadow-sm bg-white hover:bg-gray-50">
+              <div className="text-xs text-gray-500">신청일: {item.regDate || "정보 없음"}</div>
               <div className="flex justify-between items-center">
-              <div>
-                상태:{" "}
-                <span className="font-bold text-blue-600">
-                  {returnTypeLabels[item.returnType]}
-                </span>
+              <div className="flex gap-4">
+                <div className="font-bold text-blue-600 flex gap-2"><p className="text-black">상태:</p> {returnTypeLabels[item.returnType]}</div>
+              </div>
+                <MyOrderDeleteButton orderId={item.orderId} onDelete={onDelete} />
               </div>
                 <div className="font-bold text-gray-800">
                   주문 날짜 : {item.orderDate}
                 </div>
-              </div>
 
                 <div className="font-bold text-gray-800 mt-2">
-                  상품명 : {item.product?.name || "상품 정보 없음"}
+                  상품명 : <a
+                    href={`/products/${item.product?.id }`}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    {item.product?.name}
+                   </a>
                 </div>
-                
+                <div className="flex justify-between">
                 {item.product?.image?.imgUrl ? (
-                    <img
-                        src={item.product.image.imgUrl}
-                        alt={item.product?.name || "상품 이미지"}
-                        className="w-24 h-24 object-cover rounded"
-                    />
-                    ) : (
-                    <div className="w-24 h-24 flex items-center justify-center text-gray-400 border rounded">
+                  <img
+                  src={item.product.image.imgUrl}
+                  alt={item.product?.name || "상품 이미지"}
+                  className="w-24 h-24 object-cover rounded"
+                  />
+                ) : (
+                  <div className="w-24 h-24 flex items-center justify-center text-gray-400 border rounded">
                         이미지 없음
-                    </div>
-                    )}
+                  </div>
+                )}
+                   <div className="ml-auto text-right mt-5">
+                    <div className="font-semibold">주문 수량 : {item.totalCount}</div>
+                    <div className="font-semibold">상품 가격 : {item.product?.price}</div>
+                    <div className="font-semibold">총 주문 금액 : {item.totalAmount}</div>
+                  </div>
+                </div>
 
               <button
                 className="text-sm text-gray-500 mt-2 hover:text-black"
@@ -73,9 +86,6 @@ const OrderChangeContent = ({ list }) => {
                 <div className="text-sm font-normal text-gray-700 space-y-1 bg-gray-50 p-3 rounded">
                   <div>사유: {item.reason}</div>
                   <div>상세 내용: {item.detail}</div>
-                  <div className="text-xs text-gray-500">
-                    신청일: {item.regDate || "정보 없음"}
-                  </div>
                 </div>
               </div>
             </div>
@@ -85,7 +95,7 @@ const OrderChangeContent = ({ list }) => {
         주문 내역이 없습니다.
         </div>
         )}
-      </div>
+      </div> 
     </div>
   );
 };

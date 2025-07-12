@@ -39,7 +39,7 @@ const AdProductListPage = ()=>{
 
     return(
         <AdminLayout>
-            <div className="space-y-2">
+            <div className="space-y-2 ml-10 mt-10">
                 상품번호: <input type="text" value={filters.productId} onChange={(e)=>setFilters({ ...filters, productId: e.target.value })} className="border ml-2 p-1"/><br/>
                 상품명: <input type="text" value={filters.productName} onChange={(e)=>setFilters({ ...filters, productName: e.target.value })} className="border ml-2 p-1"/><br/>
                 브랜드명: <input type="text" value={filters.brandName} onChange={(e)=>setFilters({...filters, brandName: e.target.value })} className="border ml-2 p-1"/><br/>
@@ -106,7 +106,7 @@ const AdProductListPage = ()=>{
                 <input type="date" value={filters.startDate} onChange={(e)=>setFilters({ ...filters, startDate: e.target.value })} className="border ml-2 p-1"/>
                 <input type="date" value={filters.endDate} onChange={(e)=>setFilters({ ...filters, endDate: e.target.value })} className="border ml-2 p-1"/>
             </div>
-            <button className="bg-blue-500 text-white px-4 py-1 rounded" onClick={handleSearch}>검색</button>
+            <button className="bg-blue-500 text-white px-4 py-1 ml-10 rounded" onClick={handleSearch}>검색</button>
 
             <AdProductListComponent
                 searchFilters={appliedFilters}

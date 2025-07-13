@@ -80,7 +80,7 @@ const ProductDetailFeature = () => {
 
             {/* 장바구니 버튼 자리 */}
             <div className="my-4">
-              <CartButton productId={product.id} />
+              <CartButton productId={product.id} status={product.sellStatus}/>
             </div>
 
               {/* 리뷰 작성 */}

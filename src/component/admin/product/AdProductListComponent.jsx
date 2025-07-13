@@ -3,7 +3,7 @@ import ReactModal from 'react-modal'
 import { getProductList } from "../../../api/admin/product/ProductManageApi";
 import { deleteProduct } from '../../../api/admin/product/ProductManageApi';
 import Pagination from "./Pagination"
-import AdProductDetail from './AdProductDetail';
+import AdProductUpdate from './AdProductUpdate';
 
 
 const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
@@ -149,7 +149,7 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
                 >
                 ×
                 </button>
-                {selectedProduct && <AdProductDetail product={selectedProduct} />}
+                {selectedProduct && <AdProductUpdate product={selectedProduct} />}
             </ReactModal>
         </>
     );

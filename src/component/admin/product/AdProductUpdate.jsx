@@ -61,7 +61,7 @@ const AdProductDetail = ({product})=>{
             const result = await putProduct(formData);
                 console.log("result: ")
                 console.log(result);
-                // window.location.reload();
+                window.location.reload();
             } catch (e) {
             console.error(e);
         }

@@ -30,9 +30,9 @@ export const addProduct = async (productInfo) => {
 }
 
 //특정 상품 수정
-export const patchProduct = async (updateInfo) => {
+export const putProduct = async (updateInfo) => {
 
-  const response = await axios.patch(`/api/admin/products/update`, updateInfo)
+  const response = await axios.put(`/api/admin/products/update`, updateInfo)
 
   return response.data
 }

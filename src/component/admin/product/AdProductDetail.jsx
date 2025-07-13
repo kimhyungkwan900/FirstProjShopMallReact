@@ -1,9 +1,10 @@
 import { useMemo, useState } from "react";
-import { patchProduct } from "../../../api/admin/product/ProductManageApi"
+import { putProduct } from "../../../api/admin/product/ProductManageApi"
 
 const AdProductDetail = ({product})=>{
 
     const initState = {
+        id: `${product.id}`,
         name: `${product.name}`,
         description: `${product.description}`,
         price: `${product.price}`,
@@ -57,7 +58,7 @@ const AdProductDetail = ({product})=>{
         }
 
         try {
-            const result = await patchProduct(formData);
+            const result = await putProduct(formData);
                 console.log("result: ")
                 console.log(result);
                 // window.location.reload();
@@ -76,7 +77,7 @@ const AdProductDetail = ({product})=>{
                     <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                         name="name"
                         type={'text'} 
-                        value={product.name}
+                        value={productEdit.name}
                         onChange={handleChangeProduct}
                     />
                 </div>
@@ -89,7 +90,7 @@ const AdProductDetail = ({product})=>{
                 <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="price"
                 type={'text'} 
-                value={product.price}
+                value={productEdit.price}
                 onChange={handleChangeProduct}
                 >
                 </input>
@@ -103,7 +104,7 @@ const AdProductDetail = ({product})=>{
                 <input className="w-4/5 p-5 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="description"
                 type={'text'} 
-                value={product.description}
+                value={productEdit.description}
                 onChange={handleChangeProduct}
                 >
                 </input>
@@ -117,7 +118,7 @@ const AdProductDetail = ({product})=>{
                 <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="stock"
                 type={'text'} 
-                value={product.stock}
+                value={productEdit.stock}
                 onChange={handleChangeProduct}
                 >
                 </input>
@@ -132,7 +133,7 @@ const AdProductDetail = ({product})=>{
                 <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="categoryId"
                 type={'text'} 
-                value={product.categoryId}
+                value={productEdit.categoryId}
                 onChange={handleChangeProduct}
                 >
                     <option value="1">패션의류/잡화</option>
@@ -194,7 +195,7 @@ const AdProductDetail = ({product})=>{
                 <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="brandId"
                 type={'text'} 
-                value={product.brandId}
+                value={productEdit.brandId}
                 onChange={handleChangeProduct}
                 >
                     <option value="">전체</option>
@@ -230,7 +231,7 @@ const AdProductDetail = ({product})=>{
                 <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="deliveryInfoId"
                 type={'text'} 
-                value={product.deliveryInfoId}
+                value={productEdit.deliveryInfoId}
                 onChange={handleChangeProduct}
                 >
                     <option value="1">CJ</option>
@@ -248,7 +249,7 @@ const AdProductDetail = ({product})=>{
                 <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="sellStatus"
                 type={'text'} 
-                value={product.sellStatus}
+                value={productEdit.sellStatus}
                 onChange={handleChangeProduct}
                 >
                     <option value="판매중">판매중</option>

@@ -32,7 +32,7 @@ export const addProduct = async (productInfo) => {
 //특정 상품 수정
 export const patchProduct = async (updateInfo) => {
 
-  const response = await axios.patch(`/api/admin/products/${updateInfo.id}`, updateInfo)
+  const response = await axios.patch(`/api/admin/products/update`, updateInfo)
 
   return response.data
 }

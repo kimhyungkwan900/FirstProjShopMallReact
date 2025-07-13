@@ -133,7 +133,7 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
                 overlayClassName="fixed inset-0 bg-black bg-transparent flex justify-center items-center"
-                className="relative bg-gray-200 w-9/20 max-h-[70vh] rounded-lg overflow-auto mx-auto"
+                className="relative bg-white w-9/20 border rounded-lg overflow-auto mx-auto"
             
                  style={{
                     content: {

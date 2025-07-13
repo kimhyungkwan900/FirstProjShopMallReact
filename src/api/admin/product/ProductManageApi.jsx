@@ -8,14 +8,6 @@ export const getProductList = async ( productParams ) => {
   return response.data
 }
 
-//특정 상품 조회
-export const getProductDetail = async (id) => {
-
-  const response = await axios.get(`/api/admin/${id}`);
-
-  return response.data
-}
-
 //상품 등록
 export const addProduct = async (productInfo) => {
 

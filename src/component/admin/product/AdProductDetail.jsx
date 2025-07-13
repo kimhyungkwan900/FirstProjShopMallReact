@@ -287,7 +287,7 @@ const AdProductDetail = ({product})=>{
                         onClick={handleClickAdd}
                         disabled={!isFormValid}
                     >
-                    등록
+                    수정
                 </button>
                 </div>
             </div>

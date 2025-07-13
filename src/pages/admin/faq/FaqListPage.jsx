@@ -74,17 +74,17 @@ const FaqListPage = () => {
   };
 
 
-    useEffect(() => {
-    if (location.state?.resetSearch) {
+  //   useEffect(() => {
+  //   if (location.state?.resetSearch) {
     
-      setSearchParams({
-        category: "",
-        keyWord: "",
-        page: 1,
-        size: 10,
-      });
-    }
-  }, [location.state]);
+  //     setSearchParams({
+  //       category: "",
+  //       keyWord: "",
+  //       page: 1,
+  //       size: 10,
+  //     });
+  //   }
+  // }, [location.state]);
 
 
   // 검색 조건이 바뀌거나 페이지 바뀌면 다시 불러오기 
@@ -150,16 +150,7 @@ const FaqListPage = () => {
           </tr>
         </thead>
         
-        {/* <tbody>
-          {faqList.map((faq, index) => (
-            <FaqListItem 
-            key={faq.id} 
-            faq={faq} 
-            index={index + 1 + ((searchParams.page - 1) * searchParams.size)}
-            isChecked={checkedItems.includes(faq.id)}
-            onCheck={handleCheck}/>
-          ))}
-        </tbody> */}
+        
         <tbody>
           {faqList.length > 0 ? (
             faqList.map((faq, index) => (

@@ -46,7 +46,7 @@ const MainHeader = () => {
             <>
               <LinkedButton to="/mypage" label="마이페이지" />
               <LinkedButton to="/cart" label="장바구니" />
-              <LinkedButton to="/" label="고객지원" />
+              <LinkedButton to="/faq" label="고객지원" />
               <button
                 onClick={onLogout}
                 className="text-sm font-medium px-3 py-2 hover:text-blue-400 transition"

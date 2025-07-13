@@ -24,6 +24,7 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
 
         try {
             const result = await getProductList(productParams);
+            console.log(result)
 
             setProducts(result.products.content);
             setTotalPages(result.totalPage);

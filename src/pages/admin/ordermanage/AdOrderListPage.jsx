@@ -8,7 +8,6 @@ const AdOrderListPage = ()=>{
         searchType: '',
         searchContent: '',
         orderStatus: '',
-        dateType: '',
         startDate: '',
         endDate: '',
     });
@@ -35,8 +34,9 @@ const AdOrderListPage = ()=>{
                 <option value="주문 ID">주문 ID</option>
                 <option value="주문자 ID">주문자 ID</option>
             </select>
+            <input type="date" value={filters.searchContent} onChange={(e)=>setFilters({ ...filters, searchContent: e.target.value })} className="border ml-2 p-1"/>
             주문 상태:
-            <select value={filters.dateType.orderStatus} onChange={(e)=>setFilters({...filters, orderStatus: e.target.value})} className="border ml-2 p-1">
+            <select value={filters.orderStatus} onChange={(e)=>setFilters({...filters, orderStatus: e.target.value})} className="border ml-2 p-1">
                 <option value="접수">접수</option>
                 <option value="확인">확인</option>
                 <option value="배송중">배송중</option>
@@ -46,7 +46,13 @@ const AdOrderListPage = ()=>{
             <input type="date" value={filters.startDate} onChange={(e)=>setFilters({ ...filters, startDate: e.target.value })} className="border ml-2 p-1"/>
             <input type="date" value={filters.endDate} onChange={(e)=>setFilters({ ...filters, endDate: e.target.value })} className="border ml-2 p-1"/>
         </div>
-        <AdOrderListComponent />
+        <button className="bg-blue-500 text-white px-4 py-1 ml-10 rounded" onClick={handleSearch}>검색</button>
+        
+        <AdOrderListComponent
+            searchFilters={appliedFilters}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+        />
     </AdminLayout>
   );
 }

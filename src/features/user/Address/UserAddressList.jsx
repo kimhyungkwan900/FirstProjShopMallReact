@@ -4,7 +4,7 @@ import { UserContext } from "../../../component/common/Context/UserContext";
 import AddressCard from "../../../component/user/Address/AddressCard";
 import AddressForm from "../../../component/user/Address/AddressForm";
 
-const UserAddressList = () => {
+const UserAddressList = ({onSelect, tempSelectedAddress}) => {
   const [addresses, setAddresses] = useState([]);
   const [editingAddress, setEditingAddress] = useState(undefined);
   const [hasDefaultAddress, setHasDefaultAddress] = useState(false);
@@ -18,6 +18,7 @@ const UserAddressList = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
       const list = Array.isArray(res.data) ? res.data : [];
+    
       setAddresses(list);
 
       // 기본 배송지 여부 체크
@@ -60,7 +61,12 @@ const UserAddressList = () => {
 )}
 
       {addresses.map((addr) => (
-        <AddressCard key={addr.id} addr={addr} onEdit={() => setEditingAddress(addr)} onDelete={onDelete} />
+        <AddressCard key={addr.id} addr={addr} onEdit={() => setEditingAddress(addr)} 
+        onDelete={onDelete} onSelect={onSelect} isSelected={tempSelectedAddress?.id === addr.id}
+        className={`border p-3 mb-2 rounded shadow cursor-pointer ${
+            tempSelectedAddress?.id === addr.id ? "border-blue-500" : "border-gray-200"
+          }`}
+          />
       ))}
       {editingAddress !== null && (
         <div className="text-center py-3">

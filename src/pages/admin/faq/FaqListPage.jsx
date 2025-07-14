@@ -4,6 +4,9 @@ import FaqListItem from "./FaqListItem";
 import FaqSearchBar from "./FaqSearchBar";
 import Pagination from "../../../component/admin/faq/Pagination";
 import { useNavigate,  useLocation } from "react-router-dom";
+import AdminLayout from "../../../layouts/AdminLayout";
+
+
 
 //목록 페이지 겸 메인
 
@@ -129,6 +132,7 @@ const FaqListPage = () => {
 
 
   return (
+    <AdminLayout>
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">FAQ 목록</h1>
 
@@ -196,6 +200,7 @@ const FaqListPage = () => {
         setSearchParams({ ...searchParams, page: newPage })
       }/>
     </div>
+    </AdminLayout>
   );
 };
 

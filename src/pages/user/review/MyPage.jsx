@@ -3,13 +3,36 @@ import { UserContext } from "../../../component/common/Context/UserContext";
 import LinkedButton from "../../../component/common/Link/LinkedButton";
 import MainHeader from "../../../features/common/Header/MainHeader";
 import MainFooter from "../../../features/common/Footer/MainFooter";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const MyPage = () => {
-    const { user } = useContext(UserContext);
-
+    const { user, setUser } = useContext(UserContext);
+    const navigate = useNavigate();
     if (!user) return <Navigate to="/login" replace />;
     
+    const onDeactivate = async () => {
+        const confirmed = window.confirm("정말 탈퇴하시겠습니까?");
+        if (!confirmed) return;
+
+        try {
+                await axios.post(
+                    "http://localhost:8080/api/auth/deactivate",
+                    {},
+                    { withCredentials: true }
+            );
+
+            alert("회원 탈퇴가 완료되었습니다.");
+            setUser(null);        
+            localStorage.removeItem('userId');
+            localStorage.removeItem('role');
+            navigate("/");
+        } catch (err) {
+            const message = err?.response?.data || "탈퇴 처리 중 오류가 발생했습니다.";
+            alert(message);
+        }
+    };
+
     return (
         <div>
             <MainHeader />
@@ -34,10 +57,16 @@ const MyPage = () => {
                     <div className="bg-white rounded-xl shadow divide-y">
                         {/* 미구현 FAQ 만 존재 */}
                         <LinkedButton to="#" label="문의" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
-                        <LinkedButton to="#" label="할인쿠폰" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
+                    </div>
+                        <div className="bg-white rounded-xl shadow px-4 py-6">
+                            <button
+                                onClick={onDeactivate}
+                                className="w-full text-red-600 hover:text-white border border-red-600 hover:bg-red-600 font-medium py-3 px-4 rounded-lg transition-colors duration-200 text-sm">
+                                회원 탈퇴
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
             <MainFooter />
         </div>
   );

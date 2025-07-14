@@ -33,7 +33,7 @@ const AdClaimListPage = ()=>{
                     <option value="주문 ID">주문 ID</option>
                     <option value="주문자 ID">주문자 ID</option>
                 </select>
-                <input type="date" value={filters.searchContent} onChange={(e)=>setFilters({ ...filters, searchContent: e.target.value })} className="border ml-2 p-1"/>
+                <input type="text" value={filters.searchContent} onChange={(e)=>setFilters({ ...filters, searchContent: e.target.value })} className="border ml-2 p-1"/>
                 고객 요청 유형:
                 <select value={filters.returnType} onChange={(e)=>setFilters({...filters, orderStatus: e.target.value})} className="border ml-2 p-1">
                     <option value="CANCEL_REQUEST">취소신청</option>

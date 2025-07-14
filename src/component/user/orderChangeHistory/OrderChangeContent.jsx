@@ -56,9 +56,9 @@ const OrderChangeContent = ({ list, onDelete }) => {
                 <div className="flex justify-between">
                 {item.product?.image?.imgUrl ? (
                   <img
-                  src={item.product.image.imgUrl}
-                  alt={item.product?.name || "상품 이미지"}
-                  className="w-24 h-24 object-cover rounded"
+                    src={item.product.image.imgUrl || null}
+                    alt={item.product?.name || "상품 이미지"}
+                    className="w-24 h-24 object-cover rounded"
                   />
                 ) : (
                   <div className="w-24 h-24 flex items-center justify-center text-gray-400 border rounded">
@@ -67,8 +67,8 @@ const OrderChangeContent = ({ list, onDelete }) => {
                 )}
                    <div className="ml-auto text-right mt-5">
                     <div className="font-semibold">주문 수량 : {item.totalCount}</div>
-                    <div className="font-semibold">상품 가격 : {item.product?.price}</div>
-                    <div className="font-semibold">총 주문 금액 : {item.totalAmount}</div>
+                    <div className="font-semibold">상품 가격 :  ₩{(item.product?.price ?? 0).toLocaleString()}원</div>
+                    <div className="font-semibold">총 주문 금액 : ₩{(item.totalAmount ?? 0).toLocaleString()}원</div>
                   </div>
                 </div>
 

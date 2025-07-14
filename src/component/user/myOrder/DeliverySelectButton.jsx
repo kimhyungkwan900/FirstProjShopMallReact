@@ -8,7 +8,6 @@ const DeilverySelectButton = ({ trackingNumber, courierCode }) => {
     form.target = "trackingPopup";
     form.style.display = "none";
 
-    // 필드들 추가
     const keyInput = document.createElement("input"); 
     keyInput.type = "hidden";
     keyInput.name = "t_key";

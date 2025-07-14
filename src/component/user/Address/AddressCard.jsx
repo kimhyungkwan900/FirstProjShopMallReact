@@ -25,7 +25,7 @@ const AddressCard = ({ addr, onEdit, onDelete, isSelected, onSelect }) => (
           </span>
         )}
       </div>
-      <p className="text-sm text-gray-600">{addr.zipcode}</p>
+      <p className="text-sm text-gray-600 font-bold">{addr.zipcode}</p>
       {addr.note && (
         <p className="text-sm text-gray-500 mt-1">요청사항 : {addr.note}</p>
       )}

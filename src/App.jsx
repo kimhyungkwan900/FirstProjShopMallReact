@@ -28,14 +28,18 @@ function App() {
           },
           withCredentials: true
         });
-        console.log("받은 사용자 정보:", res.data);
-        setUser(res.data);
+        const { userId, role } = res.data;
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('role', role);
+
+        setUser(res.data); // 전체 사용자 정보는 메모리 상에만 유지
       } catch (err) {
         console.error('사용자 정보를 불러오지 못했습니다.', err);
         setUser(null);
+        localStorage.removeItem('userId');
+        localStorage.removeItem('role');
       }
-    };
-
+  };
     fetchCurrentUser();
   }, []);
   

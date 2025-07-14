@@ -1,19 +1,19 @@
-import { useEffect ,useState } from "react";
 import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
-import { deleteOrder } from "../../../api/user/myOrder/MyOrderDeleteApi";
 
 import MyOrderSearch from "../../../component/user/myOrder/MyOrderSearch";
 import MyOrderCalendar from "../../../component/user/myOrder/MyOrderCalender";
 import MypageMenu from "../../../component/user/myOrder/MypageMenu";
 import MyOrderContent from "../../../component/user/myOrder/MyOrderContent";
 
-import { fetchMyOrderList } from "../../../api/user/myOrder/MyOrderApi";
-
+import { useEffect ,useState } from "react";
 import { useContext } from "react";
+import { fetchMyOrderList } from "../../../api/user/myOrder/MyOrderApi";
+import { deleteOrder } from "../../../api/user/myOrder/MyOrderDeleteApi";
 import { UserContext } from "../../../component/common/Context/UserContext";
 
 const MyOrderPage = () => {
+
   // 오늘 날짜 (시작일)
   const today = new Date();
 
@@ -69,7 +69,7 @@ const MyOrderPage = () => {
 
 const handleDeleteOrder = async (orderId) => {
   try {
-    await deleteOrder(orderId); // 실제 API 호출
+    await deleteOrder(orderId); 
 
     const updatedOrders = orders.filter((order) => order.id !== orderId);
 
@@ -92,7 +92,7 @@ const handleDeleteOrder = async (orderId) => {
         keyword
       );
       if (nextRes.content && nextRes.content.length > 0) {
-        newOrders.push(nextRes.content[0]); // 한 개만 보충
+        newOrders.push(nextRes.content[0]); 
       }
     }
     setOrders(newOrders);

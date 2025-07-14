@@ -69,6 +69,18 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
             setSelectedClaim(null);
         };
   
+        const returnTypeLabels = {
+            CANCEL_REQUEST:   '취소 신청',
+            CANCEL_COMPLETE:  '취소 완료',
+            CANCEL_REJECTED:  '취소 반려',
+            RETURN_REQUEST:   '반품 신청',
+            RETURN_COMPLETE:  '반품 완료',
+            RETURN_REJECTED:  '반품 반려',
+            EXCHANGE_REQUEST: '교환 신청',
+            EXCHANGE_COMPLETE:'교환 완료',
+            EXCHANGE_REJECTED:'교환 반려',
+        };
+
   return (
     <>
         <div className='flex flex-col ml-10 mr-10 mt-10 relative'>
@@ -79,13 +91,12 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
             </button>
             <table id="list" className='border border-gray-400 mt-8'>
                 <tr className='bg-gray-400'>
-                    <th>.</th>
-                    <th>.</th>
-                    <th>.</th>
-                    <th>.</th>
-                    <th>.</th>
-                    <th>.</th>
-                    <th>.</th>
+                    <th></th>
+                    <th>요청ID</th>
+                    <th>고객ID</th>
+                    <th>주문ID</th>
+                    <th>요청유형</th>
+                    <th>요청날짜</th>
                 </tr>
                 {claims.length === 0? (
                     <tr>
@@ -93,7 +104,7 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
                     </tr>
                 ): (
                     claims.map((c) => (
-                        <tr key={c.claimManageId}
+                        <tr key={c.claimId}
                             className='text-center hover:bg-gray-100 cursor-pointer'
                             onClick={() => openModal(c)}
                         >
@@ -105,12 +116,11 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
                                     // onChange={() => toggleSelect(p.id)}
                                 />
                             </td>    
-                            <td>{}</td>
-                            <td>{}</td>
-                            <td>{}</td>
-                            <td>{}</td>
-                            <td>{}</td>
-                            <td>{}</td>
+                            <td>{c.claimId}</td>
+                            <td>{c.orderReturn.memberId}</td>
+                            <td>{c.orderReturn.orderId}</td>
+                            <td>{returnTypeLabels[c.orderReturn.returnType]?? c.orderReturn.returnType}</td>
+                            <td>{new Date(c.orderReturn.regDate).toLocaleDateString()}</td>
                         </tr>
                     ))
                 )}

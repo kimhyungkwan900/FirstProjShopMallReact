@@ -18,7 +18,6 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
 
         const orderParams = {
             ...searchFilters,
-            isApproved: true,
             page: currentPage,
         };
 

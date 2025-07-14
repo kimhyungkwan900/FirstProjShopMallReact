@@ -16,6 +16,7 @@ const AdClaimListPage = ()=>{
     const [appliedFilters, setAppliedFilters] = useState(filters);
 
     const handleSearch = () => {
+        console.log(filters)
         setAppliedFilters(filters);
         setCurrentPage(0); // 첫 페이지로 초기화
     };
@@ -27,15 +28,15 @@ const AdClaimListPage = ()=>{
     return (
         <AdminLayout>
             <div className="space-y-2 ml-10 mt-10">
-                {/* 주문ID, 주문자ID, 주문 상태, 주문일자(regtime) */}
+                {/* 주문ID, 고객ID, 요청유형, 요청일자(regtime) */}
                 검색유형:
                 <select value={filters.searchType} onChange={(e)=>setFilters({...filters, searchType: e.target.value})} className="border ml-2 p-1">
                     <option value="주문 ID">주문 ID</option>
-                    <option value="주문자 ID">주문자 ID</option>
+                    <option value="고객 ID">고객 ID</option>
                 </select>
                 <input type="text" value={filters.searchContent} onChange={(e)=>setFilters({ ...filters, searchContent: e.target.value })} className="border ml-2 p-1"/>
                 고객 요청 유형:
-                <select value={filters.returnType} onChange={(e)=>setFilters({...filters, orderStatus: e.target.value})} className="border ml-2 p-1">
+                <select value={filters.returnType} onChange={(e)=>setFilters({...filters, returnType: e.target.value})} className="border ml-2 p-1">
                     <option value="CANCEL_REQUEST">취소신청</option>
                     <option value="CANCEL_COMPLETE">취소완료</option>
                     <option value="CANCEL_REJECTED">취소반려</option>

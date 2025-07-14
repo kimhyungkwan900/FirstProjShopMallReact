@@ -38,7 +38,7 @@ const DeilverySelectButton = ({ trackingNumber, courierCode }) => {
     <button
         type="button"
         onClick={handleSubmit}
-        className="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl shadow-md transition duration-200"
+        className="px-2 py-1 ml-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded shadow-md transition duration-200"
         >
   배송 조회
 </button>

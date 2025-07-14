@@ -101,17 +101,17 @@ const orderStatusLabels = {
               
             </div>
             <div className="font-semibold pb-2">
-              {order.orderStatus === "배송중" ?  <DeilverySelectButton
-                trackingNumber={order.trackingInfo?.trackingNumber}
-                courierCode={order.trackingInfo?.courierCode}
-              /> : <div></div>}
                
               <span className="ml-2">상태 :</span>
-              <span className="text-blue-600 ml-1">
+              <span className="text-blue-600">
               {order.returnType
                 ? returnTypeLabels[order.returnType]
                 : orderStatusLabels[order.orderStatus] || order.orderStatus}
             </span>
+                {order.orderStatus === "배송중" ?  <DeilverySelectButton
+                  trackingNumber={order.trackingInfo?.trackingNumber}
+                  courierCode={order.trackingInfo?.courierCode}
+                /> : <div></div>}
             </div>
           </div>
 

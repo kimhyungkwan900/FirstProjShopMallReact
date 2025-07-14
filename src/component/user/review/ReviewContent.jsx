@@ -22,7 +22,7 @@ const ReviewContent = ({ productId, memberId }) => {
   const [sortOrder, setSortOrder] = useState("like");
 
  const handleReaction = async (reviewId, reactionType) => {
-    if (memberId === null) {
+    if (memberId === undefined) {
       alert("로그인이 필요합니다.");
       return;
     }

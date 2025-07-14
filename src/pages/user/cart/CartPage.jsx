@@ -215,7 +215,7 @@ const loadTotal = async () => {
                 <span>상품 합계</span>
                 <span>{(total.totalProductPrice ?? 0).toLocaleString()} 원</span>
               </div>
-
+              
               <div className="flex justify-between mb-3 text-lg">
                 <span>배송비</span>
                 <span>{total.deliveryFee === 0 ? 0 : `${total.deliveryFee.toLocaleString()}`} 원</span>

@@ -11,7 +11,7 @@ const ReviewButton = ({productId}) => {
 
   return (
     <div>
-      <button onClick={openModal} className="bg-blue-500 text-white px-4 py-2 rounded ">
+      <button onClick={openModal} className="bg-blue-500 text-white px-4 py-2 rounded w-40 h-12">
         리뷰 목록
       </button>
         <ReviewModal isOpen={isModalOpen}>
@@ -24,7 +24,7 @@ const ReviewButton = ({productId}) => {
         <div className="w-full flex justify-center mt-6">
           <button
           onClick={closeModal}
-          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700">
+          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 ">
             닫기
           </button>
         </div>

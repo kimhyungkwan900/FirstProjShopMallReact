@@ -14,7 +14,7 @@ const AdOrderDetail = ({orderManage})=>{
                 <p className="font-bold">배송 요청사항:</p> {orderManage.order.delivery_request}
             </li>
             <li className="mb-2">
-                <p className="font-bold">주문일자:</p> {orderManage.order.order_date}
+                <p className="font-bold">주문일자:</p> {new Date(orderManage.order.order_date).toLocaleDateString()}
             </li>
             <li className="mb-2">
                 <p className="font-bold">결제방식:</p> {orderManage.order.payment_method}

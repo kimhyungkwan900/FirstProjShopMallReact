@@ -5,7 +5,7 @@ export const getClaimList = async ( claimParams ) => {
 
   const response = await axios.get(`/api/admin/claims`, {params: claimParams});
 
-  console.log("응답 데이터" + response.data.claims)
+  // console.log("응답 데이터" + response.data.claims)
   
   return response.data
 }

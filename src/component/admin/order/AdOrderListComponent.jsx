@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import ReactModal from 'react-modal'
 import { getOrderList } from "../../../api/admin/order/OrderManageApi";
-// import { patchStatus } from "../../../api/admin/order/OrderManageApi";
+import { patchStatus } from "../../../api/admin/order/OrderManageApi";
 import Pagination from "../product/Pagination"
 import AdOrderDetail from './AdOrderDetail'
 
@@ -24,7 +24,9 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
         try {
             const result = await getOrderList(orderParams);
 
+            console.log("주문 리스트:")
             console.log(result.orders.content);
+
             setOrders(result.orders.content);
             setTotalPages(result.totalPage);
             setSelectedIds([]);
@@ -39,26 +41,26 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
         getOrders();
     }, [getOrders]);
 
-    // const toggleSelect = (id) => {
-    //     setSelectedIds(prev =>
-    //         prev.includes(id)? prev.filter(selectedId => selectedId !== id) : [...prev, id]
-    //     );
-    //     console.log(selectedIds);
-    // };
+    const toggleSelect = (id) => {
+        setSelectedIds(prev =>
+            prev.includes(id)? prev.filter(selectedId => selectedId !== id) : [...prev, id]
+        );
+        console.log(selectedIds);
+    };
 
-    // const handleUpdateSelected = async () => {
-    //     if (selectedIds.length === 0)
-    //         return;
+    const handleUpdateSelected = async (newStatus) => {
+        if (selectedIds.length === 0)
+            return;
 
-    //     try{
-    //         const result = await patchStatus(selectedIds);
-    //         console.log(result);
-    //     } catch (error){
-    //         console.log('상품삭제 실패: ', error)
-    //     } finally{
-    //         await getProducts();
-    //     }
-    // };
+        try{
+            const result = await patchStatus({ids: selectedIds, newStatus: newStatus});
+            console.log(result);
+        } catch (error){
+            console.log('상태수정 실패: ', error)
+        } finally{
+            await getOrders();
+        }
+    };
     
     const openModal = (order) => {
         console.log(order);
@@ -73,16 +75,27 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
     return (
         <>
             <div className='flex flex-col ml-10 mr-10 mt-10 relative'>
-                <button className="absolute top-0 left-0 bg-gray-400 text-white rounded"
-                // onClick={}
-                disabled={selectedIds.length === 0}>
-                    선택 삭제
+                <button className="absolute w-20 top-0 left-0 bg-gray-400 text-white rounded"
+                    onClick={() => handleUpdateSelected("확인")}
+                    disabled={selectedIds.length === 0}>
+                    확인
                 </button>
+                <button className="absolute w-20 top-0 left-24 bg-gray-400 text-white rounded"
+                    onClick={() => handleUpdateSelected("배송중")}
+                    disabled={selectedIds.length === 0}>
+                    배송중
+                </button>
+                <button className="absolute w-20 top-0 left-48 bg-gray-400 text-white rounded"
+                    onClick={() => handleUpdateSelected("배송완료")}
+                    disabled={selectedIds.length === 0}>
+                    배송완료
+                </button>
+
                 <table id="list" className='border border-gray-400 mt-8'>
                     <tr className='bg-gray-400'>
                         <th></th>
                         <th>주문ID</th>
-                        <th>주문자ID</th>
+                        <th>고객ID</th>
                         <th>주문상태</th>
                         <th>주문날짜</th>
                         <th>주문가격</th>
@@ -101,9 +114,9 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
                                 <td>
                                     <input
                                         type='checkbox'
-                                        checked={selectedIds.includes(o.order.id)}
+                                        checked={selectedIds.includes(o.orderManageId)}
                                         onClick={e => e.stopPropagation()}  //모달창 클릭 방지
-                                        // onChange={() => toggleSelect(p.id)}
+                                        onChange={() => toggleSelect(o.orderManageId)}
                                     />
                                 </td>    
                                 <td>{o.order.id}</td>

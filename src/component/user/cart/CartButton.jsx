@@ -63,30 +63,6 @@ const CartButton = ({ productId, status }) => {
     }
   };
 
-  /**
-   * 재입고 알림을 신청하는 함수
-   * - 로그인하지 않은 경우 로그인 페이지로 이동 여부를 확인
-   * - 이미 신청된 경우 예외 처리
-   */
-  const handleRequestRestockAlarm = async () => {
-    if (!isLoggedIn) {
-      const response = window.confirm("로그인이 필요합니다.\n로그인 하시겠습니까?");
-      if (response) {
-        navigate("/login"); // 로그인 페이지로 이동
-      }
-      return;
-    }
-
-    try {
-      await requestRestockAlarm(productId); // 재입고 알림 신청 API 호출
-      alert("재입고 알림이 신청되었습니다.");
-    } catch (error) {
-      console.error("재입고 알림 신청 실패:", error);
-      alert("이미 재입고 알림이 신청되었습니다.");
-    }
-  }
-
-
   return (
     <button
       onClick={status === "판매중" ? handleAddToCart : handleRequestRestockAlarm}

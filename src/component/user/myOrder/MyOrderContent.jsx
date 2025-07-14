@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import ReviewWriterFormModal from "../review/ReviewWriterFormModal";
 import MyOrderReturnForm from "./MyOrderReturnForm";
 import MyOrderDeleteButton from "./MyOrderDeleteButton";
+import DeilverySelectButton from "./DeliverySelectButton";
+import CartButton from "../cart/CartButton";
 
 const MyOrderContent = ({ orders: ordersProp, memberId, onDelete }) => {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -73,20 +75,22 @@ const orderStatusLabels = {
 >
           <div className="flex justify-between">
             <div className="font-semibold pb-2">결제 방식 : {order.paymentMethod}</div>
+            <div>
             <MyOrderDeleteButton
               orderId={order.id}
               onDelete={(orderId) => {
                 setOrders((prev) => prev.filter((o) => o.id !== orderId));
                 onDelete(orderId);
               }}
-            />
+              />
+              </div>
           </div>
 
           <div className="flex items-center space-x-2 mb-2 justify-between">
             <div className="font-semibold pb-2">주문날짜 : {order.orderDate}</div>
           </div>
 
-          <div className="flex justify-between mt-4">
+          <div className="flex justify-between">
             <div className="font-semibold pb-2 mb-2">
               상품명 :<a
                     href={`/products/${order.product?.id }`}
@@ -97,7 +101,12 @@ const orderStatusLabels = {
               
             </div>
             <div className="font-semibold pb-2">
-              상태 :
+              {order.orderStatus === "배송중" ?  <DeilverySelectButton
+                trackingNumber={order.trackingInfo?.trackingNumber}
+                courierCode={order.trackingInfo?.courierCode}
+              /> : <div></div>}
+               
+              <span className="ml-2">상태 :</span>
               <span className="text-blue-600 ml-1">
               {order.returnType
                 ? returnTypeLabels[order.returnType]
@@ -162,6 +171,7 @@ const orderStatusLabels = {
                   취소
                 </button>
               )}
+               <CartButton productId={order.product?.productId} status={order.product?.sellStatus}/>
           </div>
         </div>
       ))}

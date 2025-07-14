@@ -56,9 +56,9 @@ const OrderChangeContent = ({ list, onDelete }) => {
                 <div className="flex justify-between">
                 {item.product?.image?.imgUrl ? (
                   <img
-                  src={item.product.image.imgUrl}
-                  alt={item.product?.name || "상품 이미지"}
-                  className="w-24 h-24 object-cover rounded"
+                    src={item.product.image.imgUrl || null}
+                    alt={item.product?.name || "상품 이미지"}
+                    className="w-24 h-24 object-cover rounded"
                   />
                 ) : (
                   <div className="w-24 h-24 flex items-center justify-center text-gray-400 border rounded">

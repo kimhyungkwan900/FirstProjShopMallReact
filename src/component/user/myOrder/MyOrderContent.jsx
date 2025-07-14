@@ -132,8 +132,8 @@ const orderStatusLabels = {
 
             <div className="ml-auto text-right mt-5">
               <div className="font-semibold">주문 수량 : {order.totalCount}</div>
-              <div className="font-semibold">상품 가격 : {order.product?.price}</div>
-              <div className="font-semibold">총 주문 금액 : {order.totalAmount}</div>
+              <div className="font-semibold">상품 가격 :  ₩{(order.product?.price ?? 0).toLocaleString()}원</div>
+              <div className="font-semibold">총 주문 금액 :  ₩{(order.totalAmount ?? 0).toLocaleString()}원</div>
             </div>
           </div>
 

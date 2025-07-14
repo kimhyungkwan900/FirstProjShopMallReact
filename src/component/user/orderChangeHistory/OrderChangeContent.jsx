@@ -67,8 +67,8 @@ const OrderChangeContent = ({ list, onDelete }) => {
                 )}
                    <div className="ml-auto text-right mt-5">
                     <div className="font-semibold">주문 수량 : {item.totalCount}</div>
-                    <div className="font-semibold">상품 가격 : {item.product?.price}</div>
-                    <div className="font-semibold">총 주문 금액 : {item.totalAmount}</div>
+                    <div className="font-semibold">상품 가격 :  ₩{(item.product?.price ?? 0).toLocaleString()}원</div>
+                    <div className="font-semibold">총 주문 금액 : ₩{(item.totalAmount ?? 0).toLocaleString()}원</div>
                   </div>
                 </div>
 

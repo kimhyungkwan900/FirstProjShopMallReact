@@ -15,5 +15,3 @@ export const createOrder = async (memberId, orderData) => {
 export const saveDeliveryRequest = async (orderData) => {
   return axiosInstance.post(`/api/orders/deliveryRequest`, orderData);
 };
-
-

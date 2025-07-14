@@ -46,7 +46,6 @@ const MyOrderChangeHistoryPage = () => {
   setLoading(true);
   try {
     const returnTypes = returnTypeMap[filter]; // null or 배열
-    console.log(returnTypes);
     const res = await findChangeList({
       memberId,
       returnType: returnTypes,

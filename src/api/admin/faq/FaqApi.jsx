@@ -3,38 +3,17 @@ import axios from 'axios';
 const API_BASE = "http://localhost:8080/api/admin/faqs"
 
 //Faq 목록 조회 + 검색
-// export const getFaqList = async(searchParams) =>{
-
-//   const hasSearch = searchParams.category || searchParams.keyWord;
-//   const endpoint = hasSearch ? "/search" : "/list";
-//   console.log(`🛰️ 호출 API: ${endpoint} | 조건:`, searchParams);
-
-//     try{
-      
-//     const response = await axios.get(`${API_BASE}${endpoint}`, {
-//       params: {
-//         category: searchParams.category,
-//         keyWord: searchParams.keyWord,
-//         page: searchParams.page,
-//         size: searchParams.size,               
-//       },
-//     });
-
-//     return response.data;
-
-//     } catch(error){
-//     console.log("FAQ 목록 조회 실패 : ", error)
-//     throw error;
-//     } 
-// };
-
 export const getFaqList = async (searchParams) => {
-  const hasCategory = searchParams.category?.trim().length > 0;
+  const hasCategory =
+    searchParams.category &&
+    searchParams.category.trim().length > 0 &&
+    searchParams.category !== "전체"; // 이 조건 추가
+
   const hasKeyword = searchParams.keyWord?.trim().length > 0;
+
   const isSearch = hasCategory || hasKeyword;
 
   const endpoint = isSearch ? "/search" : "/list";
-  console.log(`🛰️ 호출 API: ${endpoint} | 조건:`, searchParams);
 
   try {
     const response = await axios.get(`${API_BASE}${endpoint}`, {
@@ -44,8 +23,10 @@ export const getFaqList = async (searchParams) => {
         page: searchParams.page,
         size: searchParams.size,
       },
-      withCredentials: true //추가했음 
+      withCredentials: true,
     });
+    console.log("🚀 요청 보낼 endpoint:", endpoint);
+    console.log("🚀 조건: category =", searchParams.category, "| keyword =", searchParams.keyWord);
 
     return response.data;
   } catch (error) {
@@ -53,6 +34,7 @@ export const getFaqList = async (searchParams) => {
     throw error;
   }
 };
+
 
 
 //FAQ 등록

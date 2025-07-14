@@ -9,15 +9,18 @@ const MainHeader = () => {
   const isLoggedIn = !!user;
 
   const onLogout = async () => {
-    try {
-      await axios.post("/api/auth/logout", {}, { withCredentials: true });
-      localStorage.removeItem('accessToken');
-      alert("로그아웃 되었습니다.");
-      window.location.replace("/");
-    } catch (error) {
-      console.error(error);
-      alert("로그아웃 실패");
-    }
+try {
+    await axios.post("/api/auth/logout", {}, { withCredentials: true });
+
+    localStorage.removeItem('userId');
+    localStorage.removeItem('role');
+
+    alert("로그아웃 되었습니다.");
+    window.location.replace("/");
+  } catch (error) {
+    console.error("로그아웃 실패:", error);
+    alert("로그아웃 실패");
+  }
   };
 
   return (
@@ -46,7 +49,7 @@ const MainHeader = () => {
             <>
               <LinkedButton to="/mypage" label="마이페이지" />
               <LinkedButton to="/cart" label="장바구니" />
-              <LinkedButton to="/" label="고객지원" />
+              <LinkedButton to="/faq" label="고객지원" />
               <button
                 onClick={onLogout}
                 className="text-sm font-medium px-3 py-2 hover:text-blue-400 transition"

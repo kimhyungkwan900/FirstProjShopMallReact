@@ -4,13 +4,14 @@ import { UserContext } from "../../../component/common/Context/UserContext";
 import AddressCard from "../../../component/user/Address/AddressCard";
 import AddressForm from "../../../component/user/Address/AddressForm";
 
-const UserAddressList = () => {
+const UserAddressList = ({ onSelect, tempSelectedAddress }) => {
   const [addresses, setAddresses] = useState([]);
   const [editingAddress, setEditingAddress] = useState(undefined);
   const [hasDefaultAddress, setHasDefaultAddress] = useState(false);
   const { user } = useContext(UserContext);
 
   const accessToken = localStorage.getItem("accessToken");
+
 
   const fetchAddresses = async () => {
     try {
@@ -32,7 +33,7 @@ const UserAddressList = () => {
     try {
       await axios.delete(`/api/members/addresses/${addressId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
-        withCredentials: true
+        withCredentials: true,
       });
       fetchAddresses(); // 삭제 후 목록 갱신
     } catch (err) {
@@ -48,29 +49,48 @@ const UserAddressList = () => {
   }, [user?.id]);
 
   return (
-    <div className="w-2/3 mx-auto border rounded p-4">
+    <div className="w-full max-w-3xl mx-auto bg-white border border-gray-200 rounded-xl shadow-sm p-6">
       {editingAddress !== undefined && (
-  <AddressForm
-    selectedAddress={editingAddress} hasDefaultAddress={hasDefaultAddress} onSuccess={() => {
-      setEditingAddress(undefined);
-      fetchAddresses();
-    }}
-    onCancel={() => setEditingAddress(undefined)}
-  />
-)}
+        <div className="mb-4">
+          <AddressForm
+            selectedAddress={editingAddress}
+            hasDefaultAddress={hasDefaultAddress}
+            onSuccess={() => {
+              setEditingAddress(undefined);
+              fetchAddresses();
+            }}
+            onCancel={() => setEditingAddress(undefined)}
+          />
+        </div>
+      )}
 
-      {addresses.map((addr) => (
-        <AddressCard key={addr.id} addr={addr} onEdit={() => setEditingAddress(addr)} onDelete={onDelete} />
-      ))}
       {editingAddress !== null && (
-        <div className="text-center py-3">
+        <div className="text-center mb-5">
           <button
             onClick={() => setEditingAddress(null)}
-            className="text-blue-500 text-sm font-semibold flex items-center justify-center mx-auto">
-            <span className="mr-1 text-xl">+</span> 배송지 추가
+            className="inline-flex items-center px-4 py-2 text-sm font-semibold text-blue-600 border border-blue-600 rounded hover:bg-blue-50 transition w-full">
+            <span className="mr-2 text-lg">+</span> 새 배송지 추가
           </button>
         </div>
       )}
+
+      <div className="space-y-3">
+        {addresses.map((addr) => (
+          <AddressCard
+            key={addr.id} addr={addr} onEdit={() => setEditingAddress(addr)}
+            onDelete={onDelete}
+            onSelect={onSelect || (() => {})}
+            isSelected={tempSelectedAddress?.id === addr.id}
+            className={`rounded-lg border p-4 cursor-pointer transition-colors ${
+              tempSelectedAddress?.id === addr.id
+                ? "border-blue-500 bg-blue-50"
+                : "border-gray-200 hover:bg-gray-50"
+            }`}
+          />
+        ))}
+      </div>
+
+      
     </div>
   );
 };

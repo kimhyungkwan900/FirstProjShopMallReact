@@ -3,11 +3,7 @@ import AdminLayout from "../../../layouts/AdminLayout";
 import AdProductListComponent from "../../../component/admin/product/AdProductListComponent";
 
 const AdProductListPage = ()=>{
-    // const [totalPages, setTotalPages] = useState(0);
   
-    // const [totalCount, setTotalCount] = useState(0);
-    // const pageSize = 5;
-
     const [filters, setFilters] = useState({
         productId: '',
         productName: '',
@@ -22,11 +18,6 @@ const AdProductListPage = ()=>{
     const [currentPage, setCurrentPage] = useState(0);
 
     const [appliedFilters, setAppliedFilters] = useState(filters);
-
-    // const handleChange = (e) => {
-    //     const { name, value } = e.target;
-    //     setFilters((prev) => ({ ...prev, [name]: value }));
-    // };
 
     const handleSearch = () => {
         setAppliedFilters(filters);
@@ -44,13 +35,13 @@ const AdProductListPage = ()=>{
                 상품명: <input type="text" value={filters.productName} onChange={(e)=>setFilters({ ...filters, productName: e.target.value })} className="border ml-2 p-1"/><br/>
                 브랜드명: <input type="text" value={filters.brandName} onChange={(e)=>setFilters({...filters, brandName: e.target.value })} className="border ml-2 p-1"/><br/>
                 판매상태:
-                <select value={filters.sellStatus} onChange={(e)=>setFilters({ ...filters, sellStatus: e.target.value })}  className="border ml-2 p-1">
+                <select value={filters.sellStatus} onChange={(e)=>setFilters({ ...filters, sellStatus: e.target.value })} className="border ml-2 p-1">
                     <option value="판매중">판매중</option>
                     <option value="품절">품절</option>
                 </select>
                 카테고리:
                 {/* #region 카테고리 select */}
-                <select value={filters.categoryId} onChange={(e)=>setFilters({ ...filters, categoryId: e.target.value })}  className="border ml-2 p-1">
+                <select value={filters.categoryId} onChange={(e)=>setFilters({ ...filters, categoryId: e.target.value })} className="border ml-2 p-1">
                     <option value="1">패션의류/잡화</option>
                     <option value="2">여성의류</option>
                     <option value="3">원피스</option>

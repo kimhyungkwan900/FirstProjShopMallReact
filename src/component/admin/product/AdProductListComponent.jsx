@@ -3,7 +3,7 @@ import ReactModal from 'react-modal'
 import { getProductList } from "../../../api/admin/product/ProductManageApi";
 import { deleteProduct } from '../../../api/admin/product/ProductManageApi';
 import Pagination from "./Pagination"
-import AdProductDetail from './AdProductDetail';
+import AdProductUpdate from './AdProductUpdate';
 
 
 const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
@@ -24,6 +24,7 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
 
         try {
             const result = await getProductList(productParams);
+            console.log(result)
 
             setProducts(result.products.content);
             setTotalPages(result.totalPage);
@@ -133,7 +134,7 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
                 isOpen={modalIsOpen}
                 onRequestClose={closeModal}
                 overlayClassName="fixed inset-0 bg-black bg-transparent flex justify-center items-center"
-                className="relative bg-gray-200 w-9/20 max-h-[70vh] rounded-lg overflow-auto mx-auto"
+                className="relative bg-white w-9/20 border rounded-lg overflow-auto mx-auto"
             
                  style={{
                     content: {
@@ -149,7 +150,7 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
                 >
                 ×
                 </button>
-                {selectedProduct && <AdProductDetail product={selectedProduct} />}
+                {selectedProduct && <AdProductUpdate product={selectedProduct} />}
             </ReactModal>
         </>
     );

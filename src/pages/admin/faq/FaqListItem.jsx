@@ -13,6 +13,7 @@ const FaqListItem = ({ faq, index, isChecked, onCheck }) => {
   };
 
   return (
+
     <tr className="border">
       <td className= "px-2 text-center">
         <input 

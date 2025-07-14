@@ -1,42 +1,51 @@
 import React, { useState, useEffect } from "react";
 
+/**
+ * 배송 요청사항 입력 컴포넌트
+ * - 선택된 배송지의 요청사항을 표시하고 수정할 수 있음
+ * - 기본 옵션 선택 또는 직접 입력 가능
+ */
 const DeliveryRequest = ({ selectedAddress, onSaveRequest }) => {
   const [isCustomInput, setIsCustomInput] = useState(false); // textarea 표시 여부
-  const [customText, setCustomText] = useState(""); // 직접 입력 내용
-  const [selectedOption, setSelectedOption] = useState(""); // 현재 선택된 옵션
-  const maxLength = 50;
+  const [customText, setCustomText] = useState("");          // 직접 입력 내용
+  const [selectedOption, setSelectedOption] = useState("");  // 현재 선택된 옵션
+  const maxLength = 50;                                      // 요청사항 최대 글자 수
 
-  // 🚨 selectedAddress.note가 변경될 때만 초기화
+  // 🚨 selectedAddress.note가 변경될 때 초기화
   useEffect(() => {
     if (selectedAddress?.note?.trim()) {
-      setIsCustomInput(true); // note 있으면 textarea 모드
-      setCustomText(selectedAddress.note); // note 값 넣기
-      setSelectedOption("직접 입력"); // select 박스는 "직접 입력"으로 보이도록
+      // note가 있으면 textarea 모드 활성화 및 내용 세팅
+      setIsCustomInput(true);
+      setCustomText(selectedAddress.note);
+      setSelectedOption("직접 입력");
     } else {
-      setIsCustomInput(false); // textarea 숨김
+      // note가 없으면 초기 상태로 리셋
+      setIsCustomInput(false);
       setCustomText("");
-      setSelectedOption(""); // 기본 옵션으로
+      setSelectedOption("");
     }
-  }, [selectedAddress?.note]); // ❗ note 변경 시만 실행
+  }, [selectedAddress?.note]); // note 값이 바뀔 때만 실행
 
+  // 배송 요청사항 select 박스 변경 처리
   const handleSelectChange = (e) => {
     const value = e.target.value;
-    setSelectedOption(value); // 선택된 옵션 상태 변경
+    setSelectedOption(value);
 
     if (value === "직접 입력") {
-      setIsCustomInput(true); // textarea 표시
-      onSaveRequest(customText); // 현재 입력된 값 전달
+      setIsCustomInput(true);       // textarea 표시
+      onSaveRequest(customText);    // 현재 입력값 부모에 전달
     } else {
-      setIsCustomInput(false); // textarea 숨김
-      onSaveRequest(value); // 선택된 옵션 전달
+      setIsCustomInput(false);      // textarea 숨김
+      onSaveRequest(value);         // 선택 옵션 부모에 전달
     }
   };
 
+  // textarea 내용 변경 처리
   const handleTextareaChange = (e) => {
     const value = e.target.value;
     if (value.length <= maxLength) {
       setCustomText(value);
-      onSaveRequest(value); // textarea 내용 실시간 저장
+      onSaveRequest(value); // 실시간으로 부모에 전달
     }
   };
 
@@ -44,8 +53,9 @@ const DeliveryRequest = ({ selectedAddress, onSaveRequest }) => {
     <div className="space-y-3">
       <h2 className="text-xl font-semibold text-gray-800">배송 요청사항</h2>
 
+      {/* 요청사항 선택 드롭다운 */}
       <select
-        value={isCustomInput ? "직접 입력" : selectedOption} // ✅ 직접 입력 상태 아니면 선택 옵션 보여줌
+        value={isCustomInput ? "직접 입력" : selectedOption} // textarea 모드이면 항상 "직접 입력" 선택
         onChange={handleSelectChange}
         className="w-full p-3 text-[20px] text-gray-700 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all"
       >
@@ -56,7 +66,7 @@ const DeliveryRequest = ({ selectedAddress, onSaveRequest }) => {
         <option value="직접 입력">직접 입력</option>
       </select>
 
-      {/* ✨ 직접 입력 textarea */}
+      {/* 직접 입력 textarea */}
       {isCustomInput && (
         <div className="mt-2">
           <textarea

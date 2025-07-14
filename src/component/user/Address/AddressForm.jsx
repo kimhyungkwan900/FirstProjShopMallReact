@@ -38,47 +38,91 @@ const AddressForm = ({ selectedAddress, onSuccess, onCancel }) => {
     e.preventDefault();
     try {
       if (form.id) {
-        await axios.put("/api/members/addresses", form);  // 수정
+        await axios.put("/api/members/addresses", form); // 수정
       } else {
         await axios.post("/api/members/addresses", form); // 추가
       }
       onSuccess(); // 저장 후 목록 새로고침
     } catch (error) {
       console.error("주소 저장 실패", error);
+      alert("주소 저장 중 오류가 발생했습니다.");
     }
   };
 
   return (
-    <form onSubmit={onSubmit} className="p-4 border rounded mb-4 text-sm font-semibold">
-      <div className="mb-2">
-        <label className="block">우편번호</label>
-        <input name="zipcode" value={form.zipcode} onChange={onChange} className="border p-1 w-full text-sm font-semibold" required />
-      </div>
-      <div className="mb-2">
-        <label className="block">주소</label>
-        <input name="address" value={form.address} onChange={onChange} className="border p-1 w-full text-sm font-semibold"
+    <form
+      onSubmit={onSubmit}
+      className="bg-white border border-gray-300 rounded-xl shadow-sm p-6 space-y-4"
+    >
+      <div>
+        <label className="block text-sm font-medium text-gray-800 mb-1">
+          우편번호
+        </label>
+        <input name="zipcode" value={form.zipcode} onChange={onChange}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+          placeholder="우편번호 입력"
           required
         />
       </div>
-      <div className="mb-2">
-        <label className="block">상세 주소</label>
-        <input name="address_detail" value={form.address_detail} onChange={onChange} className="border p-1 w-full text-sm font-semibold" required />
+
+      <div>
+        <label className="block text-sm font-medium text-gray-800 mb-1">
+          주소
+        </label>
+        <input
+          name="address" value={form.address} onChange={onChange}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+          placeholder="주소 입력"
+          required
+        />
       </div>
-      <div className="mb-2">
-        <label className="block">요청사항</label>
-        <input name="note" value={form.note} onChange={onChange} className="border p-1 w-full text-sm font-semibold" />
+
+      <div>
+        <label className="block text-sm font-medium text-gray-800 mb-1">
+          상세 주소
+        </label>
+        <input
+          name="address_detail" value={form.address_detail} onChange={onChange}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+          placeholder="상세 주소 입력"
+          required
+        />
       </div>
-      <div className="mb-2">
-        <label className="inline-flex items-center">
-          <input type="checkbox" name="is_default" checked={form.is_default} onChange={onChange}  className="mr-2" />기본 배송지로 설정
+
+      <div>
+        <label className="block text-sm font-medium text-gray-800 mb-1">
+          요청사항
+        </label>
+        <input
+          name="note" value={form.note} onChange={onChange}
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm"
+          placeholder="예: 문 앞에 놔주세요"
+        />
+      </div>
+
+      <div className="flex items-center">
+        <input
+          type="checkbox" name="is_default" checked={form.is_default}
+          onChange={onChange}
+          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-400"
+        />
+        <label className="ml-2 text-sm text-gray-700">
+          기본 배송지로 설정
         </label>
       </div>
-      <div className="flex gap-2">
-        <button type="submit" className="text-blue-500 text-sm font-semibold hover:underline mr-2">
-          저장
-        </button>
-        <button type="button" onClick={onCancel} className="text-red-500 text-sm font-semibold hover:underline">
+
+      <div className="flex justify-end gap-3 mt-4">
+        <button
+          type="button" onClick={onCancel}
+          className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+        >
           취소
+        </button>
+        <button
+          type="submit"
+          className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition"
+        >
+          저장
         </button>
       </div>
     </form>

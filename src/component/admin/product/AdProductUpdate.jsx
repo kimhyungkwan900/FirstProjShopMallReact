@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { putProduct } from "../../../api/admin/product/ProductManageApi"
 
-const AdProductDetail = ({product})=>{
+const AdProductUpdate = ({product})=>{
 
     const initState = {
         id: `${product.id}`,
@@ -69,7 +69,6 @@ const AdProductDetail = ({product})=>{
     
     return(
         <div className="">
-            {/* "border-2 border-sky-200 mt-10 m-2 p-4" */}
             {/* 상품명 */}
             <div className="flex justify-center">
                 <div className="relative mb-4 mr-10 mt-10 flex w-full flex-wrap items-stretch">
@@ -295,4 +294,4 @@ const AdProductDetail = ({product})=>{
         </div>
     );
 }
-export default AdProductDetail;
+export default AdProductUpdate;

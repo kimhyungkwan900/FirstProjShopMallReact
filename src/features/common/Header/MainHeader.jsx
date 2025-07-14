@@ -9,15 +9,18 @@ const MainHeader = () => {
   const isLoggedIn = !!user;
 
   const onLogout = async () => {
-    try {
-      await axios.post("/api/auth/logout", {}, { withCredentials: true });
-      localStorage.removeItem('accessToken');
-      alert("로그아웃 되었습니다.");
-      window.location.replace("/");
-    } catch (error) {
-      console.error(error);
-      alert("로그아웃 실패");
-    }
+try {
+    await axios.post("/api/auth/logout", {}, { withCredentials: true });
+
+    localStorage.removeItem('userId');
+    localStorage.removeItem('role');
+
+    alert("로그아웃 되었습니다.");
+    window.location.replace("/");
+  } catch (error) {
+    console.error("로그아웃 실패:", error);
+    alert("로그아웃 실패");
+  }
   };
 
   return (

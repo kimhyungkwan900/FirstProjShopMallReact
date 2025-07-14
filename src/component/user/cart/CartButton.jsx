@@ -61,7 +61,8 @@ const CartButton = ({ productId, status }) => {
       console.error("재입고 알림 신청 실패:", error);
       alert("이미 재입고 알림이 신청되었습니다.");
     }
-  };
+  }
+
 
   return (
     <button

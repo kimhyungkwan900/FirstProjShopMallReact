@@ -108,10 +108,12 @@ const orderStatusLabels = {
                 ? returnTypeLabels[order.returnType]
                 : orderStatusLabels[order.orderStatus] || order.orderStatus}
             </span>
-                {order.orderStatus === "배송중" ?  <DeilverySelectButton
-                  trackingNumber={order.trackingInfo?.trackingNumber}
-                  courierCode={order.trackingInfo?.courierCode}
-                /> : <div></div>}
+              {(order.orderStatus === "배송중" || order.orderStatus === "배송완료") && !order.returnType ? (
+              <DeilverySelectButton
+                trackingNumber={order.trackingInfo?.trackingNumber}
+                courierCode={order.trackingInfo?.courierCode}
+              />
+            ) : null}
             </div>
           </div>
 

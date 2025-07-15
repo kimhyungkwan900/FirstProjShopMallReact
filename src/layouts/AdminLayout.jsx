@@ -58,13 +58,12 @@ const AdminLayout = ({children})=>{
                         </ul>
                     </div>
 
-                    
                     <div>
                         <ul className="text-white font-light bg-gray-600">
                             <li className="pr-2 text-1xl">
                                 <Link to="/admin/faq">FAQ</Link>
-                            {/* </li> */}
-                        {/* </ul> */}
+                            </li>
+                        </ul>
                     </div>
                 {/* </div> */}
             </nav>

@@ -4,14 +4,21 @@ import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
 
 const UserFaqPage = () => {
+  const [category, setCategory] = useState([]);
   const [faqList, setFaqList] = useState([]);
   const [openId, setOpenId] = useState(null);
 
+  const fetchFaqs = async () =>{
+    try{
+      const response = await getFaqList({category, page:1, size:100});
+      setFaqList(response.dtoList || []);
+    }catch(error){
+      console.log("FAQ 불러오기 실패", error)
+    }
+  }
   useEffect(() => {
-    getFaqList({ page: 1, size: 100 })
-      .then((data) => setFaqList(data.dtoList))
-      .catch((err) => console.error("❌ FAQ 불러오기 실패", err));
-  }, []);
+    fetchFaqs();
+  }, [category]);
 
   const toggle = (id) => {
     setOpenId((prev) => (prev === id ? null : id));

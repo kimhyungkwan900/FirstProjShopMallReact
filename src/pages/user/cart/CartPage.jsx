@@ -20,7 +20,6 @@ const CartPage = () => {
     deliveryFee: 0,
     grandTotal: 0,
   });
-
   const loadCart = async () => {
     try {
       const response = await fetchCartItems();
@@ -61,9 +60,8 @@ const CartPage = () => {
       console.error("선택 상태 변경 실패", error);
     }
   };
-
   const handleUpdateQuantity = async (itemId, quantity) => {
-    if (quantity < 1) return;
+    if (quantity < 1) return; // 1 미만 방지
     try {
       await updateCartItemQuantity(itemId, quantity);
       await loadCart();
@@ -71,7 +69,6 @@ const CartPage = () => {
       console.error("수량 변경 실패", error);
     }
   };
-
   const handleDeleteSelectedItems = async (items) => {
     const isSelected = items.some((item) => item._selected);
     if (isSelected) {
@@ -92,9 +89,9 @@ const CartPage = () => {
       alert("주문할 상품을 선택해주세요.");
       return;
     }
-    const response = window.confirm("주문하시겠습니까?");
+    const response = window.confirm("주문하시겠습니까?"); // 확인창
     if (response) {
-      navigate("/order", { state: { selectedItems, total } });
+      navigate("/order", { state: { selectedItems, total } }); // 주문 페이지로 이동
     }
   };
 
@@ -109,17 +106,19 @@ const CartPage = () => {
               🛒 장바구니
             </h1>
           </div>
-
           <div className="flex justify-between items-center px-4 py-3 border-b bg-gray-50 rounded-b-xl">
             <label className="flex items-center gap-3 text-lg font-medium">
+              {/* 전체 선택 체크박스 */}
               <input
                 type="checkbox"
-                checked={cartItems.every((item) => item._selected)}
+                checked={cartItems.every((item) => item._selected)} // 모든 상품 선택 여부
                 onChange={async () => {
                   try {
-                    const isAllSelected = cartItems.every((item) => item._selected);
-                    await toggleCartAllSelection(!isAllSelected);
-                    await loadCart();
+                    const isAllSelected = cartItems.every(
+                      (item) => item._selected
+                    );
+                    await toggleCartAllSelection(!isAllSelected); // 전체 선택/해제 API 호출
+                    await loadCart(); // 상태 새로고침
                     loadTotal();
                   } catch (error) {
                     console.error("❌ 전체 선택 API 호출 실패", error);
@@ -130,6 +129,7 @@ const CartPage = () => {
               <span>전체 선택</span>
             </label>
 
+            {/* 선택 삭제 버튼 */}
             <button
               onClick={() => handleDeleteSelectedItems(cartItems)}
               className="text-sm text-black font-semibold px-3 py-1.5 rounded-xl shadow hover:bg-gray-300 transition border border-gray-400"
@@ -137,7 +137,6 @@ const CartPage = () => {
               선택 삭제
             </button>
           </div>
-
           <div className="px-4 py-6 space-y-5">
             {cartItems.length === 0 ? (
               <p className="text-xl text-center text-gray-500 mt-10">
@@ -187,18 +186,24 @@ const CartPage = () => {
             )}
           </div>
         </div>
-
         <div className="basis-[35%] min-w-[300px]">
           <div className="sticky top-6">
             <div className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
               <h2 className="text-2xl font-bold mb-5 text-gray-800">구매 금액</h2>
               <div className="flex justify-between mb-3 text-lg">
                 <span>상품 합계</span>
-                <span>{(total.totalProductPrice ?? 0).toLocaleString()} 원</span>
+                <span>
+                  {(total.totalProductPrice ?? 0).toLocaleString()} 원
+                </span>
               </div>
               <div className="flex justify-between mb-3 text-lg">
                 <span>배송비</span>
-                <span>{total.deliveryFee === 0 ? 0 : `${total.deliveryFee.toLocaleString()}`} 원</span>
+                <span>
+                  {total.deliveryFee === 0
+                    ? 0
+                    : `${total.deliveryFee.toLocaleString()}`}{" "}
+                  원
+                </span>
               </div>
               <div className="flex justify-between mb-3 text-sm text-gray-400">
                 <span>5만원 이상 구매시 무료 배송</span>

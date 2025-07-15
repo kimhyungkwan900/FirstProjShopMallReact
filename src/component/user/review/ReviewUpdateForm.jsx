@@ -117,7 +117,7 @@ const ReviewUpdateForm = ({ reviewId, onClose }) => {
       {
         ...review,            // 기존 리뷰 데이터 복사
         reviewId,             // 수정할 리뷰의 고유 ID 추가 
-        keepImageIds: review.existingImageIds, // 👈 이 부분 추가
+        keepImageIds: review.existingImageIds,
       },
       imageFiles             // 함께 전송할 이미지 파일들
     );

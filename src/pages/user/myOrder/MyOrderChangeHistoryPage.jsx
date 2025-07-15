@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import OrderFilterButton from "../../../component/user/orderChangeHistory/OrderFilterButton";
-import MainHeader from "../../../features/common/Header/MainHeader";
-import MainFooter from "../../../features/common/Footer/MainFooter";
 import OrderChangeContent from "../../../component/user/orderChangeHistory/OrderChangeContent";
 import Pagination from "../../../component/user/orderChangeHistory/Pagination";
 import { findChangeList } from "../../../api/user/myOrder/MyOrderChangeHistoryApi";
@@ -10,6 +8,8 @@ import { useContext } from "react";
 import { UserContext } from "../../../component/common/Context/UserContext";
 import { deleteOrder } from "../../../api/user/myOrder/MyOrderDeleteApi";
 
+import MainHeader from "../../../features/common/Header/MainHeader";
+import Footer from "../../../component/common/Footer";
 
 const MyOrderChangeHistoryPage = () => {
   const [filterType, setFilterType] = useState("ALL");
@@ -46,7 +46,6 @@ const MyOrderChangeHistoryPage = () => {
   setLoading(true);
   try {
     const returnTypes = returnTypeMap[filter]; // null or 배열
-    console.log(returnTypes);
     const res = await findChangeList({
       memberId,
       returnType: returnTypes,
@@ -109,7 +108,7 @@ const MyOrderChangeHistoryPage = () => {
 
   return (
     <div>
-      <MainHeader />
+      <MainHeader/>
       <h2 className="text-2xl text-center mt-10 font-bold">취소/교환/반품 페이지</h2>
       <OrderFilterButton onFilterChange={(type) => {
           setFilterType(type);
@@ -132,7 +131,7 @@ const MyOrderChangeHistoryPage = () => {
         </>
       )}
       <MypageMenu/>
-      <MainFooter />
+      <Footer/>
     </div>
   );
 };

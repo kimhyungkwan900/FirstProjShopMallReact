@@ -6,16 +6,20 @@ const OAuth2Success = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = params.get("accessToken");
-    if (token) {
-      localStorage.setItem("accessToken", token);
+    const userId = params.get("userId");
+    const role = params.get("role");
+
+    if (userId && role) {
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("role", role);
       alert("로그인 성공");
       navigate("/");
     } else {
-      alert("토큰 없음");
+      alert("로그인 정보 없음");
       navigate("/login");
     }
   }, []);
+
 
   return <div>로그인 중입니다...</div>;
 };

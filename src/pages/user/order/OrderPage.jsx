@@ -55,12 +55,15 @@ const OrderPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-8 bg-white rounded-2xl shadow-md space-y-8">
-      <h1 className="text-4xl font-bold mb-8 text-gray-900">주문서</h1>
+    <div className="w-full bg-gray-50 min-h-screen text-gray-800">
+      {/* ✅ 상단 공통 헤더 */}
+      <MainHeader />
 
-      <div className="flex gap-8">
-        {/* 왼쪽: 주문자 정보 및 주문 상품 */}
-        <div className="flex-1 space-y-6">
+      {/* ✅ 본문 콘텐츠 */}
+      <main className="max-w-4xl mx-auto px-4 py-12">
+        <div className="bg-white p-8 rounded-3xl shadow-lg space-y-10">
+          <h1 className="text-3xl font-extrabold text-gray-900">🧾 주문서</h1>
+
           <OrdererInfo
             user={user}
             selectedAddress={selectedAddress}
@@ -69,22 +72,18 @@ const OrderPage = () => {
             onRequestChange={setDeliveryRequest}
           />
 
-          <OrderItems selectedItems={selectedItems} />
-
           <PaymentOptions
             onSelectPayment={setPaymentMethod}
           />
-        </div>
 
-        {/* 오른쪽: 결제 요약 */}
-        <div className="basis-[35%] min-w-[300px]">
           <PaymentSummary
             total={total}
             onSubmit={handleCreateOrder}
           />
         </div>
-      </div>
+      </main>
 
+      {/* ✅ 배송지 모달 */}
       {showAddressModal && (
         <AddressModal
           onClose={() => setShowAddressModal(false)}
@@ -95,6 +94,9 @@ const OrderPage = () => {
           }}
         />
       )}
+
+      {/* ✅ 공통 푸터 */}
+      <Footer />
     </div>
   );
 };

@@ -3,8 +3,9 @@ import Footer from "../../../component/common/Footer";
 
 import MyOrderSearch from "../../../component/user/myOrder/MyOrderSearch";
 import MyOrderCalendar from "../../../component/user/myOrder/MyOrderCalender";
-import MypageMenu from "../../../component/user/myOrder/MypageMenu";
 import MyOrderContent from "../../../component/user/myOrder/MyOrderContent";
+
+import MyPageSideMenuBar from "../../../component/user/myOrder/MyPageSideMenuBar";
 
 import { useEffect ,useState } from "react";
 import { useContext } from "react";
@@ -134,7 +135,7 @@ const handleDeleteOrder = async (orderId) => {
           ))}
         </div>
       )}
-      <MypageMenu />
+      <MyPageSideMenuBar />
       <Footer />
     </div>
   );

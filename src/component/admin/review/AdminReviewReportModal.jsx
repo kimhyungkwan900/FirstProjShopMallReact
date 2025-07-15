@@ -39,7 +39,7 @@ const AdminReviewReportModal = ({ reviewId, onClose }) => {
               <div key={index} className="border rounded-lg p-4 shadow-sm bg-gray-50">
                 <div className="flex justify-between">
                 <div className="text-sm mb-1">
-                  <span className="font-medium text-gray-700">신고자:</span> {report.memberId}
+                  <span className="font-medium text-gray-700">신고자:</span> {report.userId}
                 </div>
                 <div className="text-sm text-gray-500">
                   <span className="font-medium">신고일:</span> {new Date(report.createdAt).toLocaleString()}

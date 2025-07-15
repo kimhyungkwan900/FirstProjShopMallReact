@@ -3,13 +3,14 @@ import OrderFilterButton from "../../../component/user/orderChangeHistory/OrderF
 import OrderChangeContent from "../../../component/user/orderChangeHistory/OrderChangeContent";
 import Pagination from "../../../component/user/orderChangeHistory/Pagination";
 import { findChangeList } from "../../../api/user/myOrder/MyOrderChangeHistoryApi";
-import MypageMenu from "../../../component/user/myOrder/MypageMenu";
 import { useContext } from "react";
 import { UserContext } from "../../../component/common/Context/UserContext";
 import { deleteOrder } from "../../../api/user/myOrder/MyOrderDeleteApi";
 
 import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
+
+import MyPageSideMenuBar from "../../../component/user/myOrder/MyPageSideMenuBar";
 
 const MyOrderChangeHistoryPage = () => {
   const [filterType, setFilterType] = useState("ALL");
@@ -130,7 +131,7 @@ const MyOrderChangeHistoryPage = () => {
           )}
         </>
       )}
-      <MypageMenu/>
+      <MyPageSideMenuBar/>
       <Footer/>
     </div>
   );

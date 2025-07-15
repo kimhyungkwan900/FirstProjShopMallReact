@@ -64,3 +64,5 @@ const FaqDetailPage = () => {
 };
 
 export default FaqDetailPage;
+
+////삭제할 내용 

@@ -26,8 +26,8 @@ function App() {
           withCredentials: true,
         });
 
-        const { userId, role } = res.data;
-        localStorage.setItem('userId', userId);
+        const { id, role } = res.data;
+        localStorage.setItem('userId', id);
         localStorage.setItem('role', role);
 
         setUser(res.data);

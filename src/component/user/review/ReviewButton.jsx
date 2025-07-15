@@ -1,9 +1,12 @@
 import { useState } from "react";
 import ReviewModal from "./ReviewModal";
 import ReviewContent from "./ReviewContent";
-
+import { useContext } from "react";
+import { UserContext } from "../../common/Context/UserContext";
 const ReviewButton = ({productId}) => {
-  const memberId = 1;
+
+   const {user} = useContext(UserContext);
+  const memberId = user?.id;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);

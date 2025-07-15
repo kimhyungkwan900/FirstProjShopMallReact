@@ -48,6 +48,7 @@ const MyPage = () => {
                     <div className="bg-white rounded-xl shadow divide-y">
                         <LinkedButton to="/mypage/reviews" label="리뷰" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
                         <LinkedButton to="/wishlist" label="찜 리스트" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
+                        <LinkedButton to="/restock/list" label="재입고 알람 내역" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
                         <LinkedButton to="#" label="정기구독" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
                     </div>
                     <div className="bg-white rounded-xl shadow divide-y">

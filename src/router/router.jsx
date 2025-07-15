@@ -12,6 +12,7 @@ import OrderRouter from './order/OrderRouter';
 import FaqRouter from './admin/faq/FaqRouter';
 import UserFaqRouter from "./user/userFaq/UserFaqRouter";
 import OrderSuccessRouter from './order/OrderSuccessRouter';
+import RestockAlarmRouter from './cart/RestockAlarmRouter';
 
 const router = createBrowserRouter([
   ...loginRoutes,
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
   ...FaqRouter,
   ...UserFaqRouter,
   ...OrderSuccessRouter,
+  ...RestockAlarmRouter,
 
   {
     path: '/',

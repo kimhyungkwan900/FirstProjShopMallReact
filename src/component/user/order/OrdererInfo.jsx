@@ -55,9 +55,9 @@ const OrdererInfo = ({ user, selectedAddress, onOpenModal, onRequestChange }) =>
       {/* ✅ 주문자 정보 영역 */}
       <div className="flex justify-between items-start">
         <div className="space-y-2">
-          <p className="text-[28px] font-bold text-gray-900">{user.nickname}</p>
+          <p className="text-[28px] font-bold text-gray-900">{user?.nickname}</p>
           <p className="text-[22px] font-semibold text-gray-700">
-            {user.phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")}
+            {user?.phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3")}
           </p>
 
           {/* 선택된 배송지 출력 */}

@@ -14,11 +14,9 @@ const PaymentSummary = ({ total, onSubmit }) => (
       {/* 배송비 */}
       <div className="flex justify-between mb-3 text-lg">
         <span>배송비</span>
-        <span>
-          {total.deliveryFee === 0
-            ? "0 원"
-            : `${total.deliveryFee.toLocaleString()} 원`}
-        </span>
+        {total?.deliveryFee
+          ? `${total.deliveryFee.toLocaleString()} 원`
+          : "0 원"}
       </div>
 
       {/* 안내 문구 */}

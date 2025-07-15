@@ -20,7 +20,7 @@ const Footer = () => {
           {/* 로고 및 회사정보 */}
           <div className="space-y-2">
             <img src="/images/footer/Logo1234.png" alt="로고" className="w-40 mb-2" />
-            <p>신촌몰(주) / 대표자 : 홍길동</p>
+            <p>INITIUM(주) / 대표자 : 홍길동</p>
             <p>주소 : 서울특별시 마포구 신촌로 176 중앙빌딩 5층</p>
             <p>대표전화 : 1234-1234</p>
             <p>통신판매업 신고번호 : 2025-서울강남-1234</p>

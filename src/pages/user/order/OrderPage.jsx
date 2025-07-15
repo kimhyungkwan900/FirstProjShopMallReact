@@ -98,7 +98,6 @@ const OrderPage = () => {
         />
       )}
       <MyPageSideMenuBar/>
-      {/* ✅ 공통 푸터 */}
       <Footer />
     </div>
   );

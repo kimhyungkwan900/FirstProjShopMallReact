@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { getRestockAlarmList, cancelRestockAlarm } from "../../../api/user/cart/CartApi";
+import MainHeader from "../../../features/common/Header/MainHeader";
+import Footer from "../../../component/common/Footer";
+import MyPageSideMenuBar from "../../../component/user/myOrder/MyPageSideMenuBar";
+import { useNavigate } from "react-router-dom";
 
-const RestockAlarmList = () => {
+const RestockAlarmListPage = () => {
   const [restockAlarmList, setRestockAlarmList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -12,7 +17,6 @@ const RestockAlarmList = () => {
         const response = await getRestockAlarmList();
         const alarmData = response.data?.content ?? response.data ?? [];
         setRestockAlarmList(Array.isArray(alarmData) ? alarmData : []);
-
       } catch (error) {
         console.error("재입고 알림 목록 불러오기 실패", error);
       } finally {
@@ -37,7 +41,9 @@ const RestockAlarmList = () => {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-4 bg-gray-100 ">
+    <div>
+        <MainHeader/>
+        <div className="max-w-[1200px] mx-auto mt-10 mb-30 h-100% p-4 bg-gray-100 ">
       <h1 className="text-xl font-bold mb-4 ">재입고 알림내역</h1>
 
       <div className="bg-white">
@@ -64,7 +70,9 @@ const RestockAlarmList = () => {
                 />
                 <div className="flex-1 gap-2 mt-1.5">
                     <h2 className="font-semibold">{alarm.productBrandName}</h2>
-                    <p className="text-gray-700 text-sm mb-1">{alarm.productName}</p>
+                    <button
+                        onClick={() => navigate(`/products/${alarm.productId}`)}
+                        className="hover:underline text-[15px] mb-1">{alarm.productName}</button>
                     <p className="text-gray-500 text-sm ">알림 대기자 19명 / 2025.09.03 자동 해제</p>
                 </div>
                 <div className="flex flex-col justify-center">
@@ -81,7 +89,10 @@ const RestockAlarmList = () => {
             )}
         </div>
     </div>
+    <MyPageSideMenuBar/>
+    <Footer/>
+    </div>
   );
 };
 
-export default RestockAlarmList;
+export default RestockAlarmListPage;

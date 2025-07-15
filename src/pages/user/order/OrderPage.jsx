@@ -9,7 +9,8 @@ import OrdererInfo from "../../../component/user/order/OrdererInfo";
 import PaymentSummary from "../../../component/user/order/PaymentSummary";
 import OrderItems from "../../../component/user/order/OrderItems";
 
-import MyPageSideMenuBar from "../../../component/user/myOrder/MyPageSideMenuBar";
+import Footer from "../../../component/common/Footer";
+import MainHeader from "../../../features/common/Header/MainHeader";
 
 /**
  * 주문 페이지 컴포넌트
@@ -57,7 +58,9 @@ const OrderPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-8 bg-white rounded-2xl shadow-md space-y-8">
+    <div>
+      <MainHeader/>
+      <div className="max-w-7xl mx-auto p-8 bg-white rounded-2xl shadow-md space-y-8">
       <h1 className="text-4xl font-bold mb-8 text-gray-900">주문서</h1>
 
       <div className="flex gap-8">
@@ -97,8 +100,8 @@ const OrderPage = () => {
           }}
         />
       )}
-      <MyPageSideMenuBar/>
       <Footer />
+    </div>
     </div>
   );
 };

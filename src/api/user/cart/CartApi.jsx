@@ -74,14 +74,15 @@ export const cancelRestockAlarm = (itemsId) => {
   return axiosInstance.post(`/api/cart/items/${itemsId}/restockAlarm/cancel`);
 };
 
+
 // ✅ 12. 재입고 알림 목록
 export const getRestockAlarmList = () => {
   return axiosInstance.get(`/api/cart/items/restockAlarm/list`);
 };
 
 // ✅ 13. 재입고 알림 상태
-export const IsRequestRestockAlarm = () => {
-  return axiosInstance.get(`/api/cart/items/{productId}/restockAlarm/status`);
+export const IsRequestRestockAlarm = (productId) => {
+  return axiosInstance.get(`/api/cart/items/${productId}/restockAlarm/status`);
 };
 
 

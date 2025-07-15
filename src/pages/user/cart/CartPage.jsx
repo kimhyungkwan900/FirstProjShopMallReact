@@ -10,6 +10,8 @@ import {
   deleteCartItems,             // 개별 상품 삭제 API
   toggleCartAllSelection,      // 전체 상품 선택/해제 API
 } from "../../../api/user/cart/CartApi";
+import MainHeader from "../../../features/common/Header/MainHeader";
+import Footer from "../../../component/common/Footer";
 
 const CartPage = () => {
   const navigate = useNavigate(); // 페이지 이동 훅
@@ -109,7 +111,10 @@ const CartPage = () => {
   };
 
   return (
-    <div className="flex justify-center bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen px-4 py-6">
+    
+   <div>
+    <MainHeader/>
+     <div className="flex justify-center bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen px-4 py-6">
       <div className="flex w-full max-w-7xl gap-8">
         {/* 왼쪽: 장바구니 리스트 영역 */}
         <div className="basis-[65%] bg-white rounded-3xl shadow-xl p-6 border border-gray-100 h-auto">
@@ -265,6 +270,8 @@ const CartPage = () => {
         </div>
       </div>
     </div>
+    <Footer/>
+   </div>
   );
 };
 

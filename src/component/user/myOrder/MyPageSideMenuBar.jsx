@@ -11,6 +11,7 @@ const MyPageSideMenuBar = () => {
     { label: "영수증 조회", path: "/order" },
     { label: "리뷰", path: "/mypage/reviews" },
     { label: "찜 리스트", path: "/wishlist" },
+    { label: "재입고 알림 내역", path: "/restock/list" },
     { label: "정기구독", path: "#" },
     { label: "개인정보 확인 / 변경", path: "/mypage/update" },
     { label: "배송지 관리", path: "/mypage/address" },

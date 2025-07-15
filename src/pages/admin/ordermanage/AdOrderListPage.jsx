@@ -32,9 +32,9 @@ const AdOrderListPage = ()=>{
             검색유형:
             <select value={filters.searchType} onChange={(e)=>setFilters({...filters, searchType: e.target.value})} className="border ml-2 p-1">
                 <option value="주문 ID">주문 ID</option>
-                <option value="주문자 ID">주문자 ID</option>
+                <option value="고객 ID">고객 ID</option>
             </select>
-            <input type="date" value={filters.searchContent} onChange={(e)=>setFilters({ ...filters, searchContent: e.target.value })} className="border ml-2 p-1"/>
+            <input type="text" value={filters.searchContent} onChange={(e)=>setFilters({ ...filters, searchContent: e.target.value })} className="border ml-2 p-1"/>
             주문 상태:
             <select value={filters.orderStatus} onChange={(e)=>setFilters({...filters, orderStatus: e.target.value})} className="border ml-2 p-1">
                 <option value="접수">접수</option>

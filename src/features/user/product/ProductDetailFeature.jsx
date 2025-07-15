@@ -54,7 +54,6 @@ const ProductDetailFeature = () => {
     <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
       {/* 헤더 */}
       <MainHeader />
-
       <StickyRecentlyViewedProducts />
       {/* 메인 컨텐츠 */}
       <main className="flex-grow max-w-screen-lg mx-auto px-4 py-12">

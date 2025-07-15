@@ -5,14 +5,13 @@ import { deleteProduct } from '../../../api/admin/product/ProductManageApi';
 import Pagination from "./Pagination"
 import AdProductUpdate from './AdProductUpdate';
 
-
 const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
     
     const [products, setProducts] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [selectedIds, setSelectedIds] = useState([]);
 
-    const [modalIsOpen, setModalIsOpen]       = useState(false);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const getProducts = useCallback(async () => {

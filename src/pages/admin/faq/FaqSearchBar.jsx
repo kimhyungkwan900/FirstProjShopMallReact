@@ -41,7 +41,6 @@ const FaqSearchBar = ({ searchParams, setSearchParams, onSearch }) => {
         <option value="취소/교환/반품">취소/교환/반품</option>
         <option value="환불">환불</option>
         <option value="주문/결제">주문/결제</option>
-        <option value="쿠폰/포인트">쿠폰/포인트</option>
         <option value="기타">기타</option>
       </select>
 

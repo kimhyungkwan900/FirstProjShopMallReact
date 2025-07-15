@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getFaqById } from "../../../api/admin/faq/FaqApi";
+import AdminLayout from "../../../layouts/AdminLayout";
 
 //상세 페이지
 
@@ -27,6 +28,7 @@ const FaqDetailPage = () => {
   if (!faq) return <div className="p-8">로딩 중...</div>;
 
   return (
+    <AdminLayout>
     <div className="p-8 max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">FAQ 상세조회</h1>
       <div className="border rounded p-4 space-y-4">
@@ -57,6 +59,7 @@ const FaqDetailPage = () => {
         </button>
       </div>
     </div>
+    </AdminLayout>
   );
 };
 

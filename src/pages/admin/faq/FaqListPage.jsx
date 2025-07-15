@@ -4,6 +4,9 @@ import FaqListItem from "./FaqListItem";
 import FaqSearchBar from "./FaqSearchBar";
 import Pagination from "../../../component/admin/faq/Pagination";
 import { useNavigate,  useLocation } from "react-router-dom";
+import AdminLayout from "../../../layouts/AdminLayout";
+
+
 
 //목록 페이지 겸 메인
 
@@ -74,36 +77,11 @@ const FaqListPage = () => {
   };
 
 
-  //   useEffect(() => {
-  //   if (location.state?.resetSearch) {
-    
-  //     setSearchParams({
-  //       category: "",
-  //       keyWord: "",
-  //       page: 1,
-  //       size: 10,
-  //     });
-  //   }
-  // }, [location.state]);
-
-
   // 검색 조건이 바뀌거나 페이지 바뀌면 다시 불러오기 
   useEffect(() => {
     fetchFaqList();
     setIsSearching(false); // 검색 플래그 초기화
   }, [searchParams.page, searchParams.size]);
-
-
-  //  //totalCount 변경 시, 현재 페이지가 유효한지 확인
-  // useEffect(() => {
-  //   const totalPage = Math.ceil(totalCount / searchParams.size);
-  //   if (searchParams.page > totalPage && totalPage > 0) {
-  //     setSearchParams((prev) => ({
-  //       ...prev,
-  //       page: 1,
-  //     }));
-  //   }
-  // }, [totalCount]);
 
 
     //faq 삭제하기
@@ -129,6 +107,7 @@ const FaqListPage = () => {
 
 
   return (
+    <AdminLayout>
     <div className="p-8">
       <h1 className="text-2xl font-bold mb-4">FAQ 목록</h1>
 
@@ -196,6 +175,7 @@ const FaqListPage = () => {
         setSearchParams({ ...searchParams, page: newPage })
       }/>
     </div>
+    </AdminLayout>
   );
 };
 

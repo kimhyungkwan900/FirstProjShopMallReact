@@ -53,6 +53,14 @@ const AdminLayout = ({children})=>{
                         )}
                     </div>
 
+                     <div>
+                        <ul className="text-white font-bold ">
+                            <li className="pr-2 text-lxl">
+                                <Link to="/admin/review">리뷰 관리</Link>
+                            </li>
+                        </ul>
+                    </div>
+
                     
                     <div>
                         <ul className="text-white font-light bg-gray-600">

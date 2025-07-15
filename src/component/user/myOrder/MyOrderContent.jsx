@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ReviewWriterFormModal from "../review/ReviewWriterFormModal";
 import MyOrderReturnForm from "./MyOrderReturnForm";
 import MyOrderDeleteButton from "./MyOrderDeleteButton";
-import DeilverySelectButton from "./DeliverySelectButton";
+import DeliverySelectButton from "./DeliverySelectButton";
 import CartButton from "../cart/CartButton";
 
 const MyOrderContent = ({ orders: ordersProp, memberId, onDelete }) => {
@@ -32,6 +32,12 @@ const orderStatusLabels = {
   배송중: "배송중",
   배송완료: "배송완료",
 };
+
+const courierCode = {
+  "04" : "CJ대한통운",
+  "08" : "롯대택배",
+  "06" : "로젠택배"
+}
 
   useEffect(() => {
     setOrders(ordersProp);
@@ -88,6 +94,14 @@ const orderStatusLabels = {
 
           <div className="flex items-center space-x-2 mb-2 justify-between">
             <div className="font-semibold pb-2">주문날짜 : {order.orderDate}</div>
+             {order.trackingInfo?.trackingNumber ? (
+                <div className="flex justify-end text-blue-700 font-bold">
+                 <span className="font-bold mr-1 text-black">택배사 :</span>
+                 {courierCode[order.trackingInfo?.courierCode]} <span className="text-black ml-1">/</span>
+                 <span className="font-bold ml-1 mr-1 text-black">운송장 번호 : </span> 
+                 {order.trackingInfo.trackingNumber}
+                </div>
+              ) : null}
           </div>
 
           <div className="flex justify-between">
@@ -100,22 +114,24 @@ const orderStatusLabels = {
                 </a>
               
             </div>
-            <div className="font-semibold pb-2">
-               
+            <div className="font-semibold pb-2"> 
               <span className="ml-2">상태 :</span>
               <span className="text-blue-600">
               {order.returnType
                 ? returnTypeLabels[order.returnType]
                 : orderStatusLabels[order.orderStatus] || order.orderStatus}
-            </span>
-              {(order.orderStatus === "배송중" || order.orderStatus === "배송완료") && !order.returnType ? (
-              <DeilverySelectButton
+              </span>
+              {(order.orderStatus === "배송중" || order.orderStatus === "배송완료") && !order.returnType && order.trackingInfo?.trackingNumber ? (
+              <DeliverySelectButton
                 trackingNumber={order.trackingInfo?.trackingNumber}
                 courierCode={order.trackingInfo?.courierCode}
               />
             ) : null}
             </div>
+
           </div>
+         
+           
 
           <div className="flex justify-between">
             <div>

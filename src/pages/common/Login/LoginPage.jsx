@@ -7,26 +7,41 @@ const LoginPage = () => {
 
     const onLogin = async (userId, password) => {
         try {
-        const response = await axios.post(
+            const response = await axios.post(
             "/api/auth/login",
             { userId, password },
             {
-            withCredentials: true,
-            validateStatus: (status) => status >= 200 && status < 300
+                withCredentials: true,
+                validateStatus: (status) => status >= 200 && status < 300,
             }
         );
 
-        const { accessToken } = response.data;
-        if (!accessToken) {
-            throw new Error("서버에서 accessToken을 받지 못했습니다.");
+        const { userId: responseUserId, role } = response.data;
+
+        if (!responseUserId || !role) {
+            throw new Error("서버에서 사용자 정보를 받지 못했습니다.");
         }
 
-        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("userId", responseUserId);
+        localStorage.setItem("role", role);
+
         alert("쇼핑몰에 오신 걸 환영합니다!");
         window.location.replace("/");
         } catch (e) {
-        console.error(e.response?.data || e.message);
-        alert("ID 또는 비밀번호를 다시 확인해주세요.");
+            console.error(e);
+
+            const status = e.response?.status;
+            const message = e.response?.data || "로그인 중 알 수 없는 오류가 발생했습니다.";
+
+            if (status === 403) {
+                alert("비활성화된 계정입니다. 관리자에게 문의하세요.");
+            } else if (status === 401) {
+                alert("비밀번호가 틀렸습니다.");
+            } else if (status === 404) {
+                alert("존재하지 않는 사용자입니다.");
+            } else {
+                alert(message);
+            }
         }
     };
 

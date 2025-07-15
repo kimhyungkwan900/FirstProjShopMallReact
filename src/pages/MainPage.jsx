@@ -4,6 +4,7 @@ import BannerSlider from "../component/common/Banner/BannerSlider";
 import PopularProducts from "../component/user/product/PopularProducts";
 import MainFooter from "../features/common/Footer/MainFooter";
 import RecentProducts from "../component/user/product/RecentProducts";
+import Footer from "../component/common/Footer";
 
 const MainPage = () => {
   const [banner, setBanners] = useState([]);
@@ -38,7 +39,7 @@ const MainPage = () => {
       </section>
 
       {/* 푸터 */}
-      <MainFooter />
+      <Footer /> 
     </div>
   );
 };

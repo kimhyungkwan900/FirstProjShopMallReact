@@ -6,7 +6,7 @@ import { UserContext } from "../../../component/common/Context/UserContext";
 
 const MainHeader = () => {
   const {user} = useContext(UserContext);
-  const isLoggedIn = !!user;
+  const isLoggedIn = !!user?.userId;
 
   const onLogout = async () => {
 try {

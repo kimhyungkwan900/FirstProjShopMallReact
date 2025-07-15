@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addCartItem, requestRestockAlarm, cancelRestockAlarm } from "../../../api/user/cart/CartApi";
+import { addCartItem, requestRestockAlarm, cancelRestockAlarm, IsRequestRestockAlarm } from "../../../api/user/cart/CartApi";
 import { UserContext } from "../../common/Context/UserContext";
 
 /**
@@ -15,7 +15,7 @@ const CartButton = ({ productId, status }) => {
   const isLoggedIn = !!user?.id;            // 로그인 여부 판단
 
   // 재입고 알림 신청 상태
-  const [isAlarmRequested, setIsAlarmRequested] = useState(false);
+  const [isAlarmRequested, setIsAlarmRequested] = useState();
 
 
   /**
@@ -38,17 +38,21 @@ const CartButton = ({ productId, status }) => {
         "상품이 장바구니에 추가되었습니다.\n장바구니로 이동하시겠습니까?"
       );
       if (confirmed) navigate("/cart"); // 사용자가 확인하면 장바구니 페이지로 이동
+      setIsAlarmRequested(true);
     } catch (error) {
       console.error("장바구니 추가 실패:", error);
       alert("장바구니 추가에 실패했습니다. 다시 시도해주세요.");
     }
   };
+  
 
   /**
    * 재입고 알림을 신청하는 함수
    * - 로그인하지 않은 경우 로그인 페이지로 이동 여부를 확인
    * - 이미 신청된 경우 예외 처리
    */
+
+  
   const handleRequestRestockAlarm = async () => {
     if (!isLoggedIn) {
       const response = window.confirm("로그인이 필요합니다.\n로그인 하시겠습니까?");
@@ -70,7 +74,7 @@ const CartButton = ({ productId, status }) => {
         setIsAlarmRequested(true);
         const response = window.confirm("재입고 알림이 신청되었습니다.\n 마이페이지로 이동하시겠습니까?");
         if(response){
-          navigate("/restock/list");
+          navigate("/restock/list",{state: { fromProductId: productId, alarmRequested: true }});
         }
       }
     } catch (error) {
@@ -87,6 +91,7 @@ const CartButton = ({ productId, status }) => {
     >
       {status === "판매중" ? "장바구니 담기" : 
         isAlarmRequested ? "재입고 알림 신청 취소" : "재입고 알림 신청" }
+        
     </button>
   );
 };

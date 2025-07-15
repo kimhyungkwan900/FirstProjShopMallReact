@@ -79,7 +79,13 @@ export const getRestockAlarmList = () => {
   return axiosInstance.get(`/api/cart/items/restockAlarm/list`);
 };
 
-// ✅ 13. 브랜드별 전체 선택
+// ✅ 13. 재입고 알림 상태
+export const IsRequestRestockAlarm = () => {
+  return axiosInstance.get(`/api/cart/items/{productId}/restockAlarm/status`);
+};
+
+
+// ✅ 14. 브랜드별 전체 선택
 export const toggleCartBrandSelection = (brandName, isSelected) => {
   return axiosInstance.put(`/api/cart/items/select-brand/${encodeURIComponent(brandName)}`,
   null,
@@ -88,7 +94,7 @@ export const toggleCartBrandSelection = (brandName, isSelected) => {
 
 };
 
-// ✅ 14. 장바구니 항목 전체 선택 
+// ✅ 15. 장바구니 항목 전체 선택 
 export const toggleCartAllSelection = (isSelected) => {
   return axiosInstance.put(`/api/cart/items/select-all`, null, {
     params: { isSelected },

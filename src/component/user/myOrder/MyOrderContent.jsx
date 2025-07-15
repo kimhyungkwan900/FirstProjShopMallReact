@@ -189,7 +189,7 @@ const courierCode = {
                   취소
                 </button>
               )}
-               <CartButton productId={order.product?.productId} status={order.product?.sellStatus}/>
+               <CartButton productId={order.product?.id} status={order.product?.sellStatus}/>
           </div>
         </div>
       ))}

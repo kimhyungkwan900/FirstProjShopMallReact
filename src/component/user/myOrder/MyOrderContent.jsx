@@ -94,7 +94,7 @@ const courierCode = {
 
           <div className="flex items-center space-x-2 mb-2 justify-between">
             <div className="font-semibold pb-2">주문날짜 : {order.orderDate}</div>
-             {order.trackingInfo?.trackingNumber ? (
+             {order.trackingInfo?.trackingNumber && order.orderStatus === '배송중' && !order.returnType ? (
                 <div className="flex justify-end text-blue-700 font-bold">
                  <span className="font-bold mr-1 text-black">택배사 :</span>
                  {courierCode[order.trackingInfo?.courierCode]} <span className="text-black ml-1">/</span>
@@ -121,7 +121,7 @@ const courierCode = {
                 ? returnTypeLabels[order.returnType]
                 : orderStatusLabels[order.orderStatus] || order.orderStatus}
               </span>
-              {(order.orderStatus === "배송중" || order.orderStatus === "배송완료") && !order.returnType && order.trackingInfo?.trackingNumber ? (
+              {order.orderStatus === "배송중" && !order.returnType && order.trackingInfo?.trackingNumber ? (
               <DeliverySelectButton
                 trackingNumber={order.trackingInfo?.trackingNumber}
                 courierCode={order.trackingInfo?.courierCode}

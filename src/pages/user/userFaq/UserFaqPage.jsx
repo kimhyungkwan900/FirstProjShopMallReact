@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import { getFaqList } from "../../../api/admin/faq/FaqApi";
+import MainHeader from "../../../features/common/Header/MainHeader";
+import Footer from "../../../component/common/Footer";
 
 const UserFaqPage = () => {
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState("");
   const [faqList, setFaqList] = useState([]);
   const [openId, setOpenId] = useState(null);
 
-  const fetchFaqs = async () =>{
-    try{
-      const response = await getFaqList({category, page:1, size:100});
+  const fetchFaqs = async () => {
+    try {
+      const response = await getFaqList({ category, page: 1, size: 100 });
       setFaqList(response.dtoList || []);
-    }catch(err){
-      console.log("FAQ 불러오기 실패", error)
+    } catch (error) {
+      console.log("FAQ 불러오기 실패", error);
     }
-  }
+  };
+
   useEffect(() => {
     fetchFaqs();
   }, [category]);
@@ -22,47 +25,50 @@ const UserFaqPage = () => {
     setOpenId((prev) => (prev === id ? null : id));
   };
 
-  const categories = [
-    "배송", "취소/교환/반품", "환불", "주문/결제", "기타"
-  ];
+  return (
+    <div className="w-full bg-gray-50 min-h-screen text-gray-800">
+      <MainHeader />
+      <main className="max-w-3xl mx-auto px-4 py-12">
+        <h1 className="text-3xl font-extrabold text-center mb-10 text-gray-800">
+          ❓ 자주 묻는 질문 (FAQ)
+        </h1>
 
-   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">자주 묻는 질문</h1>
-
-      {/* 카테고리 탭 */}
-      <div className="flex flex-wrap gap-2 justify-center mb-8">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => setCategory(cat)}
-            className={`px-4 py-2 rounded ${
-              category === cat
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-            }`}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      {/* FAQ 리스트 */}
-      <ul className="space-y-4">
-        {faqList.map((faq) => (
-          <li key={faq.id} className="border-b pb-2">
-            <button
-              onClick={() => toggle(faq.id)}
-              className="w-full text-left font-semibold text-gray-800 hover:text-blue-600"
+        <ul className="space-y-6">
+          {faqList.map((faq) => (
+            <li
+              key={faq.id}
+              className="border border-gray-200 rounded-xl bg-white shadow-sm transition-all"
             >
-              Q. [{faq.category}] {faq.question}
-            </button>
-            {openId === faq.id && (
-              <div className="mt-2 text-gray-600 px-4">A. {faq.answer}</div>
-            )}
-          </li>
-        ))}
-      </ul>
+              <button
+                onClick={() => toggle(faq.id)}
+                className="w-full px-5 py-4 text-left flex items-start gap-3 hover:bg-blue-50 rounded-t-xl"
+              >
+                <span className="text-blue-600 font-bold">Q</span>
+                <span className="text-md font-medium">{faq.question}</span>
+              </button>
+
+              <div
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                  openId === faq.id
+                    ? "max-h-[500px] opacity-100 px-5 pb-5"
+                    : "max-h-0 opacity-0 px-5"
+                }`}
+              >
+                {openId === faq.id && (
+                  <div className="ml-6 bg-gray-50 p-4 rounded-md text-sm">
+                    <div className="mb-2 font-semibold text-blue-600">A</div>
+                    <div
+                      className="whitespace-pre-line leading-relaxed text-gray-700"
+                      dangerouslySetInnerHTML={{ __html: faq.answer }}
+                    />
+                  </div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </main>
+      <Footer />
     </div>
   );
 };

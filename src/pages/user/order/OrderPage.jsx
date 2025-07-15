@@ -9,6 +9,8 @@ import OrdererInfo from "../../../component/user/order/OrdererInfo";
 import PaymentSummary from "../../../component/user/order/PaymentSummary";
 import OrderItems from "../../../component/user/order/OrderItems";
 
+import MyPageSideMenuBar from "../../../component/user/myOrder/MyPageSideMenuBar";
+
 /**
  * 주문 페이지 컴포넌트
  * - 주문자 정보, 배송지, 결제수단, 요청사항 입력 및 주문 생성 처리
@@ -95,6 +97,8 @@ const OrderPage = () => {
           }}
         />
       )}
+      <MyPageSideMenuBar/>
+      <Footer />
     </div>
   );
 };

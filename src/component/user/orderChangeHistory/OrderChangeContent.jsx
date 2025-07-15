@@ -33,7 +33,7 @@ const OrderChangeContent = ({ list, onDelete }) => {
           .map((item) => (
             <div
               key={item.id}
-              className="p-4 transition font-bold border border-gray-200 rounded-lg shadow-sm bg-white hover:bg-gray-50">
+              className="p-4 transition font-bold border border-gray-200 rounded-lg shadow-sm bg-white hover:bg-gray-50 mb-3">
               <div className="text-xs text-gray-500">신청일: {item.regDate || "정보 없음"}</div>
               <div className="flex justify-between items-center">
               <div className="flex gap-4">
@@ -91,7 +91,7 @@ const OrderChangeContent = ({ list, onDelete }) => {
             </div>
           ))
         ) : (
-         <div className="flex items-center justify-center text-gray-500 h-60 mt-4 text-center">
+         <div className="flex items-center justify-center text-gray-500 h-90 mt-4 text-center">
         주문 내역이 없습니다.
         </div>
         )}

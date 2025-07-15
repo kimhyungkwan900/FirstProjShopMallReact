@@ -49,11 +49,11 @@ const MyReviewContent = ({ memberId }) => {
 
   return (
     <div className="w-250 mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center ">내가 작성한 리뷰</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">내가 작성한 리뷰</h2>
 
       {/* 리뷰 없을 때 메시지 */}
       {reviews.length === 0 ? (
-       <div className="flex items-center justify-center text-gray-500 h-60 mt-4 text-center">
+       <div className="flex items-center justify-center text-gray-500 min-h-100 mt-4 text-center">
         작성한 리뷰가 없습니다.
       </div>
       ) : (

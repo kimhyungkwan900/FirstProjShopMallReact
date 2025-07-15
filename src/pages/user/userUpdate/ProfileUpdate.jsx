@@ -2,12 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../../../component/common/Context/UserContext";
 import { useNavigate } from "react-router-dom";
+import MainHeader from "../../../features/common/Header/MainHeader";
+import Footer from "../../../component/common/Footer";
 
 const ProfileUpdatePage = () => {
 
     // 변수 지정
     const { user, setUser } = useContext(UserContext);
-    const token = localStorage.getItem("accessToken");
     const navigate = useNavigate();
 
     // 프로필 기본값
@@ -77,7 +78,7 @@ const ProfileUpdatePage = () => {
     };
 
     const onSubmit = async () => {
-        if (!user || !token) {
+        if (!user) {
             alert("로그인이 필요합니다. 다시 로그인 해주세요.");
             return;
         }
@@ -110,21 +111,8 @@ const ProfileUpdatePage = () => {
                 memberId: user.id,
                 ...profile
             }, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
                 withCredentials: true
             });
-
-            const newAccessToken = profileRes.data.accessToken;
-                if (newAccessToken) {
-                    // accessToken 저장 및 이후 요청에서 사용
-                    localStorage.setItem("accessToken", newAccessToken);
-                }
-
-            // 이후 요청에서도 새로운 토큰 사용
-            const effectiveToken = newAccessToken || token;
 
 
             // 비밀번호 변경 요청
@@ -134,19 +122,12 @@ const ProfileUpdatePage = () => {
                     currentPassword: passwords.currentPassword,
                     newPassword: passwords.newPassword
                 }, {
-                    headers: {
-                        Authorization: `Bearer ${effectiveToken}`,
-                        'Content-Type': 'application/json',
-                    },
                     withCredentials: true
                 });
             }
 
             // 사용자 정보 재요청
             const meRes = await axios.get("/api/auth/me", {
-                headers: {
-                    Authorization: `Bearer ${effectiveToken}`,
-                },
                 withCredentials: true
             });
             setUser(meRes.data);
@@ -162,6 +143,8 @@ const ProfileUpdatePage = () => {
     };
 
     return (
+        <div>
+            <MainHeader />
         <div className="max-w-xl mx-auto p-4 space-y-8">
             <h2 className="text-xl font-bold">회원 정보 수정</h2>
             <div className="space-y-4">
@@ -193,6 +176,8 @@ const ProfileUpdatePage = () => {
             </div>
         </div>
         <button className="w-full bg-black text-white py-2 rounded" onClick={onSubmit}> 저장하기 </button>
+        </div>
+        <Footer/>
         </div>
     );
 };

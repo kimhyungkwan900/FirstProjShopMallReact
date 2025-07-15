@@ -5,6 +5,8 @@ import Footer from '../../../component/common/Footer';
 import { UserContext } from '../../../component/common/Context/UserContext';
 import MainHeader from '../../../features/common/Header/MainHeader';
 
+import MyPageSideMenuBar from '../../../component/user/myOrder/MyPageSideMenuBar';
+
 const WishlistPage = () => {
   const [wishlist, setWishlist] = useState([]); // 위시리스트 상태 정의 (초기값은 빈 배열)
   const { user } = useContext(UserContext); // Context를 통해 로그인한 사용자 정보 불러오기
@@ -62,7 +64,7 @@ const WishlistPage = () => {
           </div>
         )}
       </main>
-
+      <MyPageSideMenuBar/>
       <Footer />
     </div>
   );

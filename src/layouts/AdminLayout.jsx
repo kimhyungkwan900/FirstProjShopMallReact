@@ -49,9 +49,19 @@ const AdminLayout = ({children})=>{
                             </ul>
                         )}
                     </div>
-                    <div className="h-12 leading-[3rem] text-white font-bold select-none cursor-pointer">
-                        {/* <ul className="text-white font-light bg-gray-600"> */}
-                            {/* <li className="pr-2 text-1xl"> */}
+
+                     <div>
+                        <ul className="text-white font-bold ">
+                            <li className="pr-2 text-lxl">
+                                <Link to="/admin/review">리뷰 관리</Link>
+                            </li>
+                        </ul>
+                    </div>
+
+                    
+                    <div>
+                        <ul className="text-white font-light bg-gray-600">
+                            <li className="pr-2 text-1xl">
                                 <Link to="/admin/faq">FAQ</Link>
                             {/* </li> */}
                         {/* </ul> */}

@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
 
+import MyPageSideMenuBar from "../../../component/user/myOrder/MyPageSideMenuBar";
+
 const ProfileUpdatePage = () => {
 
     // 변수 지정
@@ -177,6 +179,7 @@ const ProfileUpdatePage = () => {
         </div>
         <button className="w-full bg-black text-white py-2 rounded" onClick={onSubmit}> 저장하기 </button>
         </div>
+        <MyPageSideMenuBar/>
         <Footer/>
         </div>
     );

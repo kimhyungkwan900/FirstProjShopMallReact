@@ -3,6 +3,8 @@ import { getFaqList } from "../../../api/admin/faq/FaqApi";
 import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
 
+import MyPageSideMenuBar from "../../../component/user/myOrder/MyPageSideMenuBar";
+
 const UserFaqPage = () => {
   const [category, setCategory] = useState("");
   const [faqList, setFaqList] = useState([]);
@@ -68,6 +70,7 @@ const UserFaqPage = () => {
           ))}
         </ul>
       </main>
+      <MyPageSideMenuBar/>
       <Footer />
     </div>
   );

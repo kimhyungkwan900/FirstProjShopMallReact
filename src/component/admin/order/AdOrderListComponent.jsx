@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import ReactModal from 'react-modal'
-import { getOrderList } from "../../../api/admin/order/OrderManageApi";
-import { patchStatus } from "../../../api/admin/order/OrderManageApi";
+import { getOrderList, patchStatus } from "../../../api/admin/order/OrderManageApi";
 import Pagination from "../product/Pagination"
 import AdOrderDetail from './AdOrderDetail'
 
@@ -54,7 +53,7 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
 
         try{
             const result = await patchStatus({ids: selectedIds, newStatus: newStatus});
-            console.log(result);
+            console.log("patch결과: " + result);
         } catch (error){
             console.log('상태수정 실패: ', error)
         } finally{

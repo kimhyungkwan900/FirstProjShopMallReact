@@ -4,8 +4,6 @@ import axios from "axios"
 export const getClaimList = async ( claimParams ) => {
 
   const response = await axios.get(`/api/admin/claims`, {params: claimParams});
-
-  // console.log("응답 데이터" + response.data.claims)
   
   return response.data
 }
@@ -13,7 +11,12 @@ export const getClaimList = async ( claimParams ) => {
 //고객 요청에 대한 상태 변경
 export const patchOrderReturn = async (statusInfo) => {
 
-  const response = await axios.patch(`/api/admin/claims/status`, statusInfo)
+  const response = await axios.patch(`/api/admin/claims/status`, statusInfo,{
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
 
   return response.data
 }

@@ -38,7 +38,7 @@ try {
         <div>
           <LinkedButton
             to="/"
-            label="FirstProjShopMall"
+            label="INITIUM"
             className="text-2xl sm:text-3xl font-extrabold tracking-tight hover:text-blue-400 transition"
           />
         </div>

@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { UserContext } from "../../../component/common/Context/UserContext";
 import LinkedButton from "../../../component/common/Link/LinkedButton";
 import MainHeader from "../../../features/common/Header/MainHeader";
-import MainFooter from "../../../features/common/Footer/MainFooter";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Footer from "../../../component/common/Footer";
 
 const MyPage = () => {
     const { user, setUser } = useContext(UserContext);
@@ -57,7 +57,7 @@ const MyPage = () => {
                     </div>
                     <div className="bg-white rounded-xl shadow divide-y">
                         {/* 미구현 FAQ 만 존재 */}
-                        <LinkedButton to="#" label="문의" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
+                        <LinkedButton to="/faq" label="문의" className="px-4 py-4 hover:bg-gray-50 block text-sm" />
                     </div>
                         <div className="bg-white rounded-xl shadow px-4 py-6">
                             <button
@@ -68,7 +68,7 @@ const MyPage = () => {
                         </div>
                     </div>
                 </div>
-            <MainFooter />
+                <Footer />
         </div>
   );
 };

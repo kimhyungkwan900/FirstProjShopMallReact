@@ -6,7 +6,7 @@ import { UserContext } from "../../../component/common/Context/UserContext";
 
 const MainHeader = () => {
   const {user} = useContext(UserContext);
-  const isLoggedIn = !!user;
+  const isLoggedIn = !!user?.userId;
 
   const onLogout = async () => {
 try {
@@ -38,7 +38,7 @@ try {
         <div>
           <LinkedButton
             to="/"
-            label="FirstProjShopMall"
+            label="INITIUM"
             className="text-2xl sm:text-3xl font-extrabold tracking-tight hover:text-blue-400 transition"
           />
         </div>

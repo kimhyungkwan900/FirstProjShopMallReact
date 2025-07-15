@@ -1,4 +1,4 @@
-import OrderSuccess from "../../component/order/OrderSuccess";
+import OrderSuccess from "../../component/user/order/OrderSuccess";
 
 const OrderSuccessRouter = [
  {

@@ -2,41 +2,63 @@ import { useEffect, useState } from "react";
 import { getFaqList } from "../../../api/admin/faq/FaqApi";
 
 const UserFaqPage = () => {
+  const [category, setCategory] = useState([]);
   const [faqList, setFaqList] = useState([]);
   const [openId, setOpenId] = useState(null);
 
+  const fetchFaqs = async () =>{
+    try{
+      const response = await getFaqList({category, page:1, size:100});
+      setFaqList(response.dtoList || []);
+    }catch(err){
+      console.log("FAQ 불러오기 실패", error)
+    }
+  }
   useEffect(() => {
-    getFaqList({ page: 1, size: 100 })
-      .then((data) => setFaqList(data.dtoList))
-      .catch((err) => console.error("FAQ 불러오기 실패", err));
-  }, []);
+    fetchFaqs();
+  }, [category]);
 
   const toggle = (id) => {
     setOpenId((prev) => (prev === id ? null : id));
   };
 
-  return (
-    <div className="max-w-3xl mx-auto p-6 mt-10">
-      <h1 className="text-3xl font-bold text-center mb-8">자주 묻는 질문</h1>
-      <ul className="space-y-6">
-        {faqList.map((faq) => (
-          <li key={faq.id} className="border-b pb-4">
-            <button
-              className="w-full text-left flex items-start space-x-2 group"
-              onClick={() => toggle(faq.id)}
-            >
-              <span className="text-blue-600 font-bold">Q</span>
-              <span className="group-hover:text-blue-600 font-medium">{faq.question}</span>
-            </button>
+  const categories = [
+    "배송", "취소/교환/반품", "환불", "주문/결제", "기타"
+  ];
 
+   return (
+    <div className="max-w-4xl mx-auto p-6">
+      <h1 className="text-3xl font-bold mb-6 text-center">자주 묻는 질문</h1>
+
+      {/* 카테고리 탭 */}
+      <div className="flex flex-wrap gap-2 justify-center mb-8">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setCategory(cat)}
+            className={`px-4 py-2 rounded ${
+              category === cat
+                ? "bg-blue-600 text-white"
+                : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* FAQ 리스트 */}
+      <ul className="space-y-4">
+        {faqList.map((faq) => (
+          <li key={faq.id} className="border-b pb-2">
+            <button
+              onClick={() => toggle(faq.id)}
+              className="w-full text-left font-semibold text-gray-800 hover:text-blue-600"
+            >
+              Q. [{faq.category}] {faq.question}
+            </button>
             {openId === faq.id && (
-              <div className="mt-4 ml-6 p-4 bg-gray-50 rounded-md shadow-sm text-sm text-gray-800">
-                <div className="mb-2 font-semibold text-blue-600">A</div>
-                <div
-                  className="whitespace-pre-line"
-                  dangerouslySetInnerHTML={{ __html: faq.answer }} //HTML 태그 같이 렌더링 가능 하도록 함 
-                />
-              </div>
+              <div className="mt-2 text-gray-600 px-4">A. {faq.answer}</div>
             )}
           </li>
         ))}

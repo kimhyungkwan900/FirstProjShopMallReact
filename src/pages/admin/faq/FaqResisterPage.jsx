@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createFaq } from "../../../api/admin/faq/FaqApi";
+import AdminLayout from "../../../layouts/AdminLayout";
 
 //등록 페이지
 
@@ -34,7 +35,9 @@ const FaqResisterPage = () =>{
         }
     };
 
+    
     return(
+        <AdminLayout>
         <div className="p-8 max-w-xl mx-auto">
             <h1 className="text-2xl font-bold mb-6">FAQ 등록</h1>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -53,7 +56,6 @@ const FaqResisterPage = () =>{
                         <option value="취소/교환/반품">취소/교환/반품</option>
                         <option value="환불">환불</option>
                         <option value="주문/결제">주문/결제</option>
-                        <option value="쿠폰/포인트">쿠폰/포인트</option>
                         <option value="기타">기타</option>
                     </select>
                 </div>
@@ -92,6 +94,7 @@ const FaqResisterPage = () =>{
                 </div>
             </form>
         </div>
+        </AdminLayout>
     );
 };
 

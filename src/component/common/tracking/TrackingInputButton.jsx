@@ -8,7 +8,7 @@ const TrackingInputButton = ({ orderId }) => {
     <div>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="bg-blue-400 text-white px-2 rounded"
+        className="bg-blue-400 text-white px-2 rounded hover:bg-blue-500 cursor-pointer"
       >
         운송장 등록
       </button>

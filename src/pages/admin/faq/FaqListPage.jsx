@@ -61,7 +61,7 @@ const FaqListPage = () => {
   };
 
 
-   // ✅ 검색창에서 검색 실행 시
+   //검색창에서 검색 실행 시
   const handleSearch = ({ category, keyWord }) => {
     setIsSearching(true);
 

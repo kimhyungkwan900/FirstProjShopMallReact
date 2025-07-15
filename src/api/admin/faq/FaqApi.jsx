@@ -16,7 +16,7 @@ export const getFaqList = async (searchParams) => {
   const isSearch = hasCategory || hasKeyword;
   const endpoint = isSearch ? "/search" : "/list";
 
-  // ✅ 유효한 파라미터만 동적으로 조립
+  //유효한 파라미터만 동적으로 조립
   const params = {
     page: searchParams.page,
     size: searchParams.size,

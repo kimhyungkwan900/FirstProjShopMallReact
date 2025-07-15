@@ -3,6 +3,7 @@ import ReactModal from 'react-modal'
 import { getOrderList, patchStatus } from "../../../api/admin/order/OrderManageApi";
 import Pagination from "../product/Pagination"
 import AdOrderDetail from './AdOrderDetail'
+import TrackingInputButton from '../../common/tracking/TrackingInputButton'
 
 const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
    
@@ -99,7 +100,7 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
                         <th>주문날짜</th>
                         <th>주문가격</th>
                         <th>결제방식</th>
-                        <th>임시</th>
+                        <th>운송장 등록</th>
                     </tr>
                     {orders.length === 0? (
                         <tr>
@@ -125,7 +126,9 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
                                 <td>{new Date(o.order.order_date).toLocaleDateString()}</td>
                                 <td>{o.order.total_amount}</td>
                                 <td>{o.order.payment_method}</td>
-                                <td>임시</td>
+                                <td onClick={e => e.stopPropagation()}>
+                                    {o.orderStatus === '배송중' ?   (<TrackingInputButton orderId = {o.order.id}/>) : null}
+                                </td>
                             </tr>
                         ))
                     )}

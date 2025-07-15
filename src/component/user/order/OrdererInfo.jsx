@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 
 /**
  * 주문자 정보 및 배송 요청사항 입력 컴포넌트

@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { UserContext } from "../../../component/common/Context/UserContext";
 import LinkedButton from "../../../component/common/Link/LinkedButton";
 import MainHeader from "../../../features/common/Header/MainHeader";
-import MainFooter from "../../../features/common/Footer/MainFooter";
 import { Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../../../component/common/Footer";

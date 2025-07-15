@@ -11,7 +11,12 @@ export const getOrderList = async ( orderParams ) => {
 //주문 상태 변경
 export const patchStatus = async (statusInfo) => {
 
-  const response = await axios.patch(`/api/admin/orders/status`, statusInfo)
+  const response = await axios.patch(`/api/admin/orders/status`, statusInfo, {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
 
   return response.data
 }

@@ -7,6 +7,8 @@ import AdProductUpdate from './AdProductUpdate';
 
 const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
     
+    
+
     const [products, setProducts] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [selectedIds, setSelectedIds] = useState([]);

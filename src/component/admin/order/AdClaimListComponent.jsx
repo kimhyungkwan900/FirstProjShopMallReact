@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import ReactModal from 'react-modal'
-import { getClaimList } from "../../../api/admin/order/ClaimManageApi";
+import { getClaimList, patchOrderReturn } from "../../../api/admin/order/ClaimManageApi";
 import Pagination from "../product/Pagination"
 import AdClaimDetail from './AdClaimDetail'
 
@@ -8,7 +8,7 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
   
     const [claims, setClaims] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
-    const [selectedIds, setSelectedIds] = useState([]);
+    const [selectedId, setSelectedId] = useState(null);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [selectedClaim, setSelectedClaim] = useState(null);
@@ -26,7 +26,7 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
             console.log(result.claims.content);
             setClaims(result.claims.content);
             setTotalPages(result.totalPage);
-            setSelectedIds([]);
+            setSelectedId(null);
         } catch (error) {
             console.error('고객 요청 목록 불러오기 실패:', error);
             setClaims([]);
@@ -34,61 +34,62 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
         }
     },[searchFilters, currentPage]);
     
-        useEffect(() => {        
-            getClaims();
-        }, [getClaims]);
+    useEffect(() => {        
+        getClaims();
+    }, [getClaims]);
+
+    const handleUpdateSelected = async (approval) => {
+        if (selectedId === null)
+            return;
+
+        try{
+            console.log("선택ID: " + selectedId);
+            console.log("승인여부: " + approval);
+            const result = await patchOrderReturn({id: selectedId, approval: approval});
+            console.log(result);
+        } catch (error){
+            console.log('상태변경 실패: ', error)
+        } finally{
+            await getClaims();
+        }
+    };
     
-        // const toggleSelect = (id) => {
-        //     setSelectedIds(prev =>
-        //         prev.includes(id)? prev.filter(selectedId => selectedId !== id) : [...prev, id]
-        //     );
-        //     console.log(selectedIds);
-        // };
-    
-        // const handleUpdateSelected = async () => {
-        //     if (selectedIds.length === 0)
-        //         return;
-    
-        //     try{
-        //         const result = await patchStatus(selectedIds);
-        //         console.log(result);
-        //     } catch (error){
-        //         console.log('상품삭제 실패: ', error)
-        //     } finally{
-        //         await getProducts();
-        //     }
-        // };
-        
-        const openModal = (Claim) => {
-            console.log(Claim);
-            setSelectedClaim(Claim);
-            setModalIsOpen(true);
-        };
-        const closeModal = () => {
-            setModalIsOpen(false);
-            setSelectedClaim(null);
-        };
-  
-        const returnTypeLabels = {
-            CANCEL_REQUEST:   '취소 신청',
-            CANCEL_COMPLETE:  '취소 완료',
-            CANCEL_REJECTED:  '취소 반려',
-            RETURN_REQUEST:   '반품 신청',
-            RETURN_COMPLETE:  '반품 완료',
-            RETURN_REJECTED:  '반품 반려',
-            EXCHANGE_REQUEST: '교환 신청',
-            EXCHANGE_COMPLETE:'교환 완료',
-            EXCHANGE_REJECTED:'교환 반려',
-        };
+    const openModal = (Claim) => {
+        console.log(Claim);
+        setSelectedClaim(Claim);
+        setModalIsOpen(true);
+    };
+    const closeModal = () => {
+        setModalIsOpen(false);
+        setSelectedClaim(null);
+    };
+
+    const returnTypeLabels = {
+        CANCEL_REQUEST:   '취소 신청',
+        CANCEL_COMPLETE:  '취소 완료',
+        CANCEL_REJECTED:  '취소 반려',
+        RETURN_REQUEST:   '반품 신청',
+        RETURN_COMPLETE:  '반품 완료',
+        RETURN_REJECTED:  '반품 반려',
+        EXCHANGE_REQUEST: '교환 신청',
+        EXCHANGE_COMPLETE:'교환 완료',
+        EXCHANGE_REJECTED:'교환 반려',
+    };
 
   return (
     <>
         <div className='flex flex-col ml-10 mr-10 mt-10 relative'>
-            <button className="absolute top-0 left-0 bg-gray-400 text-white rounded"
-            // onClick={}
-            disabled={selectedIds.length === 0}>
-                선택 삭제
+            <button className="absolute w-20 top-0 left-0 bg-gray-400 text-white rounded"
+                onClick={() => handleUpdateSelected("승인")}
+                disabled={selectedId === null}>
+                승인
             </button>
+            <button className="absolute w-20 top-0 left-24 bg-gray-400 text-white rounded"
+                onClick={() => handleUpdateSelected("반려")}
+                disabled={selectedId === null}>
+                반려
+            </button>
+
             <table id="list" className='border border-gray-400 mt-8'>
                 <tr className='bg-gray-400'>
                     <th></th>
@@ -111,9 +112,15 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
                             <td>
                                 <input
                                     type='checkbox'
-                                    checked={selectedIds.includes()}
+                                    checked={selectedId === c.claimId}
                                     onClick={e => e.stopPropagation()}  //모달창 클릭 방지
-                                    // onChange={() => toggleSelect(p.id)}
+                                    onChange={e => {
+                                        if (e.target.checked) {
+                                            setSelectedId(c.claimId);
+                                        } else {
+                                            setSelectedId(null);
+                                        }
+                                    }}
                                 />
                             </td>    
                             <td>{c.claimId}</td>

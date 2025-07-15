@@ -21,17 +21,14 @@ const AdminLayout = ({children})=>{
 
     return(
         <div className="flex h-screen">
-            <nav id="adminNavBar" className="w-45 flex flex-col bg-gray-600">
-                <div id="adminProfile" className="bg-gray-400">
-                    프로필 내용과 로그아웃 버튼 넣기
-                </div>
-                <div id="manageList">
-                    <div onClick={productToggle} className={`text-white font-bold select-none cursor-pointer ${productBgColor}`}>
+            <nav id="adminNavBar" className="w-50 flex flex-col text-center bg-gray-600">
+                {/* <div id="manageList"> */}
+                    <div onClick={productToggle} className={`h-12 leading-[3rem] text-white font-bold select-none cursor-pointer ${productBgColor}`}>
                         상품 관리
                         {productListOpen && (
                             <ul className="text-white font-light bg-gray-600">
                                 <li className="pr-2 text-2xl">
-                                    <Link to="/admin/products/add">상품 등록</Link>
+                                    <Link to="/admin/products/add" className="block w-full p-4 hover:bg-gray-100">상품 등록</Link>
                                 </li>
                                 <li className="pr-2 text-2xl">
                                     <Link to="/admin/products">상품 조회</Link>
@@ -39,7 +36,7 @@ const AdminLayout = ({children})=>{
                             </ul>
                         )}
                     </div>
-                        <div onClick={orderToggle} className={`text-white font-bold select-none cursor-pointer ${orderBgColor}`}>
+                    <div onClick={orderToggle} className={`h-12 leading-[3rem] text-white font-bold select-none cursor-pointer ${orderBgColor}`}>
                         주문 관리
                         {orderListOpen && (
                             <ul className="text-white font-light bg-gray-600">
@@ -61,7 +58,6 @@ const AdminLayout = ({children})=>{
                         </ul>
                     </div>
 
-                    
                     <div>
                         <ul className="text-white font-light bg-gray-600">
                             <li className="pr-2 text-1xl">
@@ -69,10 +65,7 @@ const AdminLayout = ({children})=>{
                             </li>
                         </ul>
                     </div>
-
-
-
-                </div>
+                {/* </div> */}
             </nav>
             {/* 임시로 배경색 지정 */}
             <main className="flex-1 bg-white">  

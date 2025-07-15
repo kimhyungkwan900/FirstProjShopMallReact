@@ -4,18 +4,19 @@ import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
 
 const UserFaqPage = () => {
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState("");
   const [faqList, setFaqList] = useState([]);
   const [openId, setOpenId] = useState(null);
 
-  const fetchFaqs = async () =>{
-    try{
-      const response = await getFaqList({category, page:1, size:100});
+  const fetchFaqs = async () => {
+    try {
+      const response = await getFaqList({ category, page: 1, size: 100 });
       setFaqList(response.dtoList || []);
-    }catch(error){
-      console.log("FAQ 불러오기 실패", error)
+    } catch (error) {
+      console.log("FAQ 불러오기 실패", error);
     }
-  }
+  };
+
   useEffect(() => {
     fetchFaqs();
   }, [category]);
@@ -26,10 +27,7 @@ const UserFaqPage = () => {
 
   return (
     <div className="w-full bg-gray-50 min-h-screen text-gray-800">
-      {/* ✅ 상단 공통 헤더 */}
       <MainHeader />
-
-      {/* ✅ 본문 콘텐츠 */}
       <main className="max-w-3xl mx-auto px-4 py-12">
         <h1 className="text-3xl font-extrabold text-center mb-10 text-gray-800">
           ❓ 자주 묻는 질문 (FAQ)
@@ -49,7 +47,6 @@ const UserFaqPage = () => {
                 <span className="text-md font-medium">{faq.question}</span>
               </button>
 
-              {/* ✅ 답변 부분 */}
               <div
                 className={`overflow-hidden transition-all duration-300 ease-in-out ${
                   openId === faq.id
@@ -71,8 +68,6 @@ const UserFaqPage = () => {
           ))}
         </ul>
       </main>
-
-      {/* ✅ 공통 푸터 */}
       <Footer />
     </div>
   );

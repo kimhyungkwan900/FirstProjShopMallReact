@@ -1,32 +1,38 @@
 import axios from 'axios';
 
-const API_BASE = "http://localhost:8080/api/admin/faqs"
+const API_BASE = "http://localhost:8080/api/admin/faqs";
 
-//Faq 목록 조회 + 검색
+// Faq 목록 조회 + 검색
 export const getFaqList = async (searchParams) => {
   const hasCategory =
-    searchParams.category &&
+    typeof searchParams.category === "string" &&
     searchParams.category.trim().length > 0 &&
-    searchParams.category !== "전체"; // 이 조건 추가
+    searchParams.category !== "전체";
 
-  const hasKeyword = searchParams.keyWord?.trim().length > 0;
+  const hasKeyword =
+    typeof searchParams.keyWord === "string" &&
+    searchParams.keyWord.trim().length > 0;
 
   const isSearch = hasCategory || hasKeyword;
-
   const endpoint = isSearch ? "/search" : "/list";
+
+  // ✅ 유효한 파라미터만 동적으로 조립
+  const params = {
+    page: searchParams.page,
+    size: searchParams.size,
+  };
+
+  if (hasCategory) params.category = searchParams.category;
+  if (hasKeyword) params.keyWord = searchParams.keyWord;
 
   try {
     const response = await axios.get(`${API_BASE}${endpoint}`, {
-      params: {
-        category: searchParams.category,
-        keyWord: searchParams.keyWord,
-        page: searchParams.page,
-        size: searchParams.size,
-      },
+      params,
       withCredentials: true,
     });
+
     console.log("🚀 요청 보낼 endpoint:", endpoint);
-    console.log("🚀 조건: category =", searchParams.category, "| keyword =", searchParams.keyWord);
+    console.log("🚀 조건: category =", params.category, "| keyword =", params.keyWord);
 
     return response.data;
   } catch (error) {
@@ -35,24 +41,25 @@ export const getFaqList = async (searchParams) => {
   }
 };
 
+// FAQ 등록
+export const createFaq = async (faqDto) => {
+  try {
+    const response = await axios.post(`${API_BASE}/create`, faqDto, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("FAQ 등록 중 오류 발생", error);
+    throw error;
+  }
+};
 
-
-//FAQ 등록
-export const createFaq = async(faqDto) =>{
-    try{
-        const response = await axios.post(`${API_BASE}/create`, faqDto,{withCredentials: true});
-        return response.data;
-    }catch(error){
-        console.error("FAQ 등록 중 오류 발생", error);
-        throw error;
-    }
-
-}
-
-//FAQ 상세 조회
+// FAQ 상세 조회
 export const getFaqById = async (id) => {
   try {
-    const response = await axios.get(`${API_BASE}/${id}`,{withCredentials: true});
+    const response = await axios.get(`${API_BASE}/${id}`, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     console.error("FAQ 상세 조회 실패", error);
@@ -60,10 +67,12 @@ export const getFaqById = async (id) => {
   }
 };
 
-//FAQ 수정
+// FAQ 수정
 export const updateFaq = async (id, faqData) => {
   try {
-    const response = await axios.put(`${API_BASE}/update/${id}`, faqData, {withCredentials: true});
+    const response = await axios.put(`${API_BASE}/update/${id}`, faqData, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     console.error("FAQ 수정 실패", error);
@@ -71,12 +80,12 @@ export const updateFaq = async (id, faqData) => {
   }
 };
 
-//FAQ 삭제
+// FAQ 삭제
 export const deleteFaqs = async (ids) => {
   try {
     const response = await axios.delete(`${API_BASE}/delete`, {
       data: ids, // 요청 body에 배열로 전달
-      withCredentials: true
+      withCredentials: true,
     });
     return response.data;
   } catch (error) {

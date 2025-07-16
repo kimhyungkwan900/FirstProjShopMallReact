@@ -108,7 +108,8 @@ const FaqListPage = () => {
 
   return (
     <AdminLayout>
-    <div className="p-8">
+    <div className="flex justify-center p-8">
+       <div className="w-full max-w-5xl text-left">
       <h1 className="text-2xl font-bold mb-4">FAQ 목록</h1>
 
       {/* 검색바 */}  
@@ -174,6 +175,7 @@ const FaqListPage = () => {
       onPageChange = {(newPage)=>
         setSearchParams({ ...searchParams, page: newPage })
       }/>
+    </div>
     </div>
     </AdminLayout>
   );

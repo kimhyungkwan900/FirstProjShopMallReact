@@ -3,9 +3,11 @@ import ReactModal from 'react-modal'
 import { getClaimList, patchOrderReturn } from "../../../api/admin/order/ClaimManageApi";
 import Pagination from "../product/Pagination"
 import AdClaimDetail from './AdClaimDetail'
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
-  
+    const csrfToken = useCsrfToken();
+
     const [claims, setClaims] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [selectedId, setSelectedId] = useState(null);
@@ -23,7 +25,6 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
         try {
             const result = await getClaimList(claimParams);
 
-            console.log(result.claims.content);
             setClaims(result.claims.content);
             setTotalPages(result.totalPage);
             setSelectedId(null);
@@ -43,10 +44,7 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
             return;
 
         try{
-            console.log("선택ID: " + selectedId);
-            console.log("승인여부: " + approval);
-            const result = await patchOrderReturn({id: selectedId, approval: approval});
-            console.log(result);
+            await patchOrderReturn({id: selectedId, approval: approval}, csrfToken);
         } catch (error){
             console.log('상태변경 실패: ', error)
         } finally{
@@ -55,7 +53,6 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
     };
     
     const openModal = (Claim) => {
-        console.log(Claim);
         setSelectedClaim(Claim);
         setModalIsOpen(true);
     };

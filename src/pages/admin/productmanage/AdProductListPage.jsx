@@ -31,17 +31,22 @@ const AdProductListPage = ()=>{
     return(
         <AdminLayout>
             <div className="space-y-2 ml-10 mt-10">
-                상품번호: <input type="text" value={filters.productId} onChange={(e)=>setFilters({ ...filters, productId: e.target.value })} className="border ml-2 p-1"/><br/>
-                상품명: <input type="text" value={filters.productName} onChange={(e)=>setFilters({ ...filters, productName: e.target.value })} className="border ml-2 p-1"/><br/>
-                브랜드명: <input type="text" value={filters.brandName} onChange={(e)=>setFilters({...filters, brandName: e.target.value })} className="border ml-2 p-1"/><br/>
-                판매상태:
-                <select value={filters.sellStatus} onChange={(e)=>setFilters({ ...filters, sellStatus: e.target.value })} className="border ml-2 p-1">
-                    <option value="판매중">판매중</option>
-                    <option value="품절">품절</option>
-                </select>
-                카테고리:
+                <span className="font-bold">상품번호:</span>
+                    <input type="text" value={filters.productId} onChange={(e)=>setFilters({ ...filters, productId: e.target.value })} className="border ml-2 p-1 rounded"/><br/>
+                <span className="font-bold">상품명: </span>
+                    <input type="text" value={filters.productName} onChange={(e)=>setFilters({ ...filters, productName: e.target.value })} className="border ml-2 p-1 rounded"/><br/>
+                <span className="font-bold">브랜드명: </span>
+                    <input type="text" value={filters.brandName} onChange={(e)=>setFilters({...filters, brandName: e.target.value })} className="border ml-2 p-1 rounded"/><br/>
+                <span className="font-bold">판매상태: </span>
+                    <select value={filters.sellStatus} onChange={(e)=>setFilters({ ...filters, sellStatus: e.target.value })} className="border ml-2 p-1 rounded">
+                        <option value={null}>-</option>
+                        <option value="판매중">판매중</option>
+                        <option value="품절">품절</option>
+                    </select>
+                <span className="font-bold ml-5">카테고리: </span>
                 {/* #region 카테고리 select */}
-                <select value={filters.categoryId} onChange={(e)=>setFilters({ ...filters, categoryId: e.target.value })} className="border ml-2 p-1">
+                <select value={filters.categoryId} onChange={(e)=>setFilters({ ...filters, categoryId: e.target.value })} className="border ml-2 p-1 rounded">
+                    <option value={null}>-</option>
                     <option value="1">패션의류/잡화</option>
                     <option value="2">여성의류</option>
                     <option value="3">원피스</option>
@@ -90,12 +95,14 @@ const AdProductListPage = ()=>{
                     <option value="46">유모차/카시트</option>
                 </select>
                 {/* #endregion */}
-                <select value={filters.dateType} onChange={(e)=>setFilters({ ...filters, dateType: e.target.value })} className="border ml-2 p-1">
+                <span className="font-bold ml-5">날짜기준: </span>
+                <select value={filters.dateType} onChange={(e)=>setFilters({ ...filters, dateType: e.target.value })} className="border ml-2 p-1 rounded">
+                    <option value={null}>-</option>
                     <option value="등록일">등록일</option>
                     <option value="수정일">수정일</option>
                 </select>
-                <input type="date" value={filters.startDate} onChange={(e)=>setFilters({ ...filters, startDate: e.target.value })} className="border ml-2 p-1"/>
-                <input type="date" value={filters.endDate} onChange={(e)=>setFilters({ ...filters, endDate: e.target.value })} className="border ml-2 p-1"/>
+                <input type="date" value={filters.startDate} onChange={(e)=>setFilters({ ...filters, startDate: e.target.value })} className="border ml-2 p-1 rounded"/>
+                <input type="date" value={filters.endDate} onChange={(e)=>setFilters({ ...filters, endDate: e.target.value })} className="border ml-2 p-1 rounded"/>
             </div>
             <button className="bg-blue-500 text-white px-4 py-1 ml-10 rounded" onClick={handleSearch}>검색</button>
 

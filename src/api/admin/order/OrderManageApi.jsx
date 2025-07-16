@@ -9,12 +9,12 @@ export const getOrderList = async ( orderParams ) => {
 }
 
 //주문 상태 변경
-export const patchStatus = async (statusInfo) => {
+export const patchStatus = async (statusInfo, csrfToken) => {
 
   const response = await axios.patch(`/api/admin/orders/status`, statusInfo, {
     withCredentials: true,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken
     }
   })
 

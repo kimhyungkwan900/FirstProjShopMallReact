@@ -4,9 +4,11 @@ import { getOrderList, patchStatus } from "../../../api/admin/order/OrderManageA
 import Pagination from "../product/Pagination"
 import AdOrderDetail from './AdOrderDetail'
 import TrackingInputButton from '../../common/tracking/TrackingInputButton'
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
-   
+    const csrfToken = useCsrfToken();
+
     const [orders, setOrders] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [selectedIds, setSelectedIds] = useState([]);
@@ -23,9 +25,6 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
 
         try {
             const result = await getOrderList(orderParams);
-
-            console.log("주문 리스트:")
-            console.log(result.orders.content);
 
             setOrders(result.orders.content);
             setTotalPages(result.totalPage);
@@ -45,7 +44,6 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
         setSelectedIds(prev =>
             prev.includes(id)? prev.filter(selectedId => selectedId !== id) : [...prev, id]
         );
-        console.log(selectedIds);
     };
 
     const handleUpdateSelected = async (newStatus) => {
@@ -53,8 +51,7 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
             return;
 
         try{
-            const result = await patchStatus({ids: selectedIds, newStatus: newStatus});
-            console.log("patch결과: " + result);
+            await patchStatus({ids: selectedIds, newStatus: newStatus}, csrfToken);
         } catch (error){
             console.log('상태수정 실패: ', error)
         } finally{
@@ -63,7 +60,6 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
     };
     
     const openModal = (order) => {
-        console.log(order);
         setSelectedOrder(order);
         setModalIsOpen(true);
     };

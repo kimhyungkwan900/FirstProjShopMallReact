@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from 'react'
 import ReactModal from 'react-modal'
 import { getProductList } from "../../../api/admin/product/ProductManageApi";
 import { deleteProduct } from '../../../api/admin/product/ProductManageApi';
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 import Pagination from "./Pagination"
 import AdProductUpdate from './AdProductUpdate';
 
 const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
-    
-    
+    const csrfToken = useCsrfToken();
 
     const [products, setProducts] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
@@ -25,7 +25,6 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
 
         try {
             const result = await getProductList(productParams);
-            console.log(result)
 
             setProducts(result.products.content);
             setTotalPages(result.totalPage);
@@ -45,7 +44,6 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
         setSelectedIds(prev =>
             prev.includes(id)? prev.filter(selectedId => selectedId !== id) : [...prev, id]
         );
-        console.log(selectedIds);
     };
 
     const handleDeleteSelected = async () => {
@@ -53,8 +51,7 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
             return;
 
         try{
-            const result = await deleteProduct(selectedIds);
-            console.log(result);
+            await deleteProduct(selectedIds, csrfToken);
         } catch (error){
             console.log('상품삭제 실패: ', error)
         } finally{
@@ -63,7 +60,6 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
     };
 
     const openModal = (product) => {
-        console.log(product);
         setSelectedProduct(product);
         setModalIsOpen(true);
     };

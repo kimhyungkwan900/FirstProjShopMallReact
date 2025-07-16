@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { addProduct } from "../../../api/admin/product/ProductManageApi"
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const initState = {
   name:'',
@@ -13,6 +14,8 @@ const initState = {
 }
 
 const AdProductRegComponent = ()=>{
+    const csrfToken = useCsrfToken();
+
     const [product, setProduct] = useState({...initState})
     const [files, setFiles] = useState([]); 
 
@@ -35,17 +38,10 @@ const AdProductRegComponent = ()=>{
         setFiles(Array.from(e.target.files));
     };
 
-    // const handleFileChange = (e) => {
-    //     setFiles(e.target.files);
-    // };
-
     const handleClickAdd = async (e) => {
         e.preventDefault();
 
         const formData = new FormData();
-
-        console.log("product")
-        console.log(product);   //나중에 제거
 
         for(const key in product){
             formData.append(key, product[key]);
@@ -56,9 +52,7 @@ const AdProductRegComponent = ()=>{
         }
 
         try {
-            const result = await addProduct(formData);
-            console.log("result: ")
-            console.log(result);
+            await addProduct(formData, csrfToken);
             window.location.reload();
             } catch (e) {
             console.error(e);
@@ -66,10 +60,10 @@ const AdProductRegComponent = ()=>{
     }
 
     return(
-        <div className = "border-2 border-sky-200 mt-10 m-2 p-4">
+        <div className = "border-2 border-gray-950 mt-10 m-2 p-4">
             {/* 상품명 */}
-            <div className="flex justify-center">
-                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+            <div className="flex justify-items-start">
+                <div className="relative mb-4 flex w-4/5 flex-wrap items-stretch">
                     <div className="w-1/5 p-1 text-right font-bold">상품이름</div>
                     <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                         name="name"
@@ -81,8 +75,8 @@ const AdProductRegComponent = ()=>{
             </div>
 
             {/* 가격 */}
-            <div className="flex justify-center">
-                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+            <div className="flex justify-items-start">
+                <div className="relative mb-4 flex w-4/5 flex-wrap items-stretch">
                 <div className="w-1/5 p-1 text-right font-bold">가격</div>
                 <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="price"
@@ -95,9 +89,9 @@ const AdProductRegComponent = ()=>{
             </div>
 
             {/* 설명 */}
-            <div className="flex justify-center">
-                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
-                <div className="w-1/5 p-5 text-right font-bold">상품 설명</div>
+            <div className="flex justify-items-start">
+                <div className="relative mb-4 flex w-4/5 flex-wrap items-stretch">
+                <div className="w-1/5 pt-2 pr-1 text-right font-bold">상품 설명</div>
                 <input className="w-4/5 p-5 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="description"
                 type={'text'} 
@@ -109,8 +103,8 @@ const AdProductRegComponent = ()=>{
             </div>
 
             {/* 재고 */}
-            <div className="flex justify-center">
-                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+            <div className="flex justify-items-start">
+                <div className="relative mb-4 flex w-4/5 flex-wrap items-stretch">
                 <div className="w-1/5 p-1 text-right font-bold">재고</div>
                 <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="stock"
@@ -123,8 +117,8 @@ const AdProductRegComponent = ()=>{
             </div>
 
             {/* 카테고리 */}
-            <div className="flex justify-center">
-                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+            <div className="flex justify-items-start">
+                <div className="relative mb-4 flex w-4/5 flex-wrap items-stretch">
                 <div className="w-1/5 p-1 text-right font-bold">카테고리</div>
                 {/* #region 카테고리 select */}
                 <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
@@ -133,6 +127,7 @@ const AdProductRegComponent = ()=>{
                 value={product.categoryId}
                 onChange={handleChangeProduct}
                 >
+                    <option value={null}>-</option>
                     <option value="1">패션의류/잡화</option>
                     <option value="2">여성의류</option>
                     <option value="3">원피스</option>
@@ -185,8 +180,8 @@ const AdProductRegComponent = ()=>{
             </div>
 
             {/* 브랜드 */}
-            <div className="flex justify-center">
-                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+            <div className="flex justify-items-start">
+                <div className="relative mb-4 flex w-4/5 flex-wrap items-stretch">
                 <div className="w-1/5 p-1 text-right font-bold">브랜드</div>
                 {/* #region 브랜드 select */}
                 <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
@@ -195,7 +190,7 @@ const AdProductRegComponent = ()=>{
                 value={product.brandId}
                 onChange={handleChangeProduct}
                 >
-                    <option value="">전체</option>
+                    <option value={null}>-</option>
                     <option value="1">아라사카</option>
                     <option value="2">밀리테크</option>
                     <option value="3">캉 타오</option>
@@ -222,8 +217,8 @@ const AdProductRegComponent = ()=>{
             </div>
 
             {/* 배송방법 */}
-            <div className="flex justify-center">
-                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+            <div className="flex justify-items-start">
+                <div className="relative mb-4 flex w-4/5 flex-wrap items-stretch">
                 <div className="w-1/5 p-1 text-right font-bold">배송방법</div>
                 <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="deliveryInfoId"
@@ -231,6 +226,7 @@ const AdProductRegComponent = ()=>{
                 value={product.deliveryInfoId}
                 onChange={handleChangeProduct}
                 >
+                    <option value={null}>-</option>
                     <option value="1">CJ</option>
                     <option value="2">로젠</option>
                     <option value="3">롯데</option>
@@ -240,8 +236,8 @@ const AdProductRegComponent = ()=>{
             </div>
 
             {/* 판매상태 */}
-            <div className="flex justify-center">
-                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+            <div className="flex justify-items-start">
+                <div className="relative mb-4 flex w-4/5 flex-wrap items-stretch">
                 <div className="w-1/5 p-1 text-right font-bold">판매상태</div>
                 <select className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="sellStatus"
@@ -249,6 +245,7 @@ const AdProductRegComponent = ()=>{
                 value={product.sellStatus}
                 onChange={handleChangeProduct}
                 >
+                    <option value={null}>-</option>
                     <option value="판매중">판매중</option>
                     <option value="품절">품절</option>
                 </select>
@@ -256,8 +253,8 @@ const AdProductRegComponent = ()=>{
             </div>
 
             {/* 이미지 파일 */}
-            <div className="flex justify-center">
-                <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+            <div className="flex justify-items-start">
+                <div className="relative mb-4 flex w-4/5 flex-wrap items-stretch">
                 <div className="w-1/5 p-1 text-right font-bold">상품 이미지</div>
                 <input className="w-4/5 p-1 rounded-r border border-solid border-neutral-500 shadow-md" 
                 name="productImgFile"

@@ -14,9 +14,5 @@ const OrderManageRouter = [
     path: '/admin/claims',
     element: <Suspense fallback={Loading}><AdClaimListPage/></Suspense>
   },
-  // {
-  //   path: '/admin/claims/:id',
-  //   element: <Suspense fallback={Loading}></Suspense>
-  // },
 ];
 export default OrderManageRouter;

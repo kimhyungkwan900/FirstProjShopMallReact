@@ -4,6 +4,7 @@ import { adminReviewUnBlindAction } from "../../../api/admin/review/AdminReviewB
 import ReviewImgModal from "../../user/review/ReviewImgModal";
 import AdminReviewBlindModal from "./AdminReviewBlindModal";
 import AdminReviewReportModal from "./AdminReviewReportModal";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const BASE_URL =  "http://localhost:8080";
 
@@ -19,6 +20,8 @@ const AdminReviewContent = ({ filterType, page, setPage , searchParams }) => {
 
   const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [reportReviewId, setReportReviewId] = useState(null);
+
+  const csrfToken = useCsrfToken();
 
 
   useEffect(() => {
@@ -39,7 +42,7 @@ const AdminReviewContent = ({ filterType, page, setPage , searchParams }) => {
     return;
   }
   try {
-    await adminReviewUnBlindAction(reviewId);
+    await adminReviewUnBlindAction(reviewId,csrfToken);
     setReviews((prev) =>
       prev.map((review) =>
         review.id === reviewId ? { ...review, reviewStatus: "normal", blindReason: null } : review

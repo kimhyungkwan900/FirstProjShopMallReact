@@ -2,10 +2,12 @@ import { useState } from "react";
 import TrackingInput from "./TrackingInput";
 
 import { adminTrackingInput } from "../../../api/admin/tracking/TrackingInfoApi";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const TrackingInputModal = ({ orderId, onClose }) => {
   const [courier, setCourier] = useState("");
   const [trackingNumber, setTrackingNumber] = useState("");
+  const csrfToken = useCsrfToken();
 
  const handleSubmit = async () => {
   if (!courier) {
@@ -24,6 +26,7 @@ const TrackingInputModal = ({ orderId, onClose }) => {
       orderId,
       courierCode: courier,
       trackingNumber,
+      csrfToken,
     });
 
     alert("운송장 등록이 완료되었습니다.");

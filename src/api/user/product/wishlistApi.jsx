@@ -1,4 +1,5 @@
 import axios from 'axios'; // axios를 import하여 HTTP 요청을 보낼 수 있게 함
+import { withCsrfEmpty } from '../../../utils/common/withCsrf';
 
 // ✅ 특정 사용자 위시리스트 조회 (userId 필수)
 export const fetchWishlist = async (userId) => {
@@ -15,27 +16,13 @@ export const fetchWishlist = async (userId) => {
 };
 
 // ✅ 특정 상품 찜 토글
-export const toggleWishlistItem = async (productId, userId) => {
-  const token = localStorage.getItem('accessToken'); // localStorage에서 accessToken(JWT)을 가져옴
-
-  if (!token) {
-    // 토큰이 없는 경우 (로그인하지 않은 상태)
-    console.warn('❗️ 토큰이 없습니다. 로그인 후 시도해주세요.');
-    alert('❗️ 로그인 후 시도해주세요.') // 사용자에게 알림
-    return null; // 요청을 보내지 않고 null 반환
-  }
-
+export const toggleWishlistItem = async (productId, userId, csrfToken) => {
   try {
     // POST 요청으로 서버에 찜 상태 토글 요청 (찜 추가 또는 취소)
     const response = await axios.post(
       '/api/wishlist/toggle', // API 엔드포인트
       { productId, userId },  // 요청 바디에 productId와 userId 포함
-      {
-        headers: {
-          Authorization: `Bearer ${token}`, // 헤더에 JWT 토큰을 포함 (인증용)
-        },
-        withCredentials: true, // 쿠키도 함께 보냄 (CSRF 대응 또는 병행 인증용)
-      }
+      withCsrfEmpty(csrfToken)
     );
     return response.data; // 서버로부터 받은 응답 데이터 반환 (예: 상태 메시지)
   } catch (error) {

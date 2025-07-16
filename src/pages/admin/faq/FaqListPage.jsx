@@ -5,6 +5,7 @@ import FaqSearchBar from "./FaqSearchBar";
 import Pagination from "../../../component/admin/faq/Pagination";
 import { useNavigate,  useLocation } from "react-router-dom";
 import AdminLayout from "../../../layouts/AdminLayout";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 
 
@@ -14,6 +15,7 @@ const FaqListPage = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const csrfToken = useCsrfToken();
 
   //faq 목록 저장할 상태
   const [faqList, setFaqList] = useState([]);
@@ -92,7 +94,7 @@ const FaqListPage = () => {
     if(!confirmDelete) return;
 
     try{
-      await deleteFaqs(checkedItems);
+      await deleteFaqs(checkedItems, csrfToken);
       alert("삭제가 완료 되었습니다");
       setCheckedItems([]);
       fetchFaqList();

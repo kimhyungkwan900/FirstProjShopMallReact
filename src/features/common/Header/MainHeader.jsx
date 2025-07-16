@@ -3,25 +3,30 @@ import LinkedButton from "../../../component/common/Link/LinkedButton";
 import MainSearchBar from "../../../component/user/MainPage/MainSearchBar";
 import { useContext } from "react";
 import { UserContext } from "../../../component/common/Context/UserContext";
-import axiosClient from "../../../api/common/axiosClient";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const MainHeader = () => {
   const {user} = useContext(UserContext);
   const isLoggedIn = !!user?.userId;
+  const csrfToken = useCsrfToken();
 
   const onLogout = async () => {
-try {
-    await axiosClient.post("/api/auth/logout", {}, { withCredentials: true });
+    try {
+      await axios.post("/api/auth/logout", {}, { withCredentials: true,
+              headers: {
+                "X-CSRF-TOKEN": csrfToken,
+              },
+      });
 
-    localStorage.removeItem('userId');
-    localStorage.removeItem('role');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('role');
 
-    alert("로그아웃 되었습니다.");
-    window.location.replace("/");
-  } catch (error) {
-    console.error("로그아웃 실패:", error);
-    alert("로그아웃 실패");
-  }
+      alert("로그아웃 되었습니다.");
+      window.location.replace("/");
+    } catch (error) {
+      console.error("로그아웃 실패:", error);
+      alert("로그아웃 실패");
+    }
   };
 
   return (

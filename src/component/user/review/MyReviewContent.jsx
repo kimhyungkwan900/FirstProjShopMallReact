@@ -2,6 +2,7 @@ import { myReviewList, reviewDelete } from "../../../api/user/review/reviewApi";
 import { useEffect, useState } from "react";
 import ReviewUpdateModalButton from "./ReviewUpdateModalButton";
 import ReviewImgModal from "./ReviewImgModal";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const MyReviewContent = ({ memberId }) => {
   const [reviews, setReviews] = useState([]); // 내가 작성한 리뷰 리스트 상태
@@ -12,13 +13,15 @@ const MyReviewContent = ({ memberId }) => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
+  const csrfToken = useCsrfToken();
+
 
   const BASE_URL =  "http://localhost:8080";
 
   useEffect(() => {
   const fetchReviews = async () => {
     try {
-      const data = await myReviewList(memberId, page); // ← page 반영
+      const data = await myReviewList(memberId, page, csrfToken); // ← page 반영
       setReviews(data.content); // ← Spring Data Page 기준
       setTotalPages(data.totalPages); // 전체 페이지 수 저장
     } catch (error) {
@@ -36,7 +39,7 @@ const MyReviewContent = ({ memberId }) => {
     const option = confirm("리뷰를 정말 삭제하시겠습니까? (삭제 후 복구 불가능)");
     try {
       if (option) {
-        await reviewDelete(reviewId); // 서버에 삭제 요청
+        await reviewDelete(reviewId,csrfToken); // 서버에 삭제 요청
         alert("리뷰가 삭제되었습니다.");
         // 삭제한 리뷰를 화면에서도 제거
         setReviews((prev) => prev.filter((r) => r.id !== reviewId));

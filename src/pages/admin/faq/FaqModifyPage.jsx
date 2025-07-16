@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom"
 import { getFaqById, updateFaq } from "../../../api/admin/faq/FaqApi";
 import AdminLayout from "../../../layouts/AdminLayout";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 //수정 페이지
 
 const FaqModifyPage = () =>{
     const navigate = useNavigate();
     const { id } = useParams();
+    const csrfToken = useCsrfToken();
 
     const [faq, setFaq] = useState({
         category:"",
@@ -40,7 +42,7 @@ const FaqModifyPage = () =>{
     const handleSubmit = async (e) =>{
         e.preventDefault();
         try{
-            await updateFaq(id, faq);
+            await updateFaq(id, faq, csrfToken);
             alert("FAQ가 수정 되었습니다!")
             navigate("/admin/faq"); 
         }catch(error){

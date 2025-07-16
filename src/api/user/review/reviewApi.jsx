@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { withCsrf } from '../../../utils/common/withCsrf';
 
 const API_BASE_URL = "http://localhost:8080/api";
 
@@ -10,14 +11,12 @@ export const findReviewList = async (productId, sort = "like") => {
   return response.data; 
 };
 
-export const reactReview = async({memberId, reviewId, reaction}) => {
-  const response = await axios.post(`${API_BASE_URL}/review-reactions`, null, {
-    params: {
+export const reactReview = async({memberId, reviewId, reaction,csrfToken}) => {
+  const response = await axios.post(`${API_BASE_URL}/review-reactions`, null, withCsrf({params: {
       memberId,
       reviewId,
       reaction,
-    },
-  });
+    }}, csrfToken));
   return response.data; 
 }
 
@@ -26,9 +25,10 @@ export const myReviewList = async (memberId, page = 0, size, sort = "createdAt,D
     params: {
       memberId,
       page,
-      size : 5,
+      size: 5,
       sort,
-    }
+    },
+    withCredentials: true, // 필요시 유지
   });
   return response.data;
 };
@@ -41,7 +41,7 @@ export const reviewUpdate = async (reviewId) => {
   return response.data;
 };
 
-export const reviewUpdateAction = async (reviewData, imageFiles) => {
+export const reviewUpdateAction = async (reviewData, imageFiles, csrfToken) => {
   const formData = new FormData();
 
   formData.append("reviewId", reviewData.reviewId);
@@ -75,7 +75,9 @@ export const reviewUpdateAction = async (reviewData, imageFiles) => {
     {
       headers: {
         "Content-Type": "multipart/form-data",
+        "X-CSRF-TOKEN": csrfToken,
       },
+      withCredentials: true,
     }
   );
 
@@ -84,10 +86,8 @@ export const reviewUpdateAction = async (reviewData, imageFiles) => {
 
 
 // 서버에 리뷰 삭제 요청 
-export const reviewDelete = async(reviewId) => {
-  const response = await axios.delete(`${API_BASE_URL}/mypage/review/delete`,{
-    params : {reviewId}
-  });
+export const reviewDelete = async(reviewId, csrfToken) => {
+  const response = await axios.delete(`${API_BASE_URL}/mypage/review/delete`,withCsrf({params : {reviewId}},csrfToken));
   return response.data;
 }
 

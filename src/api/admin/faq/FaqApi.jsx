@@ -31,9 +31,6 @@ export const getFaqList = async (searchParams) => {
       withCredentials: true,
     });
 
-    console.log("🚀 요청 보낼 endpoint:", endpoint);
-    console.log("🚀 조건: category =", params.category, "| keyword =", params.keyWord);
-
     return response.data;
   } catch (error) {
     console.log("FAQ 목록 조회 실패 : ", error);

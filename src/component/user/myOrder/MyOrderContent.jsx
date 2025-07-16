@@ -92,7 +92,7 @@ const courierCode = {
               </div>
           </div>
 
-          <div className="flex items-center space-x-2 mb-2 justify-between">
+          <div className="flex items-center space-x-2  justify-between">
             <div className="font-semibold pb-2">주문날짜 : {order.orderDate}</div>
              {order.trackingInfo?.trackingNumber && order.orderStatus === '배송중' && !order.returnType ? (
                 <div className="flex justify-end text-blue-700 font-bold">
@@ -131,10 +131,8 @@ const courierCode = {
 
           </div>
          
-           
-
           <div className="flex justify-between">
-            <div>
+            <div className="flex">
               {order.product?.image ? (
                 <img
                   src={order.product.image.imgUrl}
@@ -146,6 +144,20 @@ const courierCode = {
                   이미지 없음
                 </div>
               )}
+            <div className="ml-3 font-bold"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 4 ,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    width: "450px",
+                    whiteSpace: "normal",
+                  }}
+                >
+                {order.product?.description}
+              </div>
+              
             </div>
 
             <div className="ml-auto text-right mt-5">

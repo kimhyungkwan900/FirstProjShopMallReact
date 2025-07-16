@@ -45,7 +45,7 @@ const OrderChangeContent = ({ list, onDelete }) => {
                   주문 날짜 : {item.orderDate}
                 </div>
 
-                <div className="font-bold text-gray-800 mt-2">
+                <div className="font-bold text-gray-800 mb-2">
                   상품명 : <a
                     href={`/products/${item.product?.id }`}
                     target="_blank"
@@ -65,6 +65,20 @@ const OrderChangeContent = ({ list, onDelete }) => {
                         이미지 없음
                   </div>
                 )}
+                <div className="ml-3 font-bold"
+                  style={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 4 ,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    width: "450px",
+                    whiteSpace: "normal",
+                  }}
+                  >
+                {item.product?.description}
+                </div>
+
                    <div className="ml-auto text-right mt-5">
                     <div className="font-semibold">주문 수량 : {item.totalCount}</div>
                     <div className="font-semibold">상품 가격 :  ₩{(item.product?.price ?? 0).toLocaleString()}원</div>

@@ -16,7 +16,6 @@ const AdClaimListPage = ()=>{
     const [appliedFilters, setAppliedFilters] = useState(filters);
 
     const handleSearch = () => {
-        console.log(filters)
         setAppliedFilters(filters);
         setCurrentPage(0); // 첫 페이지로 초기화
     };

@@ -16,10 +16,6 @@ const ProductManageRouter = [
         element: <Suspense fallback={Loading}><AdProductListPage/></Suspense>
     },
     {
-        path: '/admin/products/:id',
-        element: <Suspense fallback={Loading}><AdProductUpdatePage/></Suspense>
-    },
-    {
         path: '/admin/products/add',
         element: <Suspense fallback={Loading}><AdProductRegPage/></Suspense>
     },

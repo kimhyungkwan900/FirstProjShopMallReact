@@ -43,9 +43,6 @@ const AdProductRegComponent = ()=>{
 
         const formData = new FormData();
 
-        console.log("product")
-        console.log(product);   //나중에 제거
-
         for(const key in product){
             formData.append(key, product[key]);
         }
@@ -55,9 +52,7 @@ const AdProductRegComponent = ()=>{
         }
 
         try {
-            const result = await addProduct(formData, csrfToken);
-            console.log("result: ")
-            console.log(result);
+            await addProduct(formData, csrfToken);
             window.location.reload();
             } catch (e) {
             console.error(e);

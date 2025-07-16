@@ -26,9 +26,6 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
         try {
             const result = await getOrderList(orderParams);
 
-            console.log("주문 리스트:")
-            console.log(result.orders.content);
-
             setOrders(result.orders.content);
             setTotalPages(result.totalPage);
             setSelectedIds([]);
@@ -47,7 +44,6 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
         setSelectedIds(prev =>
             prev.includes(id)? prev.filter(selectedId => selectedId !== id) : [...prev, id]
         );
-        console.log(selectedIds);
     };
 
     const handleUpdateSelected = async (newStatus) => {
@@ -55,8 +51,7 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
             return;
 
         try{
-            const result = await patchStatus({ids: selectedIds, newStatus: newStatus}, csrfToken);
-            console.log("patch결과: " + result);
+            await patchStatus({ids: selectedIds, newStatus: newStatus}, csrfToken);
         } catch (error){
             console.log('상태수정 실패: ', error)
         } finally{
@@ -65,7 +60,6 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
     };
     
     const openModal = (order) => {
-        console.log(order);
         setSelectedOrder(order);
         setModalIsOpen(true);
     };

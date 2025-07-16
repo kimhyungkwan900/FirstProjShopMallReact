@@ -39,17 +39,10 @@ const AdProductUpdate = ({product})=>{
         setFiles(Array.from(e.target.files));
     };
 
-    // const handleFileChange = (e) => {
-    //     setFiles(e.target.files);
-    // };
-
     const handleClickAdd = async (e) => {
         e.preventDefault();
 
         const formData = new FormData();
-
-        console.log("product")
-        console.log(productEdit);   //나중에 제거
 
         for(const key in productEdit){
             formData.append(key, productEdit[key]);
@@ -60,9 +53,7 @@ const AdProductUpdate = ({product})=>{
         }
 
         try {
-            const result = await putProduct(formData, csrfToken);
-                console.log("result: ")
-                console.log(result);
+            await putProduct(formData, csrfToken);
                 window.location.reload();
             } catch (e) {
             console.error(e);

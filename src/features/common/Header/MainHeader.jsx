@@ -3,6 +3,7 @@ import LinkedButton from "../../../component/common/Link/LinkedButton";
 import MainSearchBar from "../../../component/user/MainPage/MainSearchBar";
 import { useContext } from "react";
 import { UserContext } from "../../../component/common/Context/UserContext";
+import axiosClient from "../../../api/common/axiosClient";
 
 const MainHeader = () => {
   const {user} = useContext(UserContext);
@@ -10,7 +11,7 @@ const MainHeader = () => {
 
   const onLogout = async () => {
 try {
-    await axios.post("/api/auth/logout", {}, { withCredentials: true });
+    await axiosClient.post("/api/auth/logout", {}, { withCredentials: true });
 
     localStorage.removeItem('userId');
     localStorage.removeItem('role');

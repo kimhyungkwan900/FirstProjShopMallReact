@@ -11,12 +11,26 @@ import Modal from 'react-modal';
 function App() {
   const [user, setUser] = useState(null);
 
-  useEffect(() => {
+    useEffect(() => {
+    // 1. CSRF 토큰을 초기 요청으로 쿠키에 주입
+    const fetchCsrfToken = async () => {
+      try {
+        await axios.get('/api/csrf-token', {
+          withCredentials: true,
+        });
+        console.log('[CSRF] 쿠키에 토큰 저장 완료');
+      } catch (err) {
+        console.error('[CSRF] 토큰 요청 실패', err);
+      }
+    };
+
+    fetchCsrfToken();
+
     const userId = localStorage.getItem('userId');
 
     if (!userId || userId === 'null' || userId === 'undefined') {
       setUser(null);
-      console.log("로그인 정보 없음");
+      console.log('로그인 정보 없음');
       return;
     }
 
@@ -38,6 +52,7 @@ function App() {
         localStorage.removeItem('role');
       }
     };
+
     fetchCurrentUser();
   }, []);
   

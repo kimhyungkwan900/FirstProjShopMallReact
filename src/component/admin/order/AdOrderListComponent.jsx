@@ -4,9 +4,11 @@ import { getOrderList, patchStatus } from "../../../api/admin/order/OrderManageA
 import Pagination from "../product/Pagination"
 import AdOrderDetail from './AdOrderDetail'
 import TrackingInputButton from '../../common/tracking/TrackingInputButton'
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
-   
+    const csrfToken = useCsrfToken();
+
     const [orders, setOrders] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [selectedIds, setSelectedIds] = useState([]);
@@ -53,7 +55,7 @@ const AdOrderListComponent = ({ searchFilters, currentPage, onPageChange })=>{
             return;
 
         try{
-            const result = await patchStatus({ids: selectedIds, newStatus: newStatus});
+            const result = await patchStatus({ids: selectedIds, newStatus: newStatus}, csrfToken);
             console.log("patch결과: " + result);
         } catch (error){
             console.log('상태수정 실패: ', error)

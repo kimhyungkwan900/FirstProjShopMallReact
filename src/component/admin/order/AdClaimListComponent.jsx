@@ -3,9 +3,11 @@ import ReactModal from 'react-modal'
 import { getClaimList, patchOrderReturn } from "../../../api/admin/order/ClaimManageApi";
 import Pagination from "../product/Pagination"
 import AdClaimDetail from './AdClaimDetail'
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
-  
+    const csrfToken = useCsrfToken();
+
     const [claims, setClaims] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [selectedId, setSelectedId] = useState(null);
@@ -45,7 +47,7 @@ const AdClaimListComponent = ({ searchFilters, currentPage, onPageChange })=>{
         try{
             console.log("선택ID: " + selectedId);
             console.log("승인여부: " + approval);
-            const result = await patchOrderReturn({id: selectedId, approval: approval});
+            const result = await patchOrderReturn({id: selectedId, approval: approval}, csrfToken);
             console.log(result);
         } catch (error){
             console.log('상태변경 실패: ', error)

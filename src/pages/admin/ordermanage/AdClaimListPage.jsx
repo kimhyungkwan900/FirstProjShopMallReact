@@ -29,14 +29,16 @@ const AdClaimListPage = ()=>{
         <AdminLayout>
             <div className="space-y-2 ml-10 mt-10">
                 {/* 주문ID, 고객ID, 요청유형, 요청일자(regtime) */}
-                검색유형:
-                <select value={filters.searchType} onChange={(e)=>setFilters({...filters, searchType: e.target.value})} className="border ml-2 p-1">
+                <span className="font-bold">검색유형:</span>
+                <select value={filters.searchType} onChange={(e)=>setFilters({...filters, searchType: e.target.value})} className="border ml-2 p-1 rounded">
+                    <option value={null}>-</option>
                     <option value="주문 ID">주문 ID</option>
                     <option value="고객 ID">고객 ID</option>
                 </select>
-                <input type="text" value={filters.searchContent} onChange={(e)=>setFilters({ ...filters, searchContent: e.target.value })} className="border ml-2 p-1"/>
-                고객 요청 유형:
-                <select value={filters.returnType} onChange={(e)=>setFilters({...filters, returnType: e.target.value})} className="border ml-2 p-1">
+                <input type="text" value={filters.searchContent} onChange={(e)=>setFilters({ ...filters, searchContent: e.target.value })} className="border ml-2 p-1 rounded"/>
+                <span className="font-bold ml-5">고객 요청 유형:</span>
+                <select value={filters.returnType} onChange={(e)=>setFilters({...filters, returnType: e.target.value})} className="border ml-2 p-1 rounded">
+                    <option value={null}>-</option>
                     <option value="CANCEL_REQUEST">취소신청</option>
                     <option value="CANCEL_COMPLETE">취소완료</option>
                     <option value="CANCEL_REJECTED">취소반려</option>
@@ -47,9 +49,9 @@ const AdClaimListPage = ()=>{
                     <option value="EXCHANGE_COMPLETE">교환완료</option>
                     <option value="EXCHANGE_REJECTED">교환반려</option>
                 </select>
-                요청일자:
-                <input type="date" value={filters.startDate} onChange={(e)=>setFilters({ ...filters, startDate: e.target.value })} className="border ml-2 p-1"/>
-                <input type="date" value={filters.endDate} onChange={(e)=>setFilters({ ...filters, endDate: e.target.value })} className="border ml-2 p-1"/>
+                <span className="font-bold ml-5">요청일자:</span>
+                <input type="date" value={filters.startDate} onChange={(e)=>setFilters({ ...filters, startDate: e.target.value })} className="border ml-2 p-1 rounded"/>
+                <input type="date" value={filters.endDate} onChange={(e)=>setFilters({ ...filters, endDate: e.target.value })} className="border ml-2 p-1 rounded"/>
             </div>
             <button className="bg-blue-500 text-white px-4 py-1 ml-10 rounded" onClick={handleSearch}>검색</button>
 

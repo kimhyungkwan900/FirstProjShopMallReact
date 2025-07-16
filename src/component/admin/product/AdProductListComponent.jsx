@@ -2,12 +2,12 @@ import { useState, useEffect, useCallback } from 'react'
 import ReactModal from 'react-modal'
 import { getProductList } from "../../../api/admin/product/ProductManageApi";
 import { deleteProduct } from '../../../api/admin/product/ProductManageApi';
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 import Pagination from "./Pagination"
 import AdProductUpdate from './AdProductUpdate';
 
 const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
-    
-    
+    const csrfToken = useCsrfToken();
 
     const [products, setProducts] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
@@ -53,7 +53,7 @@ const AdProductListComponent = ({ searchFilters, currentPage, onPageChange })=>{
             return;
 
         try{
-            const result = await deleteProduct(selectedIds);
+            const result = await deleteProduct(selectedIds, csrfToken);
             console.log(result);
         } catch (error){
             console.log('상품삭제 실패: ', error)

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deleteFaqs, getFaqList } from "../../../api/admin/faq/FaqApi"; //백엔드에서 faq 불러오기
+import { deleteFaqs, getFaqList } from "../../../api/admin/faq/FaqApi"; 
 import FaqListItem from "./FaqListItem";
 import FaqSearchBar from "./FaqSearchBar";
 import Pagination from "../../../component/admin/faq/Pagination";
@@ -45,12 +45,9 @@ const FaqListPage = () => {
 
   //faq 불러오기 
   const fetchFaqList = async (params = searchParams) => {
-    console.log("📦 요청 searchParams:", params);
 
     try {
       const response = await getFaqList(params);
-
-      console.log("📦 받아온 응답:", response);
 
       setFaqList(response.dtoList || []); //데이터만 따로 저장
       setTotalCount(response.totalCount || 0); // 전체 개수 저장

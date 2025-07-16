@@ -26,9 +26,10 @@ const FaqListItem = ({ faq, index, isChecked, onCheck }) => {
       <td className="border px-2 text-center">{faq.category}</td>
 
 
-      <td className="border px-2 text-blue-600 hover:underline">
+      <td className="border px-2 text-black-900 hover:underline">
        <Link to={`/admin/faq/detail/${faq.id}`}>{faq.question}</Link>
       </td>
+
       <td className="border px-2 text-center">
         {formatDate(faq.createdAt)}
       </td>

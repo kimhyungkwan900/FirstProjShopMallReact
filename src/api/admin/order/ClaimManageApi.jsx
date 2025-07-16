@@ -9,12 +9,12 @@ export const getClaimList = async ( claimParams ) => {
 }
 
 //고객 요청에 대한 상태 변경
-export const patchOrderReturn = async (statusInfo) => {
+export const patchOrderReturn = async (statusInfo, csrfToken) => {
 
   const response = await axios.patch(`/api/admin/claims/status`, statusInfo,{
     withCredentials: true,
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken
     }
   })
 

@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 import { putProduct } from "../../../api/admin/product/ProductManageApi"
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const AdProductUpdate = ({product})=>{
+    const csrfToken = useCsrfToken();
 
     const initState = {
         id: `${product.id}`,
@@ -58,7 +60,7 @@ const AdProductUpdate = ({product})=>{
         }
 
         try {
-            const result = await putProduct(formData);
+            const result = await putProduct(formData, csrfToken);
                 console.log("result: ")
                 console.log(result);
                 window.location.reload();

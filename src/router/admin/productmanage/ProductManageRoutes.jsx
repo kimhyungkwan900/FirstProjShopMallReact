@@ -1,7 +1,7 @@
 import { Suspense, lazy } from "react";
 
 const Loading = <div>Loading...</div>
-const AdminMainPage = lazy(() => import("../../../pages/admin/AdminMainPage"))
+// const AdminMainPage = lazy(() => import("../../../pages/admin/AdminMainPage"))
 const AdProductListPage = lazy(() => import("../../../pages/admin/productmanage/AdProductListPage"))
 const AdProductUpdatePage = lazy(() => import("../../../pages/admin/productmanage/AdProductUpdatePage"))
 const AdProductRegPage = lazy(() => import("../../../pages/admin/productmanage/AdProductRegPage"))
@@ -9,7 +9,7 @@ const AdProductRegPage = lazy(() => import("../../../pages/admin/productmanage/A
 const ProductManageRouter = [
     {
         path: '/admin',
-        element: <Suspense fallback={Loading}><AdminMainPage/></Suspense>
+        element: <Suspense fallback={Loading}><AdProductListPage/></Suspense>
     },
     {
         path: '/admin/products',

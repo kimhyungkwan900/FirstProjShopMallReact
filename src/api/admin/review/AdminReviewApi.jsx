@@ -9,7 +9,8 @@ export const fetchAdminReviewList = async (filterType, page = 0, searchType = ""
       size: 5,
       searchType,
       keyword,
-    },
+    },withCredentials: true,
+
   });
 
   return response.data;

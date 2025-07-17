@@ -5,7 +5,7 @@ const API_BASE_URL = "http://localhost:8080/api";
 
 export const findReviewList = async (productId, sort = "like") => {
   const response = await axios.get(`${API_BASE_URL}/product/review`,{
-    params : {productId, sort }
+    params : {productId, sort }, withCredentials: true
   });
 
   return response.data; 
@@ -28,7 +28,7 @@ export const myReviewList = async (memberId, page = 0, size, sort = "createdAt,D
       size: 5,
       sort,
     },
-    withCredentials: true, // 필요시 유지
+    withCredentials: true,
   });
   return response.data;
 };
@@ -36,7 +36,7 @@ export const myReviewList = async (memberId, page = 0, size, sort = "createdAt,D
 // 서버에 리뷰 받아오기 요청 
 export const reviewUpdate = async (reviewId) => {
   const response = await axios.get(`${API_BASE_URL}/mypage/review/update`,{
-    params : {reviewId}
+    params : {reviewId}, withCredentials: true
   });
   return response.data;
 };

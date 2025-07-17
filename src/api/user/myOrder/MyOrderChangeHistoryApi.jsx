@@ -15,6 +15,7 @@ export const findChangeList = async ({ memberId, returnType, page = 0, size = 10
 
   const response = await axios.get(`${API_BASE_URL}/mypage/order/changeList`, {
     params,
+    withCredentials: true,
   });
 
   return response.data;

@@ -2,11 +2,13 @@ import { Dialog } from "@headlessui/react";
 import { useContext, useState } from "react";
 import { reviewReportAction } from "../../../api/user/review/reviewReportApi";
 import { UserContext } from "../../common/Context/UserContext";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const ReviewReportModal = ({ isOpen, onClose, reviewId }) => {
     const [reportReason, setReportReason] = useState("");
     const [detail, setDetail] = useState("");
     const { user } = useContext(UserContext);
+    const csrfToken = useCsrfToken();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,6 +28,7 @@ const ReviewReportModal = ({ isOpen, onClose, reviewId }) => {
             memberId: user?.id,
             reason: reportReason,
             detail,
+            csrfToken,
             });
             alert("신고가 접수되었습니다.");
             onClose(); // 모달 닫기

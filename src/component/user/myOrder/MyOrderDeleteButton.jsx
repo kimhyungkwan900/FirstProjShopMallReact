@@ -1,12 +1,15 @@
 import { deleteOrder } from "../../../api/user/myOrder/MyOrderDeleteApi";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const MyOrderDeleteButton = ({ orderId, onDelete }) => {
+  const csrfToken = useCsrfToken();
+  
   const handleDeleteOrder = async (orderId) => {
     if (!window.confirm("정말 삭제 하시겠습니까? (복구 불가능)")) {
       return;
     }
     try {
-      await deleteOrder(orderId);
+      await deleteOrder(orderId, csrfToken);
       onDelete(orderId);  // 여기서 onDelete가 함수가 아니면 에러 발생
     } catch (error) {
       console.error("삭제 실패:", error);

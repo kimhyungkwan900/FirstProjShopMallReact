@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { reviewWriter } from "../../../api/user/review/reviewWriterApi";
 import StarRatingInput from "./StarRatingInput";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const ReviewWriterFormModal = ({ onClose, reviewInfo, onReviewWritten }) => {
   const [review, setReview] = useState({
@@ -14,6 +15,7 @@ const ReviewWriterFormModal = ({ onClose, reviewInfo, onReviewWritten }) => {
 
   const [imagePreviews, setImagePreviews] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
+  const csrfToken = useCsrfToken();
 
   const MAX_IMAGES = 10;
 
@@ -72,7 +74,7 @@ const ReviewWriterFormModal = ({ onClose, reviewInfo, onReviewWritten }) => {
   };
 
   try {
-    await reviewWriter({ reviewData, imageFiles });
+    await reviewWriter({ reviewData, imageFiles, csrfToken });
     alert("리뷰가 등록되었습니다.")
     onReviewWritten(reviewInfo.orderId);
     onClose();

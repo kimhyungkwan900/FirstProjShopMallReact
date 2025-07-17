@@ -1,4 +1,4 @@
-import kakaoLoginImg from "../../../assets/Kakao/ko/kakao_login_large_narrow.png";
+import kakaoLoginImg from "../../../assets/Kakao/ko/kakao_icon_logo.png";
 import naverLoginImg from "../../../assets/Naver/2021_Login_with_naver_guidelines_Kr/btnD_아이콘원형.png";
 import googleLoginImg from "../../../assets/Google/signin-assets/Web (mobile + desktop)/png@1x/dark/web_dark_rd_na@1x.png";
 import LoginForm from "../../../features/common/oauth/LoginForm";

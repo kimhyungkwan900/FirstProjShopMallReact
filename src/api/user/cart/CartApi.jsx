@@ -1,21 +1,19 @@
 import axios from "axios";
+import { withCsrf, withCsrfEmpty } from "../../../utils/common/withCsrf";
 
 // ✅ axios 공통 인스턴스 생성 (쿠키 자동 포함 + baseURL)
 const axiosInstance = axios.create({
   withCredentials: true, // ✅ 이거 중요
 });
 
-
 // ✅ 1. 장바구니에 상품 추가
-export const addCartItem = (productId, quantity) => {
-  return axiosInstance.post(`/api/cart/items/${productId}`, null, {
-    params: { quantity }
-  });
+export const addCartItem = (productId, quantity, csrfToken) => {
+  return axiosInstance.post(`/api/cart/items/${productId}`, null, withCsrf({ params: { quantity } }, csrfToken));
 };
 
 // ✅ 2. 장바구니에서 특정 항목 삭제
-export const deleteCartItems = (itemId) => {
-  return axiosInstance.delete(`/api/cart/items/${itemId}`);
+export const deleteCartItems = (itemId, csrfToken) => {
+  return axiosInstance.delete(`/api/cart/items/${itemId}`, withCsrfEmpty(csrfToken));
 };
 
 // ✅ 3. 사용자 장바구니 항목 전체 조회
@@ -24,29 +22,25 @@ export const fetchCartItems = () => {
 };
 
 // ✅ 4. 장바구니 항목 수량 수정
-export const updateCartItemQuantity = (itemId, quantity) => {
-  return axiosInstance.put(`/api/cart/items/${itemId}`, null, {
-    params: { quantity }
-  });
+export const updateCartItemQuantity = (itemId, quantity, csrfToken) => {
+  return axiosInstance.put(`/api/cart/items/${itemId}`, null, withCsrf({ params: { quantity } }, csrfToken));
 };
 
 // ✅ 5. 장바구니 항목 선택/해제
-export const toggleCartItemSelection = async (itemId, isSelected) => {
-  const res = await axiosInstance.put(`/api/cart/items/${itemId}/select`, null, {
-    params: { isSelected },
-  });
+export const toggleCartItemSelection = async (itemId, isSelected, csrfToken) => {
+  const res = await axiosInstance.put(`/api/cart/items/${itemId}/select`, null, withCsrf({ params: { isSelected } }, csrfToken));
   return res;
 };
 
 
 // ✅ 6. 장바구니 전체 비우기
-export const clearCart = () => {
-  return axiosInstance.delete(`/api/cart/items`);
+export const clearCart = (csrfToken) => {
+  return axiosInstance.delete(`/api/cart/items`, withCsrfEmpty(csrfToken));
 };
 
 // ✅ 7. 선택된 항목만 삭제
-export const deleteSelectedItems = () => {
-  return axiosInstance.delete(`/api/cart/items/selected`);
+export const deleteSelectedItems = (csrfToken) => {
+  return axiosInstance.delete(`/api/cart/items/selected`, withCsrfEmpty(csrfToken));
 };
 
 // ✅ 8. 선택된 항목 총 가격과 배송비 계산
@@ -55,23 +49,23 @@ export const calculateTotalWithDelivery = () => {
 };
 
 // ✅ 9. 장바구니 품절 상태 자동 갱신
-export const refreshCartStockStatus = () => {
-  return axiosInstance.put(`/api/cart/items/refresh-stock`);
+export const refreshCartStockStatus = (csrfToken) => {
+  return axiosInstance.put(`/api/cart/items/refresh-stock`,null, withCsrfEmpty(csrfToken));
 };
 
 // ✅ 10. 장바구니 항목을 위시리스트로 이동
-export const moveCartItemToWishlist = (cartItemId) => {
-  return axiosInstance.post(`/api/cart/items/wishlist/${cartItemId}`);
+export const moveCartItemToWishlist = (cartItemId, csrfToken) => {
+  return axiosInstance.post(`/api/cart/items/wishlist/${cartItemId}`,null, withCsrfEmpty(csrfToken));
 };
 
 // ✅ 11. 재입고 알림 신청
-export const requestRestockAlarm = (itemsId) => {
-  return axiosInstance.post(`/api/cart/items/${itemsId}/restockAlarm`);
+export const requestRestockAlarm = (itemsId, csrfToken) => {
+  return axiosInstance.post(`/api/cart/items/${itemsId}/restockAlarm`,null, withCsrfEmpty(csrfToken));
 };
 
 // ✅ 11. 재입고 알림 취소 신청
-export const cancelRestockAlarm = (itemsId) => {
-  return axiosInstance.post(`/api/cart/items/${itemsId}/restockAlarm/cancel`);
+export const cancelRestockAlarm = (itemsId, csrfToken) => {
+  return axiosInstance.post(`/api/cart/items/${itemsId}/restockAlarm/cancel`,null, withCsrfEmpty(csrfToken));
 };
 
 
@@ -87,17 +81,13 @@ export const IsRequestRestockAlarm = (productId) => {
 
 
 // ✅ 14. 브랜드별 전체 선택
-export const toggleCartBrandSelection = (brandName, isSelected) => {
+export const toggleCartBrandSelection = (brandName, isSelected, csrfToken) => {
   return axiosInstance.put(`/api/cart/items/select-brand/${encodeURIComponent(brandName)}`,
-  null,
-  { params: { isSelected } }
-);
+  null, withCsrf({ params: { isSelected } }, csrfToken));
 
 };
 
 // ✅ 15. 장바구니 항목 전체 선택 
-export const toggleCartAllSelection = (isSelected) => {
-  return axiosInstance.put(`/api/cart/items/select-all`, null, {
-    params: { isSelected },
-  });
+export const toggleCartAllSelection = (isSelected, csrfToken) => {
+  return axiosInstance.put(`/api/cart/items/select-all`, null, withCsrf({ params: { isSelected } }, csrfToken));
 };

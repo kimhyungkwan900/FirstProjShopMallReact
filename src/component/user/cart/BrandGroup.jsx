@@ -7,6 +7,7 @@ import {
   toggleCartBrandSelection,
 } from "../../../api/user/cart/CartApi";
 import CartItemRow from "./CartItemRow";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 /**
  * BrandGroup 컴포넌트
@@ -23,13 +24,14 @@ const BrandGroup = ({
 }) => {
   // 브랜드 내 모든 상품이 선택되어 있는지 여부 확인
   const isBrandAllSelected = items.every((item) => item._selected);
+  const csrfToken = useCsrfToken();
 
   /**
    * 브랜드 내 모든 상품의 선택 상태를 변경
    */
   const handleToggleBrandSelect = async (checked) => {
     try {
-      await toggleCartBrandSelection(brand, checked); // API 호출
+      await toggleCartBrandSelection(brand, checked, csrfToken); // API 호출
       await loadCart();                               // 장바구니 목록 새로고침
       await updateTotal();                            // 총액 갱신
     } catch (error) {
@@ -43,7 +45,7 @@ const BrandGroup = ({
   const handleToggleItemSelect = async (itemId) => {
     const item = items.find((item) => Number(item.id) === Number(itemId));
     try {
-      await toggleCartItemSelection(itemId, !item._selected); // 선택 상태 반전
+      await toggleCartItemSelection(itemId, !item._selected, csrfToken); // 선택 상태 반전
       await loadCart();
       await updateTotal();
     } catch (error) {
@@ -56,7 +58,7 @@ const BrandGroup = ({
    */
   const handleUpdateItemQuantity = async (itemId, quantity) => {
     try {
-      await updateCartItemQuantity(itemId, quantity);
+      await updateCartItemQuantity(itemId, quantity, csrfToken);
       await calculateTotalWithDelivery(); // 총액 갱신
       await loadCart();
       await updateTotal();
@@ -71,7 +73,7 @@ const BrandGroup = ({
    */
   const handleDeleteItem = async (itemId) => {
     try {
-      await deleteCartItems(itemId);
+      await deleteCartItems(itemId, csrfToken);
       await loadCart();
       await updateTotal();
     } catch (error) {

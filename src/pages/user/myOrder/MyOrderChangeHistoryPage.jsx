@@ -11,6 +11,7 @@ import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
 
 import MyPageSideMenuBar from "../../../component/user/myOrder/MyPageSideMenuBar";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const MyOrderChangeHistoryPage = () => {
   const [filterType, setFilterType] = useState("ALL");
@@ -20,8 +21,9 @@ const MyOrderChangeHistoryPage = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   
- const {user} = useContext(UserContext);
- const memberId = user?.id;
+  const {user} = useContext(UserContext);
+  const memberId = user?.id;
+  const csrfToken = useCsrfToken();
 
  const returnTypeMap = {
   ALL: null,
@@ -81,7 +83,7 @@ const MyOrderChangeHistoryPage = () => {
 
  const handleDeleteOrder = async (orderId) => {
   try {
-    await deleteOrder(orderId);
+    await deleteOrder(orderId, csrfToken);
 
     const returnTypes = returnTypeMap[filterType]; 
     const res = await findChangeList({

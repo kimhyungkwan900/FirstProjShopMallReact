@@ -1,8 +1,9 @@
 import axios from "axios";
+import { withCsrfForm } from "../../../utils/common/withCsrf";
 
 const API_BASE_URL = "http://localhost:8080/api";
 
-export const reviewWriter = async ({ reviewData, imageFiles }) => {
+export const reviewWriter = async ({ reviewData, imageFiles, csrfToken }) => {
   const formData = new FormData();
 
   formData.append(
@@ -16,7 +17,8 @@ export const reviewWriter = async ({ reviewData, imageFiles }) => {
 
   const response = await axios.post(
     `${API_BASE_URL}/mypage/review/writer`,
-    formData
+    formData,
+    withCsrfForm(csrfToken)
     // headers: { 'Content-Type': 'multipart/form-data' } 제거!
   );
 

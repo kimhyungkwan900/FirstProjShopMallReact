@@ -4,11 +4,13 @@ import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
 import MyPageSideMenuBar from "../../../component/user/myOrder/MyPageSideMenuBar";
 import { useNavigate } from "react-router-dom";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const RestockAlarmListPage = () => {
   const [restockAlarmList, setRestockAlarmList] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const csrfToken = useCsrfToken();
 
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const RestockAlarmListPage = () => {
 
   const handleCancelAlarm = async (productId) => {
     try {
-      await cancelRestockAlarm(productId);
+      await cancelRestockAlarm(productId, csrfToken);
       alert("알림이 해제되었습니다.");
       setRestockAlarmList((prev) => prev.filter((item) => item.productId !== productId));
     } catch (error) {

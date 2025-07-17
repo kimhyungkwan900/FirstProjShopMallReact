@@ -10,15 +10,26 @@ import Modal from 'react-modal';
 
 function App() {
   const [user, setUser] = useState(null);
+    useEffect(() => {
+      
+      const userId = localStorage.getItem('userId');
 
-useEffect(() => {
-    const userId = localStorage.getItem('userId');
+      if (!userId || userId === 'null' || userId === 'undefined') {
+        setUser(null);
+        console.log('로그인 정보 없음');
+        return;
+      }
 
-    if (!userId || userId === 'null' || userId === 'undefined') {
-      setUser(null);
-      console.log("로그인 정보 없음");
-      return;
-    }
+    const fetchCsrfToken = async () => {
+      try {
+        await axios.get('/api/csrf-token', {
+          withCredentials: true,
+        });
+        console.log('[CSRF] 쿠키에 토큰 저장 완료');
+      } catch (err) {
+        console.error('[CSRF] 토큰 요청 실패', err);
+      }
+    };
 
     const fetchCurrentUser = async () => {
       try {
@@ -39,6 +50,7 @@ useEffect(() => {
       }
     };
     fetchCurrentUser();
+    fetchCsrfToken();
   }, []);
   
   Modal.setAppElement('#root');

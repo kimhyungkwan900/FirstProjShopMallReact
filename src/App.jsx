@@ -10,15 +10,16 @@ import Modal from 'react-modal';
 
 function App() {
   const [user, setUser] = useState(null);
+
     useEffect(() => {
       
-      const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('userId');
 
-      if (!userId || userId === 'null' || userId === 'undefined') {
-        setUser(null);
-        console.log('로그인 정보 없음');
-        return;
-      }
+    if (!userId || userId === 'null' || userId === 'undefined') {
+      setUser(null);
+      console.log('로그인 정보 없음');
+      return;
+    }
 
     const fetchCsrfToken = async () => {
       try {
@@ -31,14 +32,15 @@ function App() {
       }
     };
 
+
     const fetchCurrentUser = async () => {
       try {
         const res = await axios.get('/api/auth/me', {
           withCredentials: true,
         });
 
-        const { userId, role } = res.data;
-        localStorage.setItem('userId', userId);
+        const { id, role } = res.data;
+        localStorage.setItem('userId', id);
         localStorage.setItem('role', role);
 
         setUser(res.data);
@@ -49,8 +51,8 @@ function App() {
         localStorage.removeItem('role');
       }
     };
-    fetchCurrentUser();
     fetchCsrfToken();
+    fetchCurrentUser();
   }, []);
   
   Modal.setAppElement('#root');

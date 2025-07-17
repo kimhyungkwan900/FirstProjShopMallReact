@@ -25,9 +25,8 @@ const TrackingInputModal = ({ orderId, onClose }) => {
     await adminTrackingInput({
       orderId,
       courierCode: courier,
-      trackingNumber,
-      csrfToken,
-    });
+      trackingNumber,     
+    }, csrfToken,);
 
     alert("운송장 등록이 완료되었습니다.");
     onClose();

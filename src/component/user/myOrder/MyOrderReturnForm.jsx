@@ -32,6 +32,7 @@ const [detail, setDetail] = useState("");
     detail,
   };
     try {
+      console.log(csrfToken)
       await insertOrderReturn(formData, csrfToken);
       alert("신청이 완료되었습니다.");
 

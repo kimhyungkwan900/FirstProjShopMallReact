@@ -12,7 +12,7 @@ export const fetchMyOrderList = async (memberId, page = 0, size = 5, startDate, 
       startDate,
       endDate,
       keyword,
-    },
+    },withCredentials: true,
   });
 
   return response.data;

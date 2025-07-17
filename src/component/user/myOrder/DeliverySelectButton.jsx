@@ -1,4 +1,4 @@
-const DeilverySelectButton = ({ trackingNumber, courierCode }) => {
+const DeliverySelectButton = ({ trackingNumber, courierCode }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -44,4 +44,4 @@ const DeilverySelectButton = ({ trackingNumber, courierCode }) => {
   );
 };
 
-export default DeilverySelectButton;
+export default DeliverySelectButton;

@@ -1,8 +1,10 @@
 import { Dialog } from "@headlessui/react";
 import { useState } from "react";
 import { adminReviewBlindAction } from "../../../api/admin/review/AdminReviewBlindAPi";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 const AdminReviewBlindModal = ({ isOpen, onClose, reviewId, onBlindSuccess }) => {
     const [blindReason, setBlindReason] = useState("");
+    const csrfToken = useCsrfToken();
 
     const adminId = 1;
 
@@ -17,6 +19,7 @@ const AdminReviewBlindModal = ({ isOpen, onClose, reviewId, onBlindSuccess }) =>
                 reviewId,
                 adminId,
                 reason: blindReason,
+                csrfToken,
             });
             alert("블라인드가 처리되었습니다.");
             onClose();

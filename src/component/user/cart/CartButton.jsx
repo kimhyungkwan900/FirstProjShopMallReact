@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { addCartItem, requestRestockAlarm, cancelRestockAlarm, IsRequestRestockAlarm } from "../../../api/user/cart/CartApi";
 import { UserContext } from "../../common/Context/UserContext";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 /**
  * CartButton 컴포넌트
@@ -13,6 +14,7 @@ const CartButton = ({ productId, status }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext); // 현재 로그인한 사용자 정보 가져오기
   const isLoggedIn = !!user?.id;            // 로그인 여부 판단
+  const csrfToken = useCsrfToken();
 
   // 재입고 알림 신청 여부를 저장하는 state (초기값: false)
   const [isAlarmRequested, setIsAlarmRequested] = useState(false);
@@ -49,7 +51,7 @@ const CartButton = ({ productId, status }) => {
     }
 
     try {
-      await addCartItem(productId, 1); // ✅ 장바구니에 상품 1개 추가 API 호출
+      await addCartItem(productId, 1, csrfToken); // ✅ 장바구니에 상품 1개 추가 API 호출
       const confirmed = window.confirm(
         "상품이 장바구니에 추가되었습니다.\n장바구니로 이동하시겠습니까?"
       );
@@ -78,12 +80,12 @@ const CartButton = ({ productId, status }) => {
     try {
       if (isAlarmRequested) {
         // 이미 신청된 상태면 취소 처리
-        await cancelRestockAlarm(productId);
+        await cancelRestockAlarm(productId, csrfToken);
         alert("재입고 알림이 취소되었습니다.");
         setIsAlarmRequested(false); // 버튼 상태 false로 변경
       } else {
         // 신청되지 않은 상태면 신청 처리
-        await requestRestockAlarm(productId);
+        await requestRestockAlarm(productId, csrfToken);
         setIsAlarmRequested(true); // 버튼 상태 true로 변경
         const response = window.confirm("재입고 알림이 신청되었습니다.\n마이페이지로 이동하시겠습니까?");
         if (response) {

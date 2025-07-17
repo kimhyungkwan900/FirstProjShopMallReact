@@ -12,9 +12,11 @@ import {
 } from "../../../api/user/cart/CartApi";
 import MainHeader from "../../../features/common/Header/MainHeader";
 import Footer from "../../../component/common/Footer";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const CartPage = () => {
   const navigate = useNavigate(); // 페이지 이동 훅
+  const csrfToken = useCsrfToken();
 
   // 장바구니 상품 목록 상태
   const [cartItems, setCartItems] = useState([]);
@@ -75,7 +77,7 @@ const CartPage = () => {
   const handleUpdateQuantity = async (itemId, quantity) => {
     if (quantity < 1) return; // 1 미만 방지
     try {
-      await updateCartItemQuantity(itemId, quantity); // 수량 변경 API 호출
+      await updateCartItemQuantity(itemId, quantity, csrfToken); // 수량 변경 API 호출
       await loadCart();
     } catch (error) {
       console.error("수량 변경 실패", error);
@@ -87,7 +89,7 @@ const CartPage = () => {
     const isSelected = items.some((item) => item._selected); // 선택된 상품 있는지 확인
     if (isSelected) {
       try {
-        await deleteSelectedItems(); // 선택 삭제 API 호출
+        await deleteSelectedItems(csrfToken); // 선택 삭제 API 호출
         await loadCart();
       } catch (error) {
         console.error("선택된 상품 삭제 실패", error);
@@ -136,7 +138,7 @@ const CartPage = () => {
                     const isAllSelected = cartItems.every(
                       (item) => item._selected
                     );
-                    await toggleCartAllSelection(!isAllSelected); // 전체 선택/해제 API 호출
+                    await toggleCartAllSelection(!isAllSelected, csrfToken); // 전체 선택/해제 API 호출
                     await loadCart(); // 상태 새로고침
                     loadTotal();
                   } catch (error) {
@@ -182,7 +184,7 @@ const CartPage = () => {
                     loadCart={loadCart}
                     onDeleteItem={async (itemId) => {
                       try {
-                        await deleteCartItems(itemId); // 개별 삭제 API 호출
+                        await deleteCartItems(itemId, csrfToken); // 개별 삭제 API 호출
                         await loadCart();
                       } catch (error) {
                         console.error("상품 삭제 실패", error);
@@ -203,7 +205,8 @@ const CartPage = () => {
                         for (const item of brandItems) {
                           await toggleCartItemSelection(
                             item.id,
-                            selectAll
+                            selectAll,
+                            csrfToken,
                           ); // 브랜드별 선택/해제 API 호출
                         }
                         await loadCart();

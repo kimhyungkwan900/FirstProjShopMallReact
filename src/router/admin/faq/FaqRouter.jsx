@@ -1,6 +1,9 @@
 import { Suspense, lazy } from "react";
+import AdminRoute from "../AdminRoute";
 
 const Loading = <div>Loading....</div>;
+
+const role = localStorage.getItem("role")
 
 const FaqListPage = lazy(()=> import("../../../pages/admin/faq/FaqListPage"));
 const FaqResisterPage = lazy(()=> import("../../../pages/admin/faq/FaqResisterPage"));
@@ -10,22 +13,22 @@ const FaqModifyPage = lazy(()=> import("../../../pages/admin/faq/FaqModifyPage")
 const FaqRouter = [
     {
         path: "/admin/faq",
-        element : <Suspense fallback={Loading}><FaqListPage/></Suspense>,
+        element : <AdminRoute role={role} element={<Suspense fallback={Loading}><FaqListPage/></Suspense>} />
     },
 
     {
         path: "/admin/faq/register",
-        element : <Suspense fallback={Loading}><FaqResisterPage/></Suspense>
+        element : <AdminRoute role={role} element={<Suspense fallback={Loading}><FaqResisterPage/></Suspense>} />
     },
 
     {
         path: "/admin/faq/detail/:id",
-        element: <Suspense fallback={Loading}><FaqDetailPage /></Suspense>,
+        element: <AdminRoute role={role} element={<Suspense fallback={Loading}><FaqDetailPage /></Suspense>} />
     },
 
     {
         path: "/admin/faq/modify/:id",
-        element: <Suspense fallback={Loading}><FaqModifyPage /></Suspense>,
+        element: <AdminRoute role={role} element={<Suspense fallback={Loading}><FaqModifyPage /></Suspense>} />
     },
 ];
 

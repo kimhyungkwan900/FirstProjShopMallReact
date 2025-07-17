@@ -24,17 +24,22 @@ const AdminLayout = ({children})=>{
     const orderBgColor = orderListOpen? "bg-gray-600":"bg-gray-800";
 
     //로그아웃
-    const onLogout = async () => {
+  const onLogout = async () => {
         try {
-            await axios.post("/api/auth/logout",
-                { withCredentials: true, headers: { 'X-CSRF-TOKEN': csrfToken } }
-            );
+        await axios.post("/api/auth/logout", {}, { withCredentials: true,
+                headers: {
+                    "X-CSRF-TOKEN": csrfToken,
+                  },
+        });
 
-            alert("로그아웃 되었습니다.");
-            window.location.replace("/");
+        localStorage.removeItem('userId');
+        localStorage.removeItem('role');
+
+        alert("로그아웃 되었습니다.");
+        window.location.replace("/");
         } catch (error) {
-            console.error("로그아웃 실패:", error);
-            alert("로그아웃 실패");
+        console.error("로그아웃 실패:", error);
+        alert("로그아웃 실패");
         }
     };
 

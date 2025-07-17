@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { withCsrfForm } from "../../../utils/common/withCsrf";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const AddressForm = ({ selectedAddress, onSuccess, onCancel }) => {
+  const csrfToken = useCsrfToken();
   const [form, setForm] = useState({
     id: null,
     zipcode: "",
@@ -38,9 +41,9 @@ const AddressForm = ({ selectedAddress, onSuccess, onCancel }) => {
     e.preventDefault();
     try {
       if (form.id) {
-        await axios.put("/api/members/addresses", form); // 수정
+        await axios.put("/api/members/addresses", form, withCsrfForm(csrfToken)); // 수정
       } else {
-        await axios.post("/api/members/addresses", form); // 추가
+        await axios.post("/api/members/addresses", form, withCsrfForm(csrfToken)); // 추가
       }
       onSuccess(); // 저장 후 목록 새로고침
     } catch (error) {

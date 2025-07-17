@@ -39,10 +39,13 @@ export const getFaqList = async (searchParams) => {
 };
 
 // FAQ 등록
-export const createFaq = async (faqDto) => {
+export const createFaq = async (faqDto, csrfToken) => {
   try {
     const response = await axios.post(`${API_BASE}/create`, faqDto, {
       withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken
+    }
     });
     return response.data;
   } catch (error) {
@@ -65,11 +68,14 @@ export const getFaqById = async (id) => {
 };
 
 // FAQ 수정
-export const updateFaq = async (id, faqData) => {
+export const updateFaq = async (id, faqData, csrfToken) => {
   try {
     const response = await axios.put(`${API_BASE}/update/${id}`, faqData, {
       withCredentials: true,
-    });
+    headers: {
+      'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken
+    }
+  });
     return response.data;
   } catch (error) {
     console.error("FAQ 수정 실패", error);
@@ -78,11 +84,14 @@ export const updateFaq = async (id, faqData) => {
 };
 
 // FAQ 삭제
-export const deleteFaqs = async (ids) => {
+export const deleteFaqs = async (ids, csrfToken) => {
   try {
     const response = await axios.delete(`${API_BASE}/delete`, {
       data: ids, // 요청 body에 배열로 전달
       withCredentials: true,
+    headers: {
+      'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrfToken
+    }
     });
     return response.data;
   } catch (error) {

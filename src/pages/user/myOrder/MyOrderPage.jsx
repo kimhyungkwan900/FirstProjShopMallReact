@@ -12,6 +12,7 @@ import { useContext } from "react";
 import { fetchMyOrderList } from "../../../api/user/myOrder/MyOrderApi";
 import { deleteOrder } from "../../../api/user/myOrder/MyOrderDeleteApi";
 import { UserContext } from "../../../component/common/Context/UserContext";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const MyOrderPage = () => {
 
@@ -35,6 +36,7 @@ const MyOrderPage = () => {
 
   const {user} = useContext(UserContext);
   const memberId = user?.id;
+  const csrfToken = useCsrfToken();
 
 
   const loadOrders = async (page = 0) => {
@@ -70,7 +72,7 @@ const MyOrderPage = () => {
 
 const handleDeleteOrder = async (orderId) => {
   try {
-    await deleteOrder(orderId); 
+    await deleteOrder(orderId, csrfToken); 
 
     const updatedOrders = orders.filter((order) => order.id !== orderId);
 

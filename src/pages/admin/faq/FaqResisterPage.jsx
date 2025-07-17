@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createFaq } from "../../../api/admin/faq/FaqApi";
 import AdminLayout from "../../../layouts/AdminLayout";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 //등록 페이지
 
 const FaqResisterPage = () =>{
     const navigate = useNavigate();
+    const csrfToken = useCsrfToken();
 
     //사용자가 입력한 faq 정보 저장 공간
     const [faq, setFaq] = useState({
@@ -25,7 +27,7 @@ const FaqResisterPage = () =>{
     const handleSubmit = async (e) =>{
         e.preventDefault(); //새로고침 방지
         try{
-            await createFaq(faq);
+            await createFaq(faq, csrfToken);
             alert("FAQ가 등록 되었습니다!")
             // navigate("/admin/faq");//목록페이지로 이동
             navigate("/admin/faq", { state: { resetSearch: true } });

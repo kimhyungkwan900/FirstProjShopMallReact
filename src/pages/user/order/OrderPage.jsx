@@ -11,6 +11,7 @@ import OrderItems from "../../../component/user/order/OrderItems";
 
 import Footer from "../../../component/common/Footer";
 import MainHeader from "../../../features/common/Header/MainHeader";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 /**
  * 주문 페이지 컴포넌트
@@ -21,7 +22,8 @@ const OrderPage = () => {
   const navigate = useNavigate();           // 페이지 이동용
   const { total, selectedItems } = location.state || { selectedItems: [], total: {} }; // 총 결제 금액
   const { user } = useContext(UserContext); // 현재 로그인한 사용자 정보
-
+  const csrfToken = useCsrfToken();
+  
   // ✅ 상태 관리
   const [deliveryAddressId, setDeliveryAddressId] = useState(null); // 선택된 배송지 ID
   const [paymentMethod, setPaymentMethod] = useState("");           // 선택된 결제수단
@@ -31,6 +33,7 @@ const OrderPage = () => {
 
   // ✅ 주문 생성 및 결제 처리
   const handleCreateOrder = async () => {
+
     if (!deliveryAddressId) {
       alert("배송지를 선택해주세요.");
       return;
@@ -48,7 +51,7 @@ const OrderPage = () => {
         delivery_request: deliveryRequest, // 배송 요청사항 포함
       };
 
-      await createOrder(user.id, orderDto); // 주문 생성 API 호출
+      await createOrder(user.id, orderDto, csrfToken); // 주문 생성 API 호출
       alert("주문이 완료되었습니다.");
       navigate("/order-complete");          // 주문 완료 페이지로 이동
     } catch (error) {

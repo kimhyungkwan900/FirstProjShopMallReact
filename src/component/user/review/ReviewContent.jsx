@@ -6,6 +6,7 @@ import StarScore from "./StarScore";
 
 
 import StartRating from "../../common/starRating/StarRating";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 const ReviewContent = ({ productId, memberId }) => {
 
@@ -21,13 +22,15 @@ const ReviewContent = ({ productId, memberId }) => {
 
   const [sortOrder, setSortOrder] = useState("like");
 
+  const csrfToken = useCsrfToken();
+
  const handleReaction = async (reviewId, reactionType) => {
     if (memberId === undefined) {
       alert("로그인이 필요합니다.");
       return;
     }
     try {
-      await reactReview({ memberId, reviewId, reaction: reactionType });
+      await reactReview({ memberId, reviewId, reaction: reactionType, csrfToken });
       fetchReviews(sortOrder);
     } catch (error) {
       console.error("반응 처리 실패", error);

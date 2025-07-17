@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { insertOrderReturn } from "../../../api/user/myOrder/MyOrderReturnApi";
+import { useCsrfToken } from "../../../hooks/common/useCsrfToken";
 
 
 const MyOrderReturnForm = ({ onClose, defaultType = "", orderId, memberId, onSuccess }) => {
@@ -8,6 +9,7 @@ const [reason, setReason] = useState("");
 const [detail, setDetail] = useState("");
 
   const isCancel = defaultType === "CANCEL"; // 취소 신청인지 여부
+  const csrfToken = useCsrfToken();
 
   useEffect(() => {
     if (isCancel) {
@@ -30,7 +32,7 @@ const [detail, setDetail] = useState("");
     detail,
   };
     try {
-      await insertOrderReturn(formData);
+      await insertOrderReturn(formData, csrfToken);
       alert("신청이 완료되었습니다.");
 
       if (onSuccess) {
